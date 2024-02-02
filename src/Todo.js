@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Todo = ({ todo,toggltTodo }) => {
+const Todo = ({ todo,toggleTodo }) => {
     const handleTodoClick = () => {
-        toggltTodo(todo.id);
+        toggleTodo(todo.id);
     }
   return (
   <div>
