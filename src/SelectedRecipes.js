@@ -1,15 +1,15 @@
-// SelectedRecipes.js レシピ１枚分のコンポ
+// SelectedRecipes.js
 import React from 'react';
 
-const SelectedRecipes = ({ selectedRecipes }) => {
+const SelectedRecipes = ({ selectedRecipe }) => {
   return (
     <div>
-      {selectedRecipes.map(recipe => (
-        <div key={recipe.id}>
-          <h3>{recipe.name}</h3>
-          ここにレシピの詳細や手順などを表示するコンポーネントを追加
+      {selectedRecipe && (
+        <div>
+          <h2>{selectedRecipe.name}</h2>
+          {/* レシピの詳細情報などを表示 */}
         </div>
-      ))}
+      )}
     </div>
   );
 };
