@@ -1,8 +1,8 @@
 // RecipePage.js
 import React, { useState } from 'react';
-import { Routes, Route, Link, BrowserRouter as Router } from 'react-router-dom';
-import RecipeList from './RecipeList';
-import SelectedRecipes from './SelectedRecipes'; // ここを修正
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RecipeListPage from './RecipeListPage';
+import RecipeDetailPage from './RecipeDetailPage';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([
@@ -11,37 +11,16 @@ const RecipePage = () => {
     // 他のレシピも同様に追加
   ]);
 
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-
-  const handleRecipeSelect = (recipeId) => {
-    const selectedRecipe = recipes.find(recipe => recipe.id === recipeId);
-    setSelectedRecipe(selectedRecipe);
-  };
-
   return (
     <Router>
-      <div>
-        {/* RecipeListコンポーネントを呼び出し */}
-        <RecipeList recipes={recipes} onSelectRecipe={handleRecipeSelect} />
-        
-        {/* SelectedRecipeコンポーネントを呼び出し */}
-        {SelectedRecipes && <SelectedRecipes selectedRecipe={selectedRecipe} />}
-        
-        {/* レシピページへのルートを設定 */}
-        <Routes>
-          <Route path="/recipes/:recipeId" element={<RecipeDetail recipes={recipes} />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<RecipeListPage recipes={recipes} />} // handleSelectRecipeを渡さない
+        />
+        <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
+      </Routes>
     </Router>
-  );
-};
-
-const RecipeDetail = ({ recipes }) => {
-  return (
-    <div>
-      <h2>Recipe Detail</h2>
-      {/* その他のレシピ情報を表示 */}
-    </div>
   );
 };
 
