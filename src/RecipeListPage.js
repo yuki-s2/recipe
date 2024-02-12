@@ -1,31 +1,23 @@
 // RecipeListPage.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RecipeList from './RecipeList';
 
-const RecipeListPage = ({ recipes, onSelectRecipe }) => {
+const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
-  const [newRecipeDetails, setNewRecipeDetails] = useState('');
-  const [recipeList, setRecipeList] = useState(recipes);
+  const [newDetail, setNewDetail] = useState('');
 
   const handleNameInputChange = (event) => {
     setNewRecipeName(event.target.value);
   };
-
-  const handleDetailsInputChange = (event) => {
-    setNewRecipeDetails(event.target.value);
+  const handleRecipeInputChange = (event) => {
+    setNewDetail(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newRecipe = {
-      id: recipeList.length + 1,
-      name: newRecipeName,
-      details: newRecipeDetails,
-    };
-    setRecipeList([...recipeList, newRecipe]);
-    setNewRecipeName('');
-    setNewRecipeDetails('');
+    addRecipe(newRecipeName, newDetail); // 新しいレシピを追加
+    setNewRecipeName(''); // 入力値をクリア
+    setNewDetail(''); // 入力値をクリア
   };
 
   return (
@@ -34,23 +26,23 @@ const RecipeListPage = ({ recipes, onSelectRecipe }) => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Enter recipe name"
+          placeholder="名前"
           value={newRecipeName}
           onChange={handleNameInputChange}
         />
         <input
           type="text"
-          placeholder="Enter recipe details"
-          value={newRecipeDetails}
-          onChange={handleDetailsInputChange}
+          placeholder="内容"
+          value={newDetail}
+          onChange={handleRecipeInputChange}
         />
         <button type="submit">追加</button>
       </form>
       
-      {/* レシピリスト */}
       <ul>
-        {recipeList.map(recipe => (
+        {recipes.map(recipe => (
           <li key={recipe.id}>
+            
             <Link to={`/recipes/${recipe.id}`}>
               {recipe.name}
             </Link>

@@ -1,17 +1,19 @@
 // SelectedRecipes.js
 import React from 'react';
+import RecipeList from './RecipeList';
+import RecipeListPage from './RecipeListPage';
+import { Link } from 'react-router-dom';
 
 const SelectedRecipes = ({ selectedRecipe }) => {
-  return (
-    <div>
-      {selectedRecipe && (
+    return (
         <div>
-          <h2>{selectedRecipe.name}</h2>
-          {/* レシピの詳細情報などを表示 */}
+                {recipes.map(recipe => (
+                    <Link to={`/recipes/${recipe.id}`}>
+                        {recipe.name}
+                    </Link>
+                ))}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default SelectedRecipes;

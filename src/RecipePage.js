@@ -5,18 +5,25 @@ import RecipeListPage from './RecipeListPage';
 import RecipeDetailPage from './RecipeDetailPage';
 
 const RecipePage = () => {
-  const [recipes, setRecipes] = useState([
-    { id: 1, name: 'Recipe 1', /* その他のレシピ情報 */ },
-    { id: 2, name: 'Recipe 2', /* その他のレシピ情報 */ },
-    // 他のレシピも同様に追加
-  ]);
+  const [recipes, setRecipes] = useState([]);
+
+  const addRecipe = (recipeName, detail) => {
+    const newRecipe = {
+      id: recipes.length + 1,
+      name: recipeName,
+      details: detail,
+      /* その他のレシピ情報 */
+    };
+    setRecipes([...recipes, newRecipe]);
+  };
+
 
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={<RecipeListPage recipes={recipes} />} // handleSelectRecipeを渡さない
+          element={<RecipeListPage recipes={recipes} addRecipe={addRecipe} />}
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
       </Routes>
