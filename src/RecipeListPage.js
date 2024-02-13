@@ -38,17 +38,17 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
         />
         <button type="submit">追加</button>
       </form>
-      
+
       <ul>
         {recipes.map(recipe => (
           <li key={recipe.id}>
-            
             <Link to={`/recipes/${recipe.id}`}>
               {recipe.name}
             </Link>
           </li>
         ))}
       </ul>
+      
     </div>
   );
 };
