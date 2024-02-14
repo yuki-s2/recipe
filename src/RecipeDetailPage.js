@@ -8,7 +8,7 @@ const RecipeDetailPage = ({ recipes }) => {
   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
   if (!recipe) {
-    return <div>レシピはありません</div>;
+    return <div>登録されたレシピはありません</div>;
   }
 
   return (
