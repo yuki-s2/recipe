@@ -37,18 +37,10 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
           onChange={handleRecipeInputChange}
         />
         <button type="submit">追加</button>
+        <Link to="/recipes">
+        <div>追加されたレシピ一覧へ</div>
+      </Link>
       </form>
-
-      <ul>
-        {recipes.map(recipe => (
-          <li key={recipe.id}>
-            <Link to={`/recipes/${recipe.id}`}>
-              {recipe.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      
     </div>
   );
 };

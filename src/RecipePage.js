@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RecipeListPage from './RecipeListPage';
 import RecipeDetailPage from './RecipeDetailPage';
-// import RecipeList from './RecipeList';
-import SelectedRecipes from './SelectedRecipes';
+import RecipeInputPage from './RecipeInputPage';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
-  const [selectRecipes, setSelectRecipes] = useState([]);
 
   const addRecipe = (recipeName, detail) => {
     const newRecipe = {
@@ -18,15 +16,6 @@ const RecipePage = () => {
       /* その他のレシピ情報 */
     };
     setRecipes([...recipes, newRecipe]);
-  };
-  const addSelectRecipe = (selectRecipeName, selectRecipeDetail) => {
-    const newSelectRecipe = {
-      id: recipes.length + 1,
-      name: selectRecipeName,
-      details: selectRecipeDetail,
-      /* その他のレシピ情報 */
-    };
-    setSelectRecipes([...selectRecipes, newSelectRecipe]);
   };
 
 
@@ -39,10 +28,10 @@ const RecipePage = () => {
         />
         <Route
           path="/"
-          element={<SelectedRecipes selectRecipes={selectRecipes} addSelectRecipe={addSelectRecipe} />}
+          element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
         />
-        {/* <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} /> */}
-        {/* <Route path="/recipes/:recipeId" element={<SelectedRecipes selectRecipes={selectRecipes} addSelectRecipe={addSelectRecipe} />} /> */}
+        <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
+        <Route element={<RecipeInputPage/>} />
       </Routes>
     </Router>
   );
