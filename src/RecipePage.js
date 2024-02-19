@@ -27,7 +27,7 @@ const RecipePage = () => {
           element={<RecipeListPage recipes={recipes} addRecipe={addRecipe} />}
         />
         <Route
-          path="/"
+          path="/RecipeInputPage"
           element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
