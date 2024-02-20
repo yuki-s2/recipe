@@ -9,7 +9,7 @@ const RecipeInputPage = ({ recipes }) => {
       <ul>
         {recipes.map(recipe => (
           <li key={recipe.id}>
-            <Link to={`/recipes/${recipe.id}`}>
+            <Link to={`/selectedRecipes/${recipe.id}`}>
               {recipe.name}
             </Link>
           </li>

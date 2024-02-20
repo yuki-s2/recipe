@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RecipeListPage from './RecipeListPage';
 import RecipeDetailPage from './RecipeDetailPage';
 import RecipeInputPage from './RecipeInputPage';
+import SelectedRecipes from './SelectedRecipes';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -29,6 +30,10 @@ const RecipePage = () => {
         <Route
           path="/RecipeInputPage"
           element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
+        />
+        <Route
+          path="/SelectedRecipes/:recipeId"
+          element={<SelectedRecipes selectedRecipes={selectedRecipes} addRecipe={addRecipe} />}
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
         <Route element={<RecipeInputPage/>} />
