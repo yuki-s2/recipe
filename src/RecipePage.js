@@ -8,6 +8,7 @@ import SelectedRecipes from './SelectedRecipes';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
+  const [selectedRecipes, setSelectedRecipes] = useState([]);
 
   const addRecipe = (recipeName, detail) => {
     const newRecipe = {
@@ -17,6 +18,15 @@ const RecipePage = () => {
       /* その他のレシピ情報 */
     };
     setRecipes([...recipes, newRecipe]);
+  };
+  const addSelectedRecipe = (recipeName, detail) => {
+    const newSelectedRecipes = {
+      id: recipes.length + 1,
+      name: recipeName,
+      details: detail,
+      /* その他のレシピ情報 */
+    };
+    setSelectedRecipes([...selectedRecipes, newSelectedRecipes]);
   };
 
 
@@ -32,11 +42,11 @@ const RecipePage = () => {
           element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
         />
         <Route
-          path="/SelectedRecipes/:recipeId"
+          path="/SelectedRecipes"
           element={<SelectedRecipes selectedRecipes={selectedRecipes} addRecipe={addRecipe} />}
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
-        <Route element={<RecipeInputPage/>} />
+        <Route element={<RecipeInputPage />} />
       </Routes>
     </Router>
   );

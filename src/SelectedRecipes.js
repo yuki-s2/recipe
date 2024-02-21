@@ -1,21 +1,22 @@
-// SelectedRecipes.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const SelectedRecipes = ({ selectedRecipes }) => {
-  return (
-    <div>
-      <h2>SelectedRecipes</h2>
-      <ul>
-        {selectedRecipes.map(recipe => (
-          <li key={recipe.id}>
-            <Link to={`/recipes/${recipe.id}`}>
-              {selectedRecipes.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    const { recipeId } = useParams();
+    const selectedRecipe = selectedRecipes.find(recipe => recipe.id === parseInt(recipeId));
+
+    if (!selectedRecipe) {
+        return <div>選択されたレシピが見つかりません。</div>;
+    }
+
+    return (
+        <div>
+            <h2>{selectedRecipe.name}</h2>
+            <p>{selectedRecipe.details}</p>  
+
+            <Link to="/">レシピ一覧に戻る</Link>
+        </div>
+    );
 };
+
 export default SelectedRecipes;
