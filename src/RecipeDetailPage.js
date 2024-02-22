@@ -15,7 +15,7 @@ const RecipeDetailPage = ({ recipes }) => {
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.details}</p>
-      <Link to="/">リストに戻る</Link>
+      <Link to="/">ストに戻る</Link>
     </div>
   );
 };
