@@ -1,20 +1,20 @@
+// SelectedRecipes.js
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
 
-const SelectedRecipes = ({ selectedRecipes }) => {
-    const { recipeId } = useParams();
-    const selectedRecipe = selectedRecipes.find(recipe => recipe.id === parseInt(recipeId));
-
-    if (!selectedRecipe) {
-        return <div>選択されたレシピが見つかりません。</div>;
-    }
+const SelectedRecipes = ({ recipes, selectedRecipes }) => {
+    // 選択されたレシピの情報を取得
+    const selectedRecipesInfo = recipes.filter(recipe => selectedRecipes.includes(recipe.id));
 
     return (
         <div>
-            <h2>{selectedRecipe.name}</h2>
-            <p>{selectedRecipe.details}</p>  
-
-            <Link to="/">レシピ一覧に戻る</Link>
+            <h2>選択されたレシピ一覧</h2>
+            <ul>
+                {selectedRecipesInfo.map(recipe => (
+                    <li key={recipe.id}>
+                        {recipe.name}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

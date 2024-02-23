@@ -37,13 +37,17 @@ const RecipePage = () => {
           path="/"
           element={<RecipeListPage recipes={recipes} addRecipe={addRecipe} />}
         />
+                <Route
+          path="/"
+          element={<RecipeInputPage recipes={recipes} setSelectedRecipes={setSelectedRecipes} />} // setSelectedRecipes を追加
+        />
         <Route
           path="/RecipeInputPage"
           element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
         />
-        <Route
-          path="/SelectedRecipes"
-          element={<SelectedRecipes selectedRecipes={selectedRecipes} addRecipe={addRecipe} />}
+        <Route 
+          path="/SelectedRecipes" 
+          element={<SelectedRecipes recipes={recipes} selectedRecipes={selectedRecipes} />} 
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
         <Route element={<RecipeInputPage />} />
