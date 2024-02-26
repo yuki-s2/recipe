@@ -2,12 +2,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const RecipeInputPage = ({ recipes }) => {
-
-    const [selectedRecipes, setSelectedRecipes] = useState([]);
+const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
 
     const handleCheckboxChange = (recipeId) => {
-        
         if (selectedRecipes.includes(recipeId)) {
             //選択解除
             setSelectedRecipes(selectedRecipes.filter(id => id !== recipeId));

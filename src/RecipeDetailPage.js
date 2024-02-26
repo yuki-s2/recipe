@@ -8,14 +8,14 @@ const RecipeDetailPage = ({ recipes }) => {
   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
   if (!recipe) {
-    return <div>登録されたレシピはありませんRecipeDetailPage</div>;
+    return <div>登録されたレシピはありません</div>;
   }
 
   return (
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.details}</p>
-      <Link to="/">ストに戻る</Link>
+      <Link to="/">リストに戻る</Link>
     </div>
   );
 };

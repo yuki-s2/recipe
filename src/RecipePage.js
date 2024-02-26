@@ -5,8 +5,6 @@ import RecipeListPage from './RecipeListPage';
 import RecipeDetailPage from './RecipeDetailPage';
 import RecipeInputPage from './RecipeInputPage';
 import SelectedRecipes from './SelectedRecipes';
-// import { v4 as uuidv4 } from "uuid";
-
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -17,20 +15,9 @@ const RecipePage = () => {
       id: recipes.length + 1,
       name: recipeName,
       details: detail,
-      /* その他のレシピ情報 */
     };
     setRecipes([...recipes, newRecipe]);
   };
-  // const addSelectedRecipe = (recipeName, detail) => {
-  //   const newSelectedRecipes = {
-  //     id: recipes.length + 1,
-  //     name: recipeName,
-  //     details: detail,
-  //     /* その他のレシピ情報 */
-  //   };
-  //   setSelectedRecipes([...selectedRecipes, newSelectedRecipes]);
-  // };
-
 
   return (
     <Router>
@@ -39,13 +26,9 @@ const RecipePage = () => {
           path="/"
           element={<RecipeListPage recipes={recipes} addRecipe={addRecipe} />}
         />
-                <Route
-          path="/"
-          element={<RecipeInputPage recipes={recipes} setSelectedRecipes={setSelectedRecipes} />} // setSelectedRecipes を追加
-        />
         <Route
           path="/RecipeInputPage"
-          element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
+          element={<RecipeInputPage recipes={recipes} selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />}
         />
         <Route 
           path="/SelectedRecipes" 
