@@ -1,5 +1,6 @@
 // SelectedRecipes.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const SelectedRecipes = ({ recipes, selectedRecipes }) => {
@@ -15,10 +16,20 @@ const SelectedRecipes = ({ recipes, selectedRecipes }) => {
             <ul>
                 {selectedRecipesInfo.map(recipe => (
                     <li key={recipe.id}>
-                        <h2>{recipe.name}</h2>
+                        <Link to={`/recipes/${recipe.id}`}>
+                            <h2>{recipe.name}</h2>
+                        </Link>
+
                     </li>
                 ))}
             </ul>
+            <Link to="/RecipeInputPage">
+                <div>追加されたレシピ一覧へ</div>
+            </Link>
+            <Link to="/">
+                <div>リストに戻る</div>
+            </Link>
+
         </div>
     );
 };

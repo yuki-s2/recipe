@@ -15,7 +15,15 @@ const RecipeDetailPage = ({ recipes }) => {
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.details}</p>
-      <Link to="/">リストに戻る</Link>
+      <Link to="/SelectedRecipes">
+        <div>選択れたレシピ一覧へ</div>
+      </Link>
+      <Link to="/RecipeInputPage">
+        <div>追加されたレシピ一覧へ</div>
+      </Link>
+      <Link to="/">
+        <div>リストに戻る</div>\
+      </Link>
     </div>
   );
 };

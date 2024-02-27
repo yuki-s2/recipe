@@ -15,9 +15,9 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addRecipe(newRecipeName, newDetail); // 新しいレシピを追加
-    setNewRecipeName(''); // 入力値をクリア
-    setNewDetail(''); // 入力値をクリア
+    addRecipe(newRecipeName, newDetail);
+    setNewRecipeName('');
+    setNewDetail('');
   };
 
   return (

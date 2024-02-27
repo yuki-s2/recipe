@@ -1,5 +1,4 @@
 // RecipeInputPage.js
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
@@ -32,9 +31,11 @@ const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
                     </li>
                 ))}
             </ul>
-            {/* "選択れたレシピ一覧へ" のリンク */}
             <Link to="/SelectedRecipes">
                 <div>選択れたレシピ一覧へ</div>
+            </Link>
+            <Link to="/">
+                <div>リストに戻る</div>
             </Link>
         </div>
     );
