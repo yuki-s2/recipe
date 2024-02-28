@@ -13,16 +13,19 @@ const SelectedRecipes = ({ recipes, selectedRecipes }) => {
     return (
         <div>
             <h2>選択されたレシピ一覧</h2>
-            <ul>
-                {selectedRecipesInfo.map(recipe => (
-                    <li key={recipe.id}>
-                        <Link to={`/recipes/${recipe.id}`}>
-                            <h2>{recipe.name}</h2>
-                        </Link>
-
-                    </li>
-                ))}
-            </ul>
+            {recipes.length === 0 ? (
+                <p>レシピはありません</p>
+            ) : (
+                <ul>
+                    {selectedRecipesInfo.map(recipe => (
+                        <li key={recipe.id}>
+                            <Link to={`/recipes/${recipe.id}`}>
+                                <h2>{recipe.name}</h2>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            )}
             <Link to="/RecipeInputPage">
                 <div>追加されたレシピ一覧へ</div>
             </Link>
