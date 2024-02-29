@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [newMaterial, setNewMaterial] = useState('');
 
   const handleNameInputChange = (event) => {
     setNewRecipeName(event.target.value);
@@ -14,7 +14,7 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
     setNewDetail(event.target.value);
   };
   const handleAdditionalInfoChange = (event) => {
-    setAdditionalInfo(event.target.value);
+    setNewMaterial(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -23,21 +23,34 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
     setNewRecipeName('');
     setNewDetail('');
   };
-  const handleAdditionalButtonSubmit = () => {
-    // このボタンの処理をここに記述
+  const handleAdditionalButtonSubmit = (event) => {
+    event.preventDefault();
+    addRecipe(newMaterial);
+    setNewMaterial('');
     console.log("Additional Button Clicked!");
   };
+
+  console.log(recipes);
 
   return (
     <div>
       <h2>レシピ一覧</h2>
-      <form onSubmit={handleSubmit}>
+      <form id="signin" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="名前"
           value={newRecipeName}
           onChange={handleNameInputChange}
         />
+        <div onSubmit={handleAdditionalButtonSubmit}>
+          <input
+            type="text"
+            placeholder="追加情報"
+            value={newMaterial}
+            onChange={handleAdditionalInfoChange}
+          />
+          <button form="signin" type="submit">追加ボタン</button>
+        </div>
         <input
           type="text"
           placeholder="内容"
@@ -46,18 +59,10 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
         />
         <button type="submit">追加</button>
         <Link to="/RecipeInputPage">
-        <div>追加されたレシピ一覧へ</div>
-      </Link>
+          <div>追加されたレシピ一覧へ</div>
+        </Link>
       </form>
-      <form onSubmit={handleAdditionalButtonSubmit}>
-        <input
-          type="text"
-          placeholder="追加情報"
-          value={additionalInfo}
-          onChange={handleAdditionalInfoChange}
-        />
-        <button type="submit">追加ボタン</button>
-      </form>
+
     </div>
   );
 };

@@ -15,6 +15,7 @@ const RecipeDetailPage = ({ recipes }) => {
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.details}</p>
+      <p>{recipe.material}</p>
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>
       </Link>
