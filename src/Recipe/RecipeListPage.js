@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
-  const [newMaterial, setNewMaterial] = useState('');
+  const [newIngredients, setNewIngredients] = useState('');
 
   const handleNameInputChange = (event) => {
     setNewRecipeName(event.target.value);
@@ -14,20 +14,15 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
     setNewDetail(event.target.value);
   };
   const handleAdditionalInfoChange = (event) => {
-    setNewMaterial(event.target.value);
+    setNewIngredients(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addRecipe(newRecipeName, newDetail);
+    addRecipe(newRecipeName, newDetail,newIngredients);
     setNewRecipeName('');
     setNewDetail('');
-  };
-  const handleAdditionalButtonSubmit = (event) => {
-    event.preventDefault();
-    addRecipe(newMaterial);
-    setNewMaterial('');
-    console.log("Additional Button Clicked!");
+    setNewIngredients('');
   };
 
   console.log(recipes);
@@ -35,22 +30,19 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
   return (
     <div>
       <h2>レシピ一覧</h2>
-      <form id="signin" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="名前"
           value={newRecipeName}
           onChange={handleNameInputChange}
         />
-        <div onSubmit={handleAdditionalButtonSubmit}>
           <input
             type="text"
             placeholder="追加情報"
-            value={newMaterial}
+            value={newIngredients}
             onChange={handleAdditionalInfoChange}
           />
-          <button form="signin" type="submit">追加ボタン</button>
-        </div>
         <input
           type="text"
           placeholder="内容"
