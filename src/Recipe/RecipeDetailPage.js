@@ -14,8 +14,8 @@ const RecipeDetailPage = ({ recipes }) => {
   return (
     <div>
       <h2>{recipe.name}</h2>
+      <p>{recipe.ingredients}</p>
       <p>{recipe.details}</p>
-      <p>{recipe.material}</p>
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>
       </Link>
@@ -23,7 +23,7 @@ const RecipeDetailPage = ({ recipes }) => {
         <div>追加されたレシピ一覧へ</div>
       </Link>
       <Link to="/">
-        <div>リストに戻る</div>\
+        <div>リストに戻る</div>
       </Link>
     </div>
   );

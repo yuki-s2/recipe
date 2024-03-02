@@ -11,6 +11,7 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
     setNewRecipeName(event.target.value);
   };
   const handleRecipeInputChange = (event) => {
+    event.preventDefault();
     setNewDetail(event.target.value);
   };
   const handleAdditionalInfoChange = (event) => {
@@ -19,10 +20,15 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addRecipe(newRecipeName, newDetail,newIngredients);
+    addRecipe(newRecipeName, newIngredients, newDetail);
     setNewRecipeName('');
     setNewDetail('');
     setNewIngredients('');
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Enterキーのデフォルト動作を無効化
+    }
   };
 
   console.log(recipes);
@@ -31,6 +37,7 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
     <div>
       <h2>レシピ一覧</h2>
       <form onSubmit={handleSubmit}>
+      <div onKeyDown={handleKeyDown}>
         <input
           type="text"
           placeholder="名前"
@@ -39,7 +46,7 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
         />
           <input
             type="text"
-            placeholder="追加情報"
+            placeholder="材料"
             value={newIngredients}
             onChange={handleAdditionalInfoChange}
           />
@@ -49,6 +56,7 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
           value={newDetail}
           onChange={handleRecipeInputChange}
         />
+        </div>
         <button type="submit">追加</button>
         <Link to="/RecipeInputPage">
           <div>追加されたレシピ一覧へ</div>

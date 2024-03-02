@@ -10,11 +10,12 @@ const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
 
-  const addRecipe = (recipeName, detail) => {
+  const addRecipe = (recipeName, detail, ingredient) => {
     const newRecipe = {
       id: recipes.length + 1,
       name: recipeName,
       details: detail,
+      ingredients: ingredient,
     };
     setRecipes([...recipes, newRecipe]);
   };
