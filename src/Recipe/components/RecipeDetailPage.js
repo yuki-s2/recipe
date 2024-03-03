@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const RecipeDetailPage = ({ recipes }) => {
+export const RecipeDetailPage = ({ recipes }) => {
   const { recipeId } = useParams();
   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
@@ -28,5 +28,3 @@ const RecipeDetailPage = ({ recipes }) => {
     </div>
   );
 };
-
-export default RecipeDetailPage;

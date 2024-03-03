@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const RecipeListPage = ({ recipes, addRecipe }) => {
+export const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState('');
@@ -67,4 +67,3 @@ const RecipeListPage = ({ recipes, addRecipe }) => {
   );
 };
 
-export default RecipeListPage;
