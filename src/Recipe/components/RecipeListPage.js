@@ -27,7 +27,7 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
   };
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Enterキーのデフォルト動作を無効化
+      event.preventDefault();
     }
   };
 

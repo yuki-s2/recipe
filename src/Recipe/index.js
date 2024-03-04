@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
 import {RecipeListPage} from './components/RecipeListPage';
 import {RecipeDetailPage} from './components/RecipeDetailPage';
 import {RecipeInputPage} from './components/RecipeInputPage';
-import {SelectedRecipes }from './components/SelectedRecipes';
+import {SelectedRecipes}from './components/SelectedRecipes';
 
 export const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
