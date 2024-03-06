@@ -10,12 +10,12 @@ export const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
 
-  const addRecipe = (recipeName, detail, ingredient) => {
+  const addRecipe = (recipeName, ingredient, detail) => {
     const newRecipe = {
       id: recipes.length + 1,
       name: recipeName,
-      details: detail,
       ingredients: ingredient,
+      details: detail,
     };
     setRecipes([...recipes, newRecipe]);
   };
