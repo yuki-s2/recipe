@@ -1,7 +1,7 @@
 // RecipeInputPage.js
 import { Link } from 'react-router-dom';
 
-export const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
+const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
 
     const handleCheckboxChange = (recipeId) => {
         if (selectedRecipes.includes(recipeId)) {
@@ -44,3 +44,5 @@ export const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }
         </div>
     );
 };
+
+export default RecipeInputPage;
