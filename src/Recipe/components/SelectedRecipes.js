@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-const SelectedRecipes = ({ recipes, selectedRecipes }) => {
+export const SelectedRecipes = ({ recipes, selectedRecipes }) => {
     console.log(selectedRecipes + "d");
 
     // 選択されたレシピの情報を取得
@@ -12,7 +12,7 @@ const SelectedRecipes = ({ recipes, selectedRecipes }) => {
 
     return (
         <div>
-            <h2>選択されたレシピ一覧</h2>
+            <h2>今日の献立</h2>
             {recipes.length === 0 ? (
                 <p>レシピはありません</p>
             ) : (
@@ -37,4 +37,3 @@ const SelectedRecipes = ({ recipes, selectedRecipes }) => {
     );
 };
 
-export default SelectedRecipes;
