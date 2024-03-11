@@ -2,4 +2,7 @@
 
 // example
 import { RecipeDetailPage } from "./RecipeDetailPage";
-export { RecipeDetailPage };
+import { RecipeListPage } from "./RecipeListPage";
+import { RecipeInputPage } from "./RecipeInputPage";
+import { SelectedRecipes } from "./SelectedRecipes";
+export { RecipeDetailPage, RecipeListPage,RecipeInputPage,SelectedRecipes};

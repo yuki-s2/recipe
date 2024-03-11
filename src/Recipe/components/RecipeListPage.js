@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
-  const [newIngredients, setNewIngredients] = useState([]); // 初期の材料入力フィールドを1つ持つ
+  const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
 
   const handleNameInputChange = (event) => {
     setNewRecipeName(event.target.value);

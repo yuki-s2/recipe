@@ -1,11 +1,7 @@
 // RecipePage.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
-import {RecipeListPage} from './components/RecipeListPage';
-import {RecipeDetailPage} from './components/RecipeDetailPage';
-import {RecipeInputPage} from './components/RecipeInputPage';
-import {SelectedRecipes}from './components/SelectedRecipes';
-
+import { RecipeDetailPage, RecipeListPage,RecipeInputPage,SelectedRecipes} from './components';
 export const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
@@ -31,9 +27,9 @@ export const RecipePage = () => {
           path="/RecipeInputPage"
           element={<RecipeInputPage recipes={recipes} selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />}
         />
-        <Route 
-          path="/SelectedRecipes" 
-          element={<SelectedRecipes recipes={recipes} selectedRecipes={selectedRecipes} />} 
+        <Route
+          path="/SelectedRecipes"
+          element={<SelectedRecipes recipes={recipes} selectedRecipes={selectedRecipes} />}
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
         <Route element={<RecipeInputPage />} />
