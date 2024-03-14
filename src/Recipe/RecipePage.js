@@ -1,7 +1,7 @@
 // RecipePage.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
-import { RecipeDetailPage, RecipeListPage,RecipeInputPage,SelectedRecipes} from './components';
+import { RecipeDetailPage, RecipeListPage,RecipeInputPage,SelectedRecipes,Chat} from './components';
 export const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
@@ -33,6 +33,7 @@ export const RecipePage = () => {
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
         <Route element={<RecipeInputPage />} />
+        <Route element={<Chat />} />
       </Routes>
     </Router>
   );

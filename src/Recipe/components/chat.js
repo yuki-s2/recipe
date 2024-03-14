@@ -1,34 +1,31 @@
-import axios from 'axios';
 
-const API_URL = 'https://api.openai.com/v1/';
-const apiKey = process.env.API_KEY;
+import React from 'react';
+import { Configuration, OpenAIApi } from "openai";
 
 
- 
-export const chat = async ( message ) => {
-  try {
-    const response = await axios.post( `${ API_URL }chat/completions`, {
-      // モデル ID の指定
-      model: MODEL,
-      // 質問内容
-      messages: [
-        {
-          'role': 'user',
-          'content': message,
-        }
-      ],
-    }, {
-      // 送信する HTTP ヘッダー(認証情報)
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ API_KEY }`
-      }
-    });
-    // 回答の取得
-    return response.data.choices[0].message.content;
- 
-  } catch ( error ) {
-    console.error( error );
-    return null;
-  }
-}
+export default function Chat () {
+
+    const configuration = new Configuration({
+        apiKey: process.env.API_KEY,
+    })
+
+    const openai = new OpenAIApi(configuration);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const response = await openai.createChatCompletion({
+            model: "get-3.5-turbo",
+            messages: [{ role: "user", content: "こんにちは" }],
+        });
+        console.log(response);
+    };
+    return (
+        <form onSubmit={(e) => handleSubmit(e)}>
+            <input type="text" />
+            <button type="submit">
+                送信
+            </button>
+        </form>
+    )
+};
