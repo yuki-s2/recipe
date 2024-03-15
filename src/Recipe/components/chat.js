@@ -2,7 +2,6 @@
 import React from 'react';
 import { Configuration, OpenAIApi } from "openai";
 
-
 export default function Chat () {
 
     const configuration = new Configuration({
