@@ -1,7 +1,9 @@
 // RecipePage.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
-import { RecipeDetailPage, RecipeListPage,RecipeInputPage,SelectedRecipes,Chat} from './components';
+import { RecipeDetailPage, RecipeListPage, RecipeInputPage, SelectedRecipes } from './components';
+import Chat from '../Chat.js';
+
 export const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
