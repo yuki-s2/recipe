@@ -1,6 +1,7 @@
 // RecipeListPage.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Chat from '../../Chat';
 
 export const RecipeListPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
@@ -26,18 +27,18 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     if (!newRecipeName || !newDetail) {
       return;
     }
     const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
     addRecipe(newRecipeName, ingredients, newDetail);
-    
+
     setNewRecipeName('');
     setNewDetail('');
     setNewIngredients(['']);
   };
-  
+
 
 
   const handleKeyDown = (event) => {
@@ -82,7 +83,7 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
           <div>追加されたレシピ一覧へ</div>
         </Link>
       </form>
-
+      <Chat />
     </div>
   );
 };
