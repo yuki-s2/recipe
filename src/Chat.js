@@ -19,7 +19,10 @@ export default function Chat() {
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: message }],
+            messages: [
+                { role: "user", content: "入力された食品のタンパク質の量を「〇〇g」という答え方で教えてください。" },
+                { role: "user", content: message},
+            ],
         });
 
         setMessages((PrevMessages) => [
@@ -29,6 +32,9 @@ export default function Chat() {
         ]);
 
         console.log(messages);
+
+        setMessage(""); 
+
     };
     return (
         <>
