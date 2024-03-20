@@ -20,16 +20,35 @@ export default function Chat() {
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: "user", content: message + "のタンパク質の量は「〇〇g」です。" },
-                { role: "user", content: "「〇〇g」に入る数字を教えてください。"},
+                {
+                    "role": "system",
+                    "content": "あなたは優秀なアシスタントです。JSONで結果を出力します。"
+                },
+                {
+                    "role": "user",
+                    "content": "以下を英語に翻訳してください。元のテキストをoriginal、変換後のテキストをtranslatedというキーとしてください。\n==\nこんにちは"
+                }
             ],
         });
+    // 応答のJSON形式データを組み立てる
+    const jsonResponse = {
+        original: "こんにちは",
+        translated: response?.choices[0]?.message?.content
+    };
 
-        setMessages((PrevMessages) => [
-            ...PrevMessages,
-            { sender: "user", text: message },
-            { sender: "ai", text: response?.choices[0]?.message?.content },
-        ]);
+    // メッセージステートにJSON形式のデータを追加
+    setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "user", text: message },
+        { sender: "ai", text: JSON.stringify(jsonResponse) } // 応答をJSON形式の文字列に変換してセット
+    ]);
+
+        // setMessages((PrevMessages) => [
+        //     ...PrevMessages,
+        //     { sender: "user", text: message },
+        //     { sender: "ai", text: response?.choices[0]?.message?.content },
+        // ]);
+
 
         console.log(messages);
 
