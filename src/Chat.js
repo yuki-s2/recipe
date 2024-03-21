@@ -26,21 +26,20 @@ export default function Chat() {
                 },
                 {
                     "role": "user",
-                    "content": "以下を英語に翻訳してください。元のテキストをoriginal、変換後のテキストをtranslatedというキーとしてください。\n==\nこんにちは"
+                    "content": "Translate" + {messages} + "to English. This is the ideal structure. {\"original\": \"original text\", \"translation\": \"translated text\"}"
                 }
             ],
         });
     // 応答のJSON形式データを組み立てる
-    const jsonResponse = {
-        original: "こんにちは",
-        translated: response?.choices[0]?.message?.content
-    };
+    // const jsonResponse = {
+    //     translated: 
+    // };
 
     // メッセージステートにJSON形式のデータを追加
     setMessages((prevMessages) => [
         ...prevMessages,
         { sender: "user", text: message },
-        { sender: "ai", text: JSON.stringify(jsonResponse) } // 応答をJSON形式の文字列に変換してセット
+        { sender: "ai", text: JSON.stringify(response?.choices[0]?.message?.content) } // 応答をJSON形式の文字列に変換してセット
     ]);
 
         // setMessages((PrevMessages) => [
