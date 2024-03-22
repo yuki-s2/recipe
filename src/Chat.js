@@ -17,41 +17,31 @@ export default function Chat() {
         e.preventDefault();
         setIsLoading(true);
 
+        const userMessage = `Please tell me the amount of protein in ${message}. This is the ideal structure. {"original": "${message}", "protein": "text"}`;
+
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-                {
-                    "role": "system",
-                    "content": "あなたは優秀なアシスタントです。JSONで結果を出力します。"
-                },
-                {
-                    "role": "user",
-                    "content": "Translate" + {messages} + "to English. This is the ideal structure. {\"original\": \"original text\", \"translation\": \"translated text\"}"
-                }
+                { "role": "system", "content": "You are an excellent assistant. Output the result in JSON format." },
+                { "role": "user", "content": userMessage }
             ],
         });
-    // 応答のJSON形式データを組み立てる
-    // const jsonResponse = {
-    //     translated: 
-    // };
 
-    // メッセージステートにJSON形式のデータを追加
+    // API レスポンスからメッセージを取得して JSON 形式に変換する
+    const aiMessage = JSON.stringify(response?.choices[0]?.message?.content);
+
+    // メッセージステートにデータを追加
     setMessages((prevMessages) => [
         ...prevMessages,
         { sender: "user", text: message },
-        { sender: "ai", text: JSON.stringify(response?.choices[0]?.message?.content) } // 応答をJSON形式の文字列に変換してセット
+        { sender: "ai", text: aiMessage }
     ]);
 
-        // setMessages((PrevMessages) => [
-        //     ...PrevMessages,
-        //     { sender: "user", text: message },
-        //     { sender: "ai", text: response?.choices[0]?.message?.content },
-        // ]);
 
-
-        console.log(messages);
+        console.log(response?.choices[0]?.message?.content);
 
         setMessage(""); 
+        setIsLoading(false);
 
     };
     return (
