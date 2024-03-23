@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import OpenAI from 'openai';
 
 export default function Chat() {
-    const [message, setMessage] = useState("");
+    const [food, setFood] = useState("");
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -16,7 +16,7 @@ export default function Chat() {
         e.preventDefault();
         setIsLoading(true);
 
-        const userMessage = `Please tell me the amount of PFC in ${message}. The the value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": {"protein": 10, "fat": 10, "carbohydrate": 5}}`;
+        const userMessage = `Please tell me the amount of PFC in ${food}. The value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": {"protein": 10, "fat": 10, "carbohydrate": 5}}`;
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
@@ -29,27 +29,41 @@ export default function Chat() {
         // API レスポンスからメッセージを取得して JSON 形式に変換する
         let pfcData;
         try {
-         pfcData = JSON.parse(response?.choices[0]?.message?.content);
-        } catch (error)  {
+            pfcData = JSON.parse(response?.choices[0]?.message?.content);
+        } catch (error) {
             console.error("Error processing PFC data:", error);
         }
 
         // 新しいPFCオブジェクトを作成
         const pfc = new PFC(pfcData?.PFC || {});
 
+        // メッセージステートにデータを追加
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            // { sender: "user", text: food },
+            { sender: "ai", text: pfc }
+        ]);
+        // メッセージステートにデータを追加
+        setFood((prevMessages) => [
+            ...prevMessages,
+            { sender: "user", text: food },
+            // { sender: "ai", text: pfc }
+        ]);
+
         // メッセージを更新
-        setMessages([...messages, pfc]);
+        // setFood([...foods, food]);
+        // setMessages([...messages, pfc]);
 
         console.log(response?.choices[0]?.message?.content);
 
-        setMessage("");
+        setFood("");
         setIsLoading(false);
     };
 
     return (
         <>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <input type="text" onChange={(e) => setMessage(e.target.value)} value={message} />
+                <input type="text" onChange={(e) => setFood(e.target.value)} value={food} />
                 <button type="submit">
                     {isLoading ? <p>送信中</p> : <p>送信</p>}
                 </button>
