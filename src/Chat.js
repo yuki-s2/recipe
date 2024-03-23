@@ -17,7 +17,7 @@ export default function Chat() {
         e.preventDefault();
         setIsLoading(true);
 
-        const userMessage = `Please tell me the amount of protein in ${message}. This is the ideal structure. {"original": "${message}", "protein": "text"}`;
+        const userMessage = `Please tell me the amount of PFC in ${message}. The the value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": {"protein": 10, "fat": 10, "carbohydrate": 5}}`;
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
