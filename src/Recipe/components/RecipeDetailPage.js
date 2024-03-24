@@ -2,8 +2,9 @@
 // recipesプロパティとレシピのIDを使用して、詳細情報を表示
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Chat from '../../Chat';
 
-export const RecipeDetailPage = ({ recipes }) => {
+export const RecipeDetailPage = ({ recipes, food }) => {
   const { recipeId } = useParams();
   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
@@ -15,6 +16,8 @@ export const RecipeDetailPage = ({ recipes }) => {
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.ingredients}</p>
+      <p>{recipe.ingredients}</p>
+      <Chat food={food} />
       <p>{recipe.details}</p>
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>

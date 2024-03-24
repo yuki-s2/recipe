@@ -37,24 +37,20 @@ export default function Chat() {
         // 新しいPFCオブジェクトを作成
         const pfc = new PFC(pfcData?.PFC || {});
 
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: "ai", PFC: pfc } // メッセージにPFCプロパティを追加
+        ]);
+
         // メッセージステートにデータを追加
         setMessages((prevMessages) => [
             ...prevMessages,
-            // { sender: "user", text: food },
-            { sender: "ai", text: pfc }
-        ]);
-        // メッセージステートにデータを追加
-        setFood((prevMessages) => [
-            ...prevMessages,
-            { sender: "user", text: food },
-            // { sender: "ai", text: pfc }
+            pfcData // pfcDataを直接追加
         ]);
 
-        // メッセージを更新
-        // setFood([...foods, food]);
-        // setMessages([...messages, pfc]);
 
-        console.log(response?.choices[0]?.message?.content);
+
+        console.log(response);
 
         setFood("");
         setIsLoading(false);
@@ -69,11 +65,15 @@ export default function Chat() {
                 </button>
             </form>
             <div>
-                {messages.map((pfc, index) => (
+                {messages.map((message, index) => (
                     <div key={index}>
-                        <p>{"タンパク質: " + pfc.protein + "g"}</p>
-                        <p>{"脂質: " + pfc.fat + "g"}</p>
-                        <p>{"炭水化物: " + pfc.carbohydrate + "g"}</p>
+                        {message.sender === "ai" && (
+                            <>
+                                <p>タンパク質 {message.PFC.protein} g</p>
+                                <p>脂質git  {message.PFC.fat} g</p>
+                                <p>炭水化物 {message.PFC.carbohydrate} g</p>
+                            </>
+                        )}
                     </div>
                 ))}
             </div>

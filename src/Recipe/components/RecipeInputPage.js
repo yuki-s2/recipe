@@ -1,4 +1,3 @@
-// RecipeInputPage.js
 import { Link } from 'react-router-dom';
 
 export const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
