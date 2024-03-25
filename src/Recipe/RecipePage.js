@@ -35,7 +35,7 @@ export const RecipePage = () => {
         />
         <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
         <Route element={<RecipeInputPage />} />
-        <Route element={<Chat />} />
+        <Route element={<Chat recipes={recipes} selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>
   );

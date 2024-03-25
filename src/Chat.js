@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import OpenAI from 'openai';
 
-export default function Chat() {
-    const [food, setFood] = useState("");
+export default function Chat({ingredients}) {
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -16,7 +15,7 @@ export default function Chat() {
         e.preventDefault();
         setIsLoading(true);
 
-        const userMessage = `Please tell me the amount of PFC in ${food}. The value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": {"protein": 10, "fat": 10, "carbohydrate": 5}}`;
+        const userMessage = `Please tell me the amount of PFC in ${ingredients}. The value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": {"protein": 10, "fat": 10, "carbohydrate": 5}}`;
 
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
@@ -51,15 +50,14 @@ export default function Chat() {
 
 
         console.log(response);
+        console.log(ingredients);
 
-        setFood("");
         setIsLoading(false);
     };
 
     return (
         <>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <input type="text" onChange={(e) => setFood(e.target.value)} value={food} />
                 <button type="submit">
                     {isLoading ? <p>送信中</p> : <p>送信</p>}
                 </button>

@@ -4,7 +4,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Chat from '../../Chat';
 
-export const RecipeDetailPage = ({ recipes, food }) => {
+export const RecipeDetailPage = ({ recipes }) => {
   const { recipeId } = useParams();
   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
@@ -16,8 +16,7 @@ export const RecipeDetailPage = ({ recipes, food }) => {
     <div>
       <h2>{recipe.name}</h2>
       <p>{recipe.ingredients}</p>
-      <p>{recipe.ingredients}</p>
-      <Chat food={food} />
+      <Chat ingredients={recipe.ingredients} />
       <p>{recipe.details}</p>
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>
