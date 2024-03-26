@@ -62,6 +62,7 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
           />
           {newIngredients.map((ingredient, index) => (
             <input
+              key={index}
               type="text"
               placeholder={`材料${index + 1}`}
               value={ingredient}
@@ -83,7 +84,6 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
           <div>追加されたレシピ一覧へ</div>
         </Link>
       </form>
-      <Chat />
     </div>
   );
 };
