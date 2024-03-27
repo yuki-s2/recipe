@@ -2,11 +2,11 @@
 // recipesプロパティとレシピのIDを使用して、詳細情報を表示
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Chat from '../../Chat';
+import { RecipeIngredients } from './RecipeIngredients';
 
 export const RecipeDetailPage = ({ recipes }) => {
   const { recipeId } = useParams();
-  const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
+   const recipe = recipes.find(recipe => recipe.id === parseInt(recipeId));
 
   if (!recipe) {
     return <div>登録されたレシピはありません</div>;
@@ -15,8 +15,7 @@ export const RecipeDetailPage = ({ recipes }) => {
   return (
     <div>
       <h2>{recipe.name}</h2>
-      <p>{recipe.ingredients}</p>
-      <Chat ingredients={recipe.ingredients} />
+      <RecipeIngredients recipe={recipe} />
       <p>{recipe.details}</p>
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>
@@ -30,3 +29,4 @@ export const RecipeDetailPage = ({ recipes }) => {
     </div>
   );
 };
+
