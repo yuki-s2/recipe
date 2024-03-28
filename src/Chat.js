@@ -10,6 +10,7 @@ export default function Chat({ingredients}) {
         dangerouslyAllowBrowser: true,
         apiKey: process.env.REACT_APP_API_KEY,
     });
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,6 +55,8 @@ export default function Chat({ingredients}) {
 
         setIsLoading(false);
     };
+
+
 
     return (
         <>
