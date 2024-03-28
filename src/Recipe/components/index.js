@@ -5,5 +5,6 @@ import { RecipeDetailPage } from "./RecipeDetailPage";
 import { RecipeListPage } from "./RecipeListPage";
 import { RecipeInputPage } from "./RecipeInputPage";
 import { SelectedRecipes } from "./SelectedRecipes";
+import { RecipeIngredients } from "./RecipeIngredients";
 import Chat from "../../Chat";
-export { RecipeDetailPage, RecipeListPage, RecipeInputPage, SelectedRecipes, Chat };
+export { RecipeDetailPage, RecipeListPage, RecipeInputPage, SelectedRecipes, Chat,RecipeIngredients };
