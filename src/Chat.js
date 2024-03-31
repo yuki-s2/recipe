@@ -11,26 +11,26 @@ export default function Chat({ ingredients }) {
         apiKey: process.env.REACT_APP_API_KEY,
     });
 
-        const extractPFCFromIngredient = (ingredient) => {
+    const extractPFCFromIngredient = (ingredient) => {
         // 材料の文字列を分割して各情報を取得する
         const parts = ingredient.split(':');
         if (parts.length !== 2) {
             // パターンにマッチしない場合はnullを返す
             return null;
         }
-    
+
         // 各情報を取得
         const [name, pfcInfo] = parts;
         const [proteinStr, fatStr, carbohydrateStr] = pfcInfo.split(',');
-    
+
         // 数値に変換してPFCオブジェクトを返す
         const protein = parseFloat(proteinStr.trim());
         const fat = parseFloat(fatStr.trim());
         const carbohydrate = parseFloat(carbohydrateStr.trim());
-    
+
         return { protein, fat, carbohydrate };
     };
-    
+
 
     const calculatePFC = (ingredients) => {
         let totalProtein = 0;
@@ -68,7 +68,7 @@ export default function Chat({ ingredients }) {
 
 
         // 材料のPFCの合計を計算する
-        const totalPFC = calculatePFC(ingredients);
+        // const totalPFC = calculatePFC(ingredients);
 
 
 
@@ -80,27 +80,45 @@ export default function Chat({ ingredients }) {
             console.error("Error processing PFC data:", error);
         }
 
-        console.log("pfcデータ");
-        console.log(pfcData);
+        // 各材料のPFC値の合計を計算する
+        const totalPFC = { protein: 0, fat: 0, carbohydrate: 0 };
+        Object.keys(pfcData.PFC).forEach(function (key) {
+            totalPFC.protein += pfcData.PFC[key].protein;
+            totalPFC.fat += pfcData.PFC[key].fat;
+            totalPFC.carbohydrate += pfcData.PFC[key].carbohydrate;
+        });
 
-        Object.keys(pfcData.PFC).forEach(function(key){
-            console.log(key + "のデータ");
-            console.log(pfcData.PFC[key]);
-            console.log(pfcData.PFC[key].protein);
-        })
+           // 新しいPFCオブジェクトを作成
+           const pfc = new PFC(totalPFC);
 
-        // 新しいPFCオブジェクトを作成
-        const pfc = new PFC(pfcData?.PFC || {});
+        // メッセージステートにデータを追加
         setMessages((prevMessages) => [
             ...prevMessages,
             { sender: "ai", PFC: pfc } // メッセージにPFCプロパティを追加
         ]);
 
-        // メッセージステートにデータを追加
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            pfcData // pfcDataを直接追加
-        ]);
+
+        console.log("pfcデータ");
+        console.log(pfcData);
+
+        // Object.keys(pfcData.PFC).forEach(function (key) {
+        //     console.log(key + "のデータ");
+        //     console.log(pfcData.PFC[key]);
+        //     console.log(pfcData.PFC[key].protein);
+        // })
+
+        // // 新しいPFCオブジェクトを作成
+        // const pfc = new PFC(pfcData?.PFC || {});
+        // setMessages((prevMessages) => [
+        //     ...prevMessages,
+        //     { sender: "ai", PFC: pfc } // メッセージにPFCプロパティを追加
+        // ]);
+
+        // // メッセージステートにデータを追加
+        // setMessages((prevMessages) => [
+        //     ...prevMessages,
+        //     pfcData // pfcDataを直接追加
+        // ]);
 
 
         console.log("responseデータ");
