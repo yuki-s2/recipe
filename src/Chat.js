@@ -101,26 +101,6 @@ export default function Chat({ ingredients }) {
         console.log("pfcデータ");
         console.log(pfcData);
 
-        // Object.keys(pfcData.PFC).forEach(function (key) {
-        //     console.log(key + "のデータ");
-        //     console.log(pfcData.PFC[key]);
-        //     console.log(pfcData.PFC[key].protein);
-        // })
-
-        // // 新しいPFCオブジェクトを作成
-        // const pfc = new PFC(pfcData?.PFC || {});
-        // setMessages((prevMessages) => [
-        //     ...prevMessages,
-        //     { sender: "ai", PFC: pfc } // メッセージにPFCプロパティを追加
-        // ]);
-
-        // // メッセージステートにデータを追加
-        // setMessages((prevMessages) => [
-        //     ...prevMessages,
-        //     pfcData // pfcDataを直接追加
-        // ]);
-
-
         console.log("responseデータ");
         console.log(response);
         console.log(ingredients);
@@ -134,7 +114,7 @@ export default function Chat({ ingredients }) {
         <>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <button type="submit">
-                    {isLoading ? <p>送信中</p> : <p>送信</p>}
+                    {isLoading ? <p>送信中</p> : <p>栄養素を表示</p>}
                 </button>
             </form>
             <div>
