@@ -4,7 +4,16 @@ body {
     font-size: 20px;
 }
 .inner {
-    padding: 1em;
+    padding: .5em;
     width: 1200px;
     margin: 0 auto; 
+}
+.recipeInput_container {
+    border: .5px solid #333;
+}
+.recipeInput_container + .recipeInput_container {
+    margin-top: 2em;
+}
+.recipeInput_container input {
+    display: block;
 }

@@ -51,32 +51,38 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
   return (
     <div>
       <h2>レシピ一覧</h2>
-      <form onSubmit={handleSubmit}>
+      <form className='recipeInput_form' onSubmit={handleSubmit}>
         <div onKeyDown={handleKeyDown}>
+        <div className='recipeInput_container recipeInput_recipeName'>
           <input
             type="text"
             placeholder="名前"
             value={newRecipeName}
             onChange={handleNameInputChange}
           />
-          {newIngredients.map((ingredient, index) => (
-            <input
-              key={index}
-              type="text"
-              placeholder={`材料${index + 1}`}
-              value={ingredient}
-              onChange={(event) => handleAdditionalInfoChange(index, event)}
-            />
-          ))}
-          <button type="button" onClick={handleAddIngredientField}>
-            材料追加
-          </button>
+          </div>
+          <div className='recipeInput_container recipeInput_ingredient'>
+            {newIngredients.map((ingredient, index) => (
+              <input
+                key={index}
+                type="text"
+                placeholder={`材料${index + 1}`}
+                value={ingredient}
+                onChange={(event) => handleAdditionalInfoChange(index, event)}
+              />
+            ))}
+            <button type="button" onClick={handleAddIngredientField}>
+              材料追加
+            </button>
+          </div>
+          <div className='recipeInput_container recipeInput_detail'>
           <input
             type="text"
             placeholder="内容"
             value={newDetail}
             onChange={handleRecipeInputChange}
           />
+          </div>
         </div>
         <button type="submit">追加</button>
         <Link to="/RecipeInputPage">
