@@ -56,7 +56,7 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
         <div className='recipeInput_container recipeInput_recipeName'>
           <input
             type="text"
-            placeholder="名前"
+            placeholder="NAME"
             value={newRecipeName}
             onChange={handleNameInputChange}
           />

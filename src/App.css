@@ -9,11 +9,22 @@ body {
     margin: 0 auto; 
 }
 .recipeInput_container {
-    border: .5px solid #333;
+    border-radius: .5em;
+    padding: 2em 4em;
+    background: #efefee;
 }
 .recipeInput_container + .recipeInput_container {
     margin-top: 2em;
 }
 .recipeInput_container input {
     display: block;
+    width: 100%;
+    border: 0;
+    background: #fff;
+    padding: 1em;
+    border-radius: .5em;
+}
+.recipeInput_ingredient input {
+    width: 12em;
+    margin: 0 auto;
 }
