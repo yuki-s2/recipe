@@ -1,44 +1,42 @@
-@charset "UTF-8";
+@charset "utf-8";
 body {
   /* font-family: "Hiragino Sans", "ヒラギノ角ゴシック", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, Helvetica, Arial, system-ui, sans-serif; */
   width: 100%;
   text-align: center;
   font-size: 20px;
 }
-
 .page_ttl {
-  color: #10193a;
-  font-size: 2em;
-  font-weight: bold;
+    color: #10193a;
+    font-size: 2em;
+    font-weight: bold;
 }
-
 .inner {
   padding: 0.5em;
   width: 1200px;
   margin: 0 auto;
 }
-
 .btn_link {
+  position: relative;
+  top: 0;
   color: #333;
   font-size: 1em;
   text-decoration: none;
-  border: 0.2em solid #333;
+  border: .2em solid #333;
   border-radius: 2em;
   background: rgb(179, 179, 179);
   display: inline-block;
   padding: 1em 3em;
   letter-spacing: 0.2em;
   box-shadow: 0 5px 0 #333;
+  transition: .3s;
 }
-
 .btn_link:hover {
-  transform: rotateX("2px");
-  box-shadow: none;
+  box-shadow: 0 2px 0 #333; /* Y軸の値を2pxに変更 */
+  top: 7px; /* topプロパティも微調整 */
 }
-
 .button_additionBtn {
   border: 1px solid #9a9898;
-  border-radius: 0.1em;
+  border-radius: .1em;
   box-shadow: -1px -1px #d5d4d4, inset -2px -2px #d5d4d4;
   background: #fff;
   font-size: 0.5em;
@@ -48,11 +46,14 @@ body {
   margin-top: 2em;
   color: #434242;
 }
-
+.button_additionBtn:hover {
+  box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
+}
 .recipeInput_body {
   width: 100%;
   background: #fff0ef;
-  background-image: linear-gradient(#e5e4e4 1px, transparent 0), linear-gradient(90deg, #e5e4e4 1px, transparent 0);
+  background-image: linear-gradient(#e5e4e4 1px, transparent 0),
+    linear-gradient(90deg, #e5e4e4 1px, transparent 0);
   background-size: 40px 40px;
   padding: 5em 0;
 }
@@ -64,15 +65,12 @@ body {
   padding: 2em 4em;
   background: #fff;
 }
-
 .recipeInput_container + .recipeInput_container {
   margin-top: 2em;
 }
-
 .recipeInput_form {
   margin-top: 4em;
 }
-
 .recipeInput_container input {
   border: 1px solid #9a9898;
   display: block;
@@ -82,27 +80,16 @@ body {
   background: #ebeaea;
   box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
 }
-
-::-moz-placeholder {
-  color: #fff;
-}
-
 ::placeholder {
+  // color: rgb(159, 178, 192);
   color: #fff;
 }
-
 .recipeInput_ingredient input {
   border: 1px solid #9a9898;
   width: 12em;
   margin: 0 auto;
   background: #ebeaea;
 }
-
-.button_additionBtn:hover {
-  box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
-}
-
 .recipeInput_btnArea {
   margin-top: 4em;
 }
-/*# sourceMappingURL=App.css.map */
