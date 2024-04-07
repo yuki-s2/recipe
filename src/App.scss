@@ -31,7 +31,7 @@ body {
   transition: .3s;
 }
 .btn_link:hover {
-  box-shadow: 0 2px 0 #333; /* Y軸の値を2pxに変更 */
+  box-shadow: none; /* Y軸の値を2pxに変更 */
   top: 7px; /* topプロパティも微調整 */
 }
 .button_additionBtn {
@@ -45,6 +45,7 @@ body {
   text-shadow: 1px 1px 0.5px #eeeded;
   margin-top: 2em;
   color: #434242;
+  transition: .2s;
 }
 .button_additionBtn:hover {
   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
