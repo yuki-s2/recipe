@@ -51,47 +51,54 @@ export const RecipeListPage = ({ recipes, addRecipe }) => {
   return (
     <div className="recipeInput_body">
       <div className='inner'>
-        <h2 className='page_ttl'>新しいレシピを追加する</h2>
-        <form className='recipeInput_form' onSubmit={handleSubmit}>
-          <div onKeyDown={handleKeyDown}>
-            <div className='recipeInput_container recipeInput_recipeName'>
-              <input
-                type="text"
-                placeholder="レシピの名前"
-                value={newRecipeName}
-                onChange={handleNameInputChange}
-              />
-            </div>
-            <div className='recipeInput_container recipeInput_ingredient'>
-              {newIngredients.map((ingredient, index) => (
+        <div className="recipeInput_wrap">
+          <div className="recipeInput_ttl">
+            <h2 className='page_ttl'>新しいレシピを追加する</h2>
+          </div>
+          <form className='recipeInput_form recipeInput_container' onSubmit={handleSubmit}>
+            <div onKeyDown={handleKeyDown}>
+              <div className='recipeInput_item'>
+                <div className="recipeInput_text">レシピの名前</div>
                 <input
-                  key={index}
                   type="text"
-                  placeholder={`材料${index + 1}`}
-                  value={ingredient}
-                  onChange={(event) => handleAdditionalInfoChange(index, event)}
+                  // placeholder="レシピの名前"
+                  value={newRecipeName}
+                  onChange={handleNameInputChange}
                 />
-              ))}
-              <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
-                追加する
-              </button>
+              </div>
+              <div className="recipeInput_item recipeInput_ingredient">
+                <div className="recipeInput_text">材料</div>
+                {newIngredients.map((ingredient, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    // placeholder={`材料${index + 1}`}
+                    value={ingredient}
+                    onChange={(event) => handleAdditionalInfoChange(index, event)}
+                  />
+                ))}
+                <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
+                  追加する
+                </button>
+              </div>
+              <div className="recipeInput_item recipeInput_howTo">
+                <div className="recipeInput_text">作り方</div>
+                <input
+                  type="text"
+                  // placeholder="作り方"
+                  value={newDetail}
+                  onChange={handleRecipeInputChange}
+                />
+              </div>
             </div>
-            <div className='recipeInput_container recipeInput_detail'>
-              <input
-                type="text"
-                placeholder="作り方"
-                value={newDetail}
-                onChange={handleRecipeInputChange}
-              />
-            </div>
-          </div>
-          <button className='button_additionBtn' type="submit">追加する</button>
-          <div className="recipeInput_btnArea">
-            <Link to="/RecipeInputPage">
-              <div className='btn_link'>追加されたレシピ一覧へ</div>
-            </Link>
-          </div>
-        </form>
+            <button className='button_additionBtn' type="submit">追加する</button>
+          </form>
+        </div>
+        <div className="recipeInput_btnArea">
+          <Link to="/RecipeInputPage">
+            <div className='btn_link'>追加されたレシピ一覧へ</div>
+          </Link>
+        </div>
       </div>
     </div>
   );

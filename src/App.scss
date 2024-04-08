@@ -6,7 +6,7 @@ body {
   font-size: 20px;
 }
 .page_ttl {
-    color: #10193a;
+    // color: #10193a;
     font-size: 2em;
     font-weight: bold;
 }
@@ -43,9 +43,10 @@ body {
   letter-spacing: 0.2em;
   padding: 0.5em 1.5em;
   text-shadow: 1px 1px 0.5px #eeeded;
-  margin-top: 2em;
+  margin: 2em auto;
   color: #434242;
   transition: .2s;
+  display: block;
 }
 .button_additionBtn:hover {
   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
@@ -58,20 +59,39 @@ body {
   background-size: 40px 40px;
   padding: 5em 0;
 }
-
-.recipeInput_container {
-  box-shadow: inset -4px -4px #f3f1f1;
+.recipeInput_wrap {
   border: 1px solid #9a9898;
   border-radius: 0.5em;
-  padding: 2em 4em;
-  background: #fff;
 }
-.recipeInput_container + .recipeInput_container {
+.recipeInput_ttl {
+  padding: 2em 0;
+  // background-image: linear-gradient(90deg, rgba(232, 222, 246, 1), rgba(255, 227, 189, 1) 100%, rgba(251, 235, 242, 1) 17%, rgba(245, 226, 207, 1) 70%);
+  background: #cfdfe2;
+  box-shadow: inset 4px 4px #f7f6f6,inset -4px -4px rgb(200, 199, 199);
+  // border: 1px solid #9a9898;
+  border-radius: 0.5em .5em 0 0;
+  padding: 2em 4em;
+  border-bottom: 1px solid #9a9898;
+  .page_ttl {
+    color: #fff;
+    text-shadow: 2px 3px 2px #c2c1c1;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+  }
+}
+.recipeInput_container {
+  box-shadow: inset 3px 3px #f3f1f1,inset -4px -4px #f3f1f1;
+  // border: 1px solid #9a9898;
+  border-radius: 0.5em;
+  padding: 2em 4em;
+  background: #ffffff;
+}
+.recipeInput_item + .recipeInput_item {
   margin-top: 2em;
 }
-.recipeInput_form {
-  margin-top: 4em;
-}
+// .recipeInput_form {
+//   margin-top: 4em;
+// }
 .recipeInput_container input {
   border: 1px solid #9a9898;
   display: block;
@@ -85,12 +105,31 @@ body {
   // color: rgb(159, 178, 192);
   color: #fff;
 }
+.recipeInput_ingredient {
+  display: inline-block;
+  background: #f9f9f9;
+  border-radius: 1em;
+  padding: 2em 2em 1em;
+}
 .recipeInput_ingredient input {
   border: 1px solid #9a9898;
   width: 12em;
   margin: 0 auto;
   background: #ebeaea;
+  // box-shadow: -3px -3px #fff, inset 2px 2px #fff;
+}
+.recipeInput_ingredient input + input {
+  margin-top: .5em;
 }
 .recipeInput_btnArea {
   margin-top: 4em;
+}
+.recipeInput_text {
+  margin-bottom: .5em;
+  text-align: left;
+  color: #777676;
+  // text-shadow: 1px 1px 0.5px #afaeae;
+}
+.recipeInput_howTo input {
+  height: 7em;
 }
