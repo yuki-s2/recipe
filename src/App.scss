@@ -6,7 +6,6 @@ body {
   font-size: 20px;
 }
 .page_ttl {
-    // color: #10193a;
     font-size: 2em;
     font-weight: bold;
 }
@@ -31,8 +30,8 @@ body {
   transition: .3s;
 }
 .btn_link:hover {
-  box-shadow: none; /* Y軸の値を2pxに変更 */
-  top: 7px; /* topプロパティも微調整 */
+  box-shadow: none;
+  top: 7px;
 }
 .button_additionBtn {
   border: 1px solid #9a9898;
@@ -51,6 +50,7 @@ body {
 .button_additionBtn:hover {
   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
 }
+/* --------------------------------------------------- RecipeListPage */
 .recipeInput_body {
   width: 100%;
   background: #fff0ef;
@@ -65,10 +65,8 @@ body {
 }
 .recipeInput_ttl {
   padding: 2em 0;
-  // background-image: linear-gradient(90deg, rgba(232, 222, 246, 1), rgba(255, 227, 189, 1) 100%, rgba(251, 235, 242, 1) 17%, rgba(245, 226, 207, 1) 70%);
   background: #cfdfe2;
   box-shadow: inset 4px 4px #f7f6f6,inset -4px -4px rgb(200, 199, 199);
-  // border: 1px solid #9a9898;
   border-radius: 0.5em .5em 0 0;
   padding: 2em 4em;
   border-bottom: 1px solid #9a9898;
@@ -81,7 +79,6 @@ body {
 }
 .recipeInput_container {
   box-shadow: inset 3px 3px #f3f1f1,inset -4px -4px #f3f1f1;
-  // border: 1px solid #9a9898;
   border-radius: 0.5em;
   padding: 2em 4em;
   background: #ffffff;
@@ -89,9 +86,6 @@ body {
 .recipeInput_item + .recipeInput_item {
   margin-top: 2em;
 }
-// .recipeInput_form {
-//   margin-top: 4em;
-// }
 .recipeInput_container input {
   border: 1px solid #9a9898;
   display: block;
@@ -116,7 +110,6 @@ body {
   width: 12em;
   margin: 0 auto;
   background: #ebeaea;
-  // box-shadow: -3px -3px #fff, inset 2px 2px #fff;
 }
 .recipeInput_ingredient input + input {
   margin-top: .5em;
@@ -128,8 +121,15 @@ body {
   margin-bottom: .5em;
   text-align: left;
   color: #777676;
-  // text-shadow: 1px 1px 0.5px #afaeae;
 }
 .recipeInput_howTo input {
   height: 7em;
+}
+
+/* --------------------------------------------------- RecipeInputPage */
+
+.recipeList_body {
+  font-size: 20px;
+  width: 100%;
+  padding: 5em 0;
 }

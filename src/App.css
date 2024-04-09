@@ -34,8 +34,8 @@ body {
 }
 
 .btn_link:hover {
-  box-shadow: none; /* Y軸の値を2pxに変更 */
-  top: 7px; /* topプロパティも微調整 */
+  box-shadow: none;
+  top: 7px;
 }
 
 .button_additionBtn {
@@ -57,6 +57,7 @@ body {
   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
 }
 
+/* --------------------------------------------------- RecipeListPage */
 .recipeInput_body {
   width: 100%;
   background: #fff0ef;
@@ -144,4 +145,11 @@ body {
 
 .recipeInput_howTo input {
   height: 7em;
+}
+
+/* --------------------------------------------------- RecipeInputPage */
+.recipeList_body {
+  font-size: 20px;
+  width: 100%;
+  padding: 5em 0;
 }/*# sourceMappingURL=App.css.map */

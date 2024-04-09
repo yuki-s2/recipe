@@ -20,7 +20,7 @@ export const RecipeDetailPage = ({ recipes }) => {
       <Link to="/SelectedRecipes">
         <div>選択れたレシピ一覧へ</div>
       </Link>
-      <Link to="/RecipeInputPage">
+      <Link to="/RecipeListPage">
         <div>追加されたレシピ一覧へ</div>
       </Link>
       <Link to="/">

@@ -1,45 +1,105 @@
+// RecipeInputPage.js
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const RecipeInputPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
+export const RecipeInputPage = ({ recipes, addRecipe }) => {
+  const [newRecipeName, setNewRecipeName] = useState('');
+  const [newDetail, setNewDetail] = useState('');
+  const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
 
-    const handleCheckboxChange = (recipeId) => {
-        if (selectedRecipes.includes(recipeId)) {
-            setSelectedRecipes(selectedRecipes.filter(id => id !== recipeId));
-            console.log(selectedRecipes + "a");
-        } else {
-            setSelectedRecipes([...selectedRecipes, recipeId]);
-            console.log(selectedRecipes + "b");
-        }
-    };
+  const handleNameInputChange = (event) => {
+    setNewRecipeName(event.target.value);
+  };
+  const handleRecipeInputChange = (event) => {
+    event.preventDefault();
+    setNewDetail(event.target.value);
+  };
+  const handleAdditionalInfoChange = (index, event) => {
+    const values = [...newIngredients];
+    values[index] = event.target.value;
+    setNewIngredients(values);
+  };
+
+  const handleAddIngredientField = () => {
+    setNewIngredients([...newIngredients, '']); // 新しい材料入力フィールドを追加する
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!newRecipeName || !newDetail) {
+      return;
+    }
+    const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
+    addRecipe(newRecipeName, ingredients, newDetail);
+
+    setNewRecipeName('');
+    setNewDetail('');
+    setNewIngredients(['']);
+  };
 
 
-    return (
-        <div>
-            <h2>追加されたレシピ一覧</h2>
-            {recipes.length === 0 ? (
-                <p>レシピはありません</p>
-            ) : (
-                <ul>
-                    {recipes.map(recipe => (
-                        <li key={recipe.id}>
-                            <input
-                                type="checkbox"
-                                checked={selectedRecipes.includes(recipe.id)}
-                                onChange={() => handleCheckboxChange(recipe.id)}
-                            />
-                            <Link to={`/recipes/${recipe.id}`}>
-                                {recipe.name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <Link to="/SelectedRecipes">
-                <div>選択されたレシピ一覧へ</div>
-            </Link>
-            <Link to="/">
-                <div>リストに戻る</div>
-            </Link>
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
+  console.log(recipes);
+
+  return (
+    <div className="recipeInput_body">
+      <div className='inner'>
+        <div className="recipeInput_wrap">
+          <div className="recipeInput_ttl">
+            <h2 className='page_ttl'>新しいレシピを追加する</h2>
+          </div>
+          <form className='recipeInput_form recipeInput_container' onSubmit={handleSubmit}>
+            <div onKeyDown={handleKeyDown}>
+              <div className='recipeInput_item'>
+                <div className="recipeInput_text">レシピの名前</div>
+                <input
+                  type="text"
+                  // placeholder="レシピの名前"
+                  value={newRecipeName}
+                  onChange={handleNameInputChange}
+                />
+              </div>
+              <div className="recipeInput_item recipeInput_ingredient">
+                <div className="recipeInput_text">材料</div>
+                {newIngredients.map((ingredient, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    // placeholder={`材料${index + 1}`}
+                    value={ingredient}
+                    onChange={(event) => handleAdditionalInfoChange(index, event)}
+                  />
+                ))}
+                <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
+                  追加する
+                </button>
+              </div>
+              <div className="recipeInput_item recipeInput_howTo">
+                <div className="recipeInput_text">作り方</div>
+                <input
+                  type="text"
+                  // placeholder="作り方"
+                  value={newDetail}
+                  onChange={handleRecipeInputChange}
+                />
+              </div>
+            </div>
+            <button className='button_additionBtn' type="submit">追加する</button>
+          </form>
         </div>
-    );
+        <div className="recipeInput_btnArea">
+          <Link to="/RecipeListPage">
+            <div className='btn_link'>追加されたレシピ一覧へ</div>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 };
