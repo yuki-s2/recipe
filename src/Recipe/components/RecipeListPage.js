@@ -15,7 +15,7 @@ export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes })
 
     return (
         <div className="recipeList_body">
-        <h2 className='page_ttl'>追加されたレシピ一覧</h2>
+            <h2 className='page_ttl'>追加されたレシピ一覧</h2>
             {recipes.length === 0 ? (
                 <p>レシピはありません</p>
             ) : (
@@ -34,12 +34,16 @@ export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes })
                     ))}
                 </ul>
             )}
-            <Link to="/SelectedRecipes">
-                <div>選択されたレシピ一覧へ</div>
-            </Link>
-            <Link to="/">
-                <div>リストに戻る</div>
-            </Link>
+            <div className="btn_link">
+                <Link to="/SelectedRecipes">
+                    <div>選択されたレシピ一覧へ</div>
+                </Link>
+            </div>
+            <div className="btn_link">
+                <Link to="/">
+                    <div>リストに戻る</div>
+                </Link>
+            </div>
         </div>
     );
 };
