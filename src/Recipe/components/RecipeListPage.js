@@ -17,7 +17,7 @@ export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes })
         <div className="recipeList_body">
             <h2 className='page_ttl'>追加されたレシピ一覧</h2>
             {recipes.length === 0 ? (
-                <p>レシピはありません</p>
+                <p className='recipeList_nonText'>レシピはありません</p>
             ) : (
                 <ul>
                     {recipes.map(recipe => (
