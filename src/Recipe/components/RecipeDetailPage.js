@@ -18,13 +18,13 @@ export const RecipeDetailPage = ({ recipes }) => {
       <RecipeIngredients recipe={recipe} />
       <p>{recipe.details}</p>
       <Link to="/SelectedRecipes">
-        <div>選択れたレシピ一覧へ</div>
+        <div className='btn_link'>選択れたレシピ一覧へ</div>
       </Link>
       <Link to="/RecipeListPage">
-        <div>追加されたレシピ一覧へ</div>
+        <div className='btn_link'>追加されたレシピ一覧へ</div>
       </Link>
       <Link to="/">
-        <div>リストに戻る</div>
+        <div className='btn_link'>リストに戻る</div>
       </Link>
     </div>
   );

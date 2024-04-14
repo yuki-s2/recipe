@@ -34,16 +34,12 @@ export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes })
                     ))}
                 </ul>
             )}
-            <div className="btn_link">
-                <Link to="/SelectedRecipes">
-                    <div>選択されたレシピ一覧へ</div>
-                </Link>
-            </div>
-            <div className="btn_link">
-                <Link to="/">
-                    <div>リストに戻る</div>
-                </Link>
-            </div>
+            <Link to="/SelectedRecipes">
+                <div className='btn_link'>選択されたレシピ一覧へ</div>
+            </Link>
+            <Link to="/">
+                <div className='btn_link'>リストに戻る</div>
+            </Link>
         </div>
     );
 };
