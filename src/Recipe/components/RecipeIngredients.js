@@ -6,9 +6,11 @@ export const RecipeIngredients = ({ recipe }) => {
 
     return (
         <>
-            <h2>材料</h2>
-            <p>{recipe.ingredients}</p>
-            <Chat ingredients={recipe.ingredients} />
+            <div className="recipeDetail_ingredientsContainer">
+                <h4 className='recipeDetail_title'>材料</h4>
+                <p>{recipe.ingredients}</p>
+                <Chat ingredients={recipe.ingredients} />
+            </div>
         </>
     )
 };
