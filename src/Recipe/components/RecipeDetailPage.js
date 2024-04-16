@@ -27,7 +27,7 @@ export const RecipeDetailPage = ({ recipes }) => {
         <RecipeIngredients recipe={recipe} />
         <div className="recipeDetail_detailsContainer">
           <h4 className='recipeDetail_title'>作り方</h4>
-          <p>{recipe.details}</p>
+          <p className='recipeDetail_detailsText'>{recipe.details}</p>
         </div>
         <Link to="/SelectedRecipes">
           <div className='btn_link'>選択れたレシピ一覧へ</div>

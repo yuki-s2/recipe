@@ -157,4 +157,26 @@ body {
 .recipeList_nonText {
   font-size: 1.7em;
   padding: 5em 0;
+}
+
+.recipeDetail_edit {
+  display: flex;
+  gap: 0.5em;
+  justify-content: end;
+  font-size: 0.6em;
+}
+
+.recipeDetail_name {
+  font-size: 2em;
+  padding: 2em 0;
+}
+
+.recipeDetail_detailsContainer {
+  display: flex;
+  gap: 1em;
+}
+
+.recipeDetail_detailsText {
+  font-size: 1.2em;
+  font-weight: bold;
 }/*# sourceMappingURL=App.css.map */
