@@ -179,4 +179,12 @@ body {
 .recipeDetail_detailsText {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+/* --------------------------------------------------- Chat */
+.chat_messages {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  font-size: 0.8em;
 }/*# sourceMappingURL=App.css.map */

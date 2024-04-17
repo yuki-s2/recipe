@@ -88,8 +88,8 @@ export default function Chat({ ingredients }) {
             totalPFC.carbohydrate += pfcData.PFC[key].carbohydrate;
         });
 
-           // 新しいPFCオブジェクトを作成
-           const pfc = new PFC(totalPFC);
+        // 新しいPFCオブジェクトを作成
+        const pfc = new PFC(totalPFC);
 
         // メッセージステートにデータを追加
         setMessages((prevMessages) => [
@@ -113,7 +113,7 @@ export default function Chat({ ingredients }) {
     return (
         <>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <button type="submit">
+                <button className='button_additionBtn' type="submit">
                     {isLoading ? <p>送信中</p> : <p>栄養素を表示</p>}
                 </button>
             </form>
@@ -121,11 +121,11 @@ export default function Chat({ ingredients }) {
                 {messages.map((message, index) => (
                     <div key={index}>
                         {message.sender === "ai" && (
-                            <>
+                            <div className="chat_messages">
                                 <p>タンパク質 {message.PFC.protein} g</p>
-                                <p>脂質git  {message.PFC.fat} g</p>
+                                <p>脂質 {message.PFC.fat} g</p>
                                 <p>炭水化物 {message.PFC.carbohydrate} g</p>
-                            </>
+                            </div>
                         )}
                     </div>
                 ))}
