@@ -167,3 +167,20 @@ body {
   gap: 2em;
   font-size: .8em;
 }
+
+.recipeDetail_img {
+  width: 200px;
+  height: 200px;
+  background-color: #4891BD;
+  animation: clip-path 1s infinite;
+}
+
+@keyframes clip-path {
+  0% {
+    clip-path: circle(0px at 50% 50%);
+  }
+
+  100% {
+    clip-path: circle(50px at 50% 50%);
+  }
+}
