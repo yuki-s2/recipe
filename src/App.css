@@ -187,22 +187,4 @@ body {
   justify-content: center;
   gap: 2em;
   font-size: 0.8em;
-}
-
-.recipeDetail_img {
-  width: 200px;
-  height: 200px;
-  background-color: #4891BD;
-  animation: clip-path 1s infinite;
-}
-
-@keyframes clip-path {
-  0% {
-    -webkit-clip-path: circle(0px at 50% 50%);
-            clip-path: circle(0px at 50% 50%);
-  }
-  100% {
-    -webkit-clip-path: circle(50px at 50% 50%);
-            clip-path: circle(50px at 50% 50%);
-  }
 }/*# sourceMappingURL=App.css.map */

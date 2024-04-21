@@ -81,8 +81,8 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                   追加する
                 </button>
               </div>
-              <div className="recipeInput_item recipeInput_howTo">
-                <div className="recipeInput_text">作り方</div>
+              <div className="recipeInput_item">
+                <h3 className="recipeInput_text">作り方</h3>
                 <input
                   type="text"
                   // placeholder="作り方"

@@ -7,9 +7,15 @@ export const RecipeIngredients = ({ recipe }) => {
     return (
         <>
             <div className="recipeDetail_ingredientsContainer">
-                <h4 className='recipeDetail_title'>材料</h4>
-                <p>{recipe.ingredients}</p>
-                <Chat ingredients={recipe.ingredients} />
+                <div className="recipeInput_item">
+                    <div className="recipeInput_text">
+                        <h3 className=''>材料</h3>
+                        <Chat ingredients={recipe.ingredients} />
+                    </div>
+                    {recipe.ingredients.map((ingredient, index) => (
+                        <p key={index}>{ingredient}</p>
+                    ))}
+                </div>
             </div>
         </>
     )
