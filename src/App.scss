@@ -34,6 +34,7 @@ body {
   top: 7px;
 }
 .button_additionBtn {
+  display: inline-block;
   border: 1px solid #9a9898;
   border-radius: .1em;
   box-shadow: -1px -1px #d5d4d4, inset -2px -2px #d5d4d4;
@@ -42,7 +43,6 @@ body {
   letter-spacing: 0.2em;
   padding: 0.5em 1.5em;
   text-shadow: 1px 1px 0.5px #eeeded;
-  margin: 2em auto;
   color: #434242;
   transition: .2s;
   display: block;
@@ -83,6 +83,9 @@ body {
   padding: 2em 4em;
   background: #ffffff;
 }
+.recipeInput_item {
+  display: flex;
+}
 .recipeInput_item + .recipeInput_item {
   margin-top: 2em;
 }
@@ -121,6 +124,7 @@ body {
   margin-bottom: .5em;
   text-align: left;
   color: #777676;
+  width: 7em;
 }
 .recipeInput_howTo input {
   height: 7em;
@@ -168,13 +172,11 @@ body {
   font-size: .8em;
 }
 
-// .recipeDetail_img {
-//   width: 200px;
-//   height: 200px;
-//   background-color: #4891BD;
-//   animation: clip-path 1s infinite;
-// }
-
+.recipeDetail_img svg {
+  position: absolute;
+   top: 0; 
+  left: 0;
+}
 // @keyframes clip-path {
 //   0% {
 //     clip-path: circle(0px at 50% 50%);
