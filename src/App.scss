@@ -103,6 +103,13 @@ body {
   color: #fff;
 }
 .recipeInput_ingredient {
+  text-align: center;
+  .recipeInput_text {
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+.recipeInput_ingredient {
   display: inline-block;
   background: #f9f9f9;
   border-radius: 1em;
