@@ -45,7 +45,6 @@ body {
   text-shadow: 1px 1px 0.5px #eeeded;
   color: #434242;
   transition: .2s;
-  display: block;
 }
 .button_additionBtn:hover {
   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
@@ -193,3 +192,7 @@ body {
 //     clip-path: circle(50px at 50% 50%);
 //   }
 // }
+
+.recipeInput_ingredientContainer {
+  width: 100%;
+}

@@ -50,7 +50,6 @@ body {
   text-shadow: 1px 1px 0.5px #eeeded;
   color: #434242;
   transition: 0.2s;
-  display: block;
 }
 
 .button_additionBtn:hover {
@@ -206,4 +205,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.recipeInput_ingredientContainer {
+  width: 100%;
 }/*# sourceMappingURL=App.css.map */

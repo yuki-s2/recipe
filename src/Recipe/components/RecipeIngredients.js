@@ -12,9 +12,11 @@ export const RecipeIngredients = ({ recipe }) => {
                         <h3 className=''>材料</h3>
                         <Chat ingredients={recipe.ingredients} />
                     </div>
+                    <div className="recipeInput_ingredientContainer">
                     {recipe.ingredients.map((ingredient, index) => (
                         <p key={index}>{ingredient}</p>
                     ))}
+                    </div>
                 </div>
             </div>
         </>
