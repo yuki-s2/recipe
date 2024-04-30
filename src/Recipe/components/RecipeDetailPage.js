@@ -39,15 +39,19 @@ export const RecipeDetailPage = ({ recipes }) => {
           <h4 className='recipeDetail_title'>作り方</h4>
           <p className='recipeDetail_detailsText'>{recipe.details}</p>
         </div>
+        <div className="btn_container">
         <Link to="/SelectedRecipes">
           <div className='btn_link'>選択れたレシピ一覧へ</div>
         </Link>
         <Link to="/RecipeListPage">
           <div className='btn_link'>追加されたレシピ一覧へ</div>
         </Link>
+        </div>
+        <div className="btn_container">
         <Link to="/">
           <div className='btn_link'>リストに戻る</div>
         </Link>
+        </div>
       </div>
     </div>
   );

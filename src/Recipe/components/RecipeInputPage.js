@@ -94,7 +94,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
             <button className='button_additionBtn' type="submit">追加する</button>
           </form>
         </div>
-        <div className="recipeInput_btnArea">
+        <div className="btn_container">
           <Link to="/RecipeListPage">
             <div className='btn_link'>追加されたレシピ一覧へ</div>
           </Link>
