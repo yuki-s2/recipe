@@ -13,7 +13,7 @@ body {
 
 .inner {
   padding: 0.5em;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -178,6 +178,13 @@ body {
   padding: 5em 0;
 }
 
+/* --------------------------------------------------- RecipeDetailPage */
+.recipeDetail_body {
+  background-size: auto auto;
+  background-color: rgb(255, 255, 255);
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgb(255, 255, 255) 10px, rgb(255, 255, 255) 20px), repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(255, 248, 1, 0.22) 10px, rgba(255, 248, 1, 0.22) 20px);
+}
+
 .recipeDetail_edit {
   display: flex;
   gap: 0.5em;
@@ -201,14 +208,6 @@ body {
   width: 100%;
 }
 
-/* --------------------------------------------------- Chat */
-.chat_messages {
-  display: flex;
-  justify-content: center;
-  gap: 2em;
-  font-size: 0.8em;
-}
-
 .recipeDetail_img svg {
   position: absolute;
   top: 0;
@@ -217,4 +216,36 @@ body {
 
 .recipeInput_ingredientContainer {
   width: 100%;
+  max-height: 7em;
+}
+
+.recipeInput_item {
+  width: 33.3333333333%;
+}
+
+.svgContent_main svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.svgContent_subImg {
+  display: flex;
+}
+
+.svgContent_subImg img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 20%;
+  aspect-ratio: 5/4;
+  -webkit-clip-path: inset(10px 10px 10px 10px round 40px);
+          clip-path: inset(10px 10px 10px 10px round 40px);
+}
+
+/* --------------------------------------------------- Chat */
+.chat_messages {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  font-size: 0.8em;
 }/*# sourceMappingURL=App.css.map */
