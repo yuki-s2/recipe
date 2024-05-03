@@ -61,6 +61,7 @@ body {
   text-shadow: 1px 1px 0.5px #eeeded;
   color: #434242;
   transition: 0.2s;
+  margin-top: 2em;
 }
 
 .button_additionBtn:hover {
@@ -105,6 +106,8 @@ body {
 
 .recipeInput_item {
   display: flex;
+  gap: 1em;
+  align-items: center;
 }
 
 .recipeInput_item + .recipeInput_item {
@@ -147,7 +150,7 @@ body {
 .recipeInput_ingredient input {
   border: 1px solid #9a9898;
   width: 12em;
-  margin: 0 auto;
+  margin: 1em auto 0;
   background: #ebeaea;
 }
 
@@ -159,6 +162,13 @@ body {
   margin-bottom: 0.5em;
   text-align: left;
   color: #777676;
+}
+
+.recipeInput_title {
+  width: 8em;
+}
+
+.recipeDetail_title {
   width: 7em;
 }
 
@@ -217,10 +227,6 @@ body {
 .recipeInput_ingredientContainer {
   width: 100%;
   max-height: 7em;
-}
-
-.recipeInput_item {
-  width: 33.3333333333%;
 }
 
 .svgContent_main svg {

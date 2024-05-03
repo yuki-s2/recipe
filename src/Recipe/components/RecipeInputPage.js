@@ -58,7 +58,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
           <form className='recipeInput_form recipeInput_container' onSubmit={handleSubmit}>
             <div onKeyDown={handleKeyDown}>
               <div className='recipeInput_item'>
-                <div className="recipeInput_text">レシピの名前</div>
+                <div className="recipeInput_title">レシピの名前</div>
                 <input
                   type="text"
                   // placeholder="レシピの名前"
@@ -82,7 +82,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                 </button>
               </div>
               <div className="recipeInput_item">
-                <h3 className="recipeInput_text">作り方</h3>
+                <h3 className="recipeInput_title">作り方</h3>
                 <input
                   type="text"
                   // placeholder="作り方"

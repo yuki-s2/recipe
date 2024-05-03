@@ -8,11 +8,11 @@ export const RecipeIngredients = ({ recipe }) => {
         <>
             <div className="recipeDetail_ingredientsContainer">
                 <div className="recipeInput_item">
-                    <div className="recipeInput_text">
+                    <div className="recipeDetail_title">
                         <h3 className=''>材料</h3>
                         <Chat ingredients={recipe.ingredients} />
                     </div>
-                    <div className="recipeInput_ingredientContainer">
+                    <div className="recipeInput_text">
                     {recipe.ingredients.map((ingredient, index) => (
                         <p key={index}>{ingredient}</p>
                     ))}

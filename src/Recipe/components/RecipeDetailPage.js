@@ -45,7 +45,7 @@ export const RecipeDetailPage = ({ recipes }) => {
 
         <RecipeIngredients recipe={recipe} />
         <div className="recipeDetail_detailsContainer">
-          <h4 className='recipeDetail_title'>作り方</h4>
+          <h3 className='recipeDetail_title'>作り方</h3>
           <p className='recipeDetail_detailsText'>{recipe.details}</p>
         </div>
 
