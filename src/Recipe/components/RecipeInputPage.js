@@ -67,7 +67,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                 />
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
-                <div className="recipeInput_text">材料</div>
+                <div className="recipeInput_title">材料</div>
                 {newIngredients.map((ingredient, index) => (
                   <input
                     key={index}
