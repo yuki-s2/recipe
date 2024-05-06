@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 //ファイヤーベースの初期化
 const firebaseConfig = {
     apiKey: "AIzaSyCwl10MSlI72Q97Duo4CU1pT6iw7JZbGGo",
@@ -10,3 +11,6 @@ const firebaseConfig = {
   };
 
   const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  export default db;

@@ -1,6 +1,9 @@
 // RecipeInputPage.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import db from '../../Firebase';
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+
 
 export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
@@ -48,8 +51,29 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
 
   console.log(recipes);
 
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const postData = collection(db, "posts");
+    //getDocsでドキュメントの中身を取得できる。 snapShotは取得したものにつける任意の名前
+    getDocs(postData).then((snapShot) => {
+      // ...doc.data() ← スプレット構文
+      setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
+    });
+//リアルタイムで表示
+    onSnapshot(postData, (post) => {
+    setPosts(post.docs.map((doc) => ({ ...doc.data() })));
+  });
+  }, []);
+
   return (
     <div className="recipeInput_body">
+      {posts.map((post) => (
+        <div>
+          <h1>{post.title}</h1>
+          <p>{post.text}</p>
+        </div>
+      ))}
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
