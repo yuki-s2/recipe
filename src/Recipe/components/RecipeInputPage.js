@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import db from '../../Firebase';
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
-
+import firebase from "firebase/compat/app";
 
 export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
@@ -29,6 +29,11 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    db.collection("posts").add({
+      text: newRecipeName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 
     if (!newRecipeName || !newDetail) {
       return;
@@ -60,10 +65,10 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
       // ...doc.data() ← スプレット構文
       setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
     });
-//リアルタイムで表示
+    //リアルタイムで表示
     onSnapshot(postData, (post) => {
-    setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-  });
+      setPosts(post.docs.map((doc) => ({ ...doc.data() })));
+    });
   }, []);
 
   return (
