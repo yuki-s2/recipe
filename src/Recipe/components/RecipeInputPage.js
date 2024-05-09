@@ -1,9 +1,10 @@
 // RecipeInputPage.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import db from '../../Firebase';
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
-import firebase from "firebase/compat/app";
+// import db from '../../Firebase';
+// import { collection, getDocs, onSnapshot } from "firebase/firestore";
+// import firebase from "firebase/compat/app";
+
 
 export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
@@ -30,10 +31,10 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    db.collection("posts").add({
-      text: newRecipeName,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    // db.collection("posts").add({
+    //   text: newRecipeName,
+    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    // });
 
     if (!newRecipeName || !newDetail) {
       return;
@@ -46,8 +47,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     setNewIngredients(['']);
   };
 
-
-
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -56,29 +55,29 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
 
   console.log(recipes);
 
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const postData = collection(db, "posts");
-    //getDocsでドキュメントの中身を取得できる。 snapShotは取得したものにつける任意の名前
-    getDocs(postData).then((snapShot) => {
-      // ...doc.data() ← スプレット構文
-      setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
-    });
-    //リアルタイムで表示
-    onSnapshot(postData, (post) => {
-      setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-    });
-  }, []);
+  // useEffect(() => {
+  //   const postData = collection(db, "posts");
+  //   //getDocsでドキュメントの中身を取得できる。 snapShotは取得したものにつける任意の名前
+  //   getDocs(postData).then((snapShot) => {
+  //     // ...doc.data() ← スプレット構文
+  //     setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
+  //   });
+  //   //リアルタイムで表示
+  //   onSnapshot(postData, (post) => {
+  //     setPosts(post.docs.map((doc) => ({ ...doc.data() })));
+  //   });
+  // }, []);
 
   return (
     <div className="recipeInput_body">
-      {posts.map((post) => (
+      {/* {posts.map((post) => (
         <div>
           <h1>{post.title}</h1>
           <p>{post.text}</p>
         </div>
-      ))}
+      ))} */}
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
