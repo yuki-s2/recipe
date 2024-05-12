@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
 import { RecipeDetailPage, RecipeInputPage, RecipeListPage, SelectedRecipes } from './components';
 import Chat from '../Chat';
 
-export const RecipePage = () => {
+const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
 
@@ -40,3 +40,5 @@ export const RecipePage = () => {
     </Router>
   );
 };
+
+export default RecipePage; 
