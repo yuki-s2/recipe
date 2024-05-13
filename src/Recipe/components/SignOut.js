@@ -3,8 +3,8 @@ import { auth } from '../../Firebase'
 
 function SignOut() {
   return (
-    <div>
-        <button onClick={() => auth.signOut()}>サインアウト</button>
+    <div className="btn_container">
+        <button className='btn_link' onClick={() => auth.signOut()}>サインアウト</button>
     </div>
   )
 }
