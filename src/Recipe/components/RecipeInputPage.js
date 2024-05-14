@@ -62,12 +62,11 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     const postData = collection(db, "posts");
     getDocs(postData).then((snapShot) => {
       setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
-
     });
     //リアルタイムで表示
     onSnapshot(postData, (post) => {
       setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-      
+
     });
 
   }, []);

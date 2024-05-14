@@ -8,15 +8,15 @@ function SendMessage() {
         e.preventDefault();
 
         addDoc(collection(db, "posts"), {
-        // db.collection("posts").add({
             text: fbMessage,
         });
+        setFbMessage("");
     }
   return (
     <div>
         <form onSubmit={sendMessage}>
             <div>
-            <input type="text" onChange={(e) => setFbMessage(e.target.value)}/>
+            <input type="text" onChange={(e) => setFbMessage(e.target.value)} value={fbMessage}  />
             </div>
         </form>
     </div>
