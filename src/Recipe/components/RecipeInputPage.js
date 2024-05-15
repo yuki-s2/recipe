@@ -32,11 +32,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // db.collection("posts").add({
-    //   text: newRecipeName,
-    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    // });
-
     if (!newRecipeName || !newDetail) {
       return;
     }
@@ -83,7 +78,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
         </div>
       ))}
       <SendMessage />
-      <SignOut />
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
@@ -95,7 +89,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                 <div className="recipeInput_title">レシピの名前</div>
                 <input
                   type="text"
-                  // placeholder="レシピの名前"
                   value={newRecipeName}
                   onChange={handleNameInputChange}
                 />
@@ -106,7 +99,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                   <input
                     key={index}
                     type="text"
-                    // placeholder={`材料${index + 1}`}
                     value={ingredient}
                     onChange={(event) => handleAdditionalInfoChange(index, event)}
                   />
@@ -119,7 +111,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                 <h3 className="recipeInput_title">作り方</h3>
                 <input
                   type="text"
-                  // placeholder="作り方"
                   value={newDetail}
                   onChange={handleRecipeInputChange}
                 />
@@ -133,6 +124,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
             <div className='btn_link'>追加されたレシピ一覧へ</div>
           </Link>
         </div>
+        <SignOut />
       </div>
     </div>
   );
