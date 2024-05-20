@@ -107,6 +107,7 @@ body {
 .recipeInput_item {
   display: flex;
   gap: 2em;
+  align-items: center;
 }
 
 .recipeInput_item + .recipeInput_item {
@@ -164,6 +165,7 @@ body {
 }
 
 .recipeInput_title {
+  color: #9a9898;
   width: 8em;
   font-size: 0.7em;
 }

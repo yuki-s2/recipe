@@ -15,6 +15,7 @@ const RecipePage = () => {
       ingredients: ingredient,
       details: detail,
     };
+    
     setRecipes([...recipes, newRecipe]);
   };
 

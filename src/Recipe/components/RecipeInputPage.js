@@ -3,23 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, getDocs, onSnapshot, addDoc } from "firebase/firestore";
-import SendMessage from './SendMessage.js';
+// import SendMessage from './SendMessage.js';
 import SignOut from './SignOut.js';
 
 export const RecipeInputPage = ({ recipes, addRecipe }) => {
-  // const [newRecipeName, setNewRecipeName] = useState('');
+  const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
-  const [fbMessage, setFbMessage] = useState([]);
+  // const [fbMessage, setFbMessage] = useState([]);
 
 
   // const handleNameInputChange = (event) => {
   //   setNewRecipeName(event.target.value);
   // };
-  const handleRecipeInputChange = (event) => {
-    event.preventDefault();
-    setNewDetail(event.target.value);
-  };
+  // const handleRecipeInputChange = (event) => {
+  //   event.preventDefault();
+  //   setNewDetail(event.target.value);
+  // };
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
     values[index] = event.target.value;
@@ -34,22 +34,28 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     event.preventDefault();
 
     addDoc(collection(db, "posts"), {
-        text: fbMessage,
+      // docId: doc.id,
+      title: newRecipeName,
+      text: newDetail,
+      ingredient: newIngredients,
     });
-    setFbMessage("");
+    // setNewRecipeName('');
+    // setNewDetail('');
+    // setNewIngredients(['']);
 
 
-    // if (!newRecipeName || !newDetail) {
-    //   return;
-    // }
+    if (!newRecipeName || !newDetail) {
+      return;
+    }
     const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
     addRecipe(ingredients, newDetail);
 
-    // setNewRecipeName('');
+    setNewRecipeName('');
     setNewDetail('');
     setNewIngredients(['']);
   };
 
+  //材料エリアまとめて送信
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -64,11 +70,11 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     const postData = collection(db, "posts");
     getDocs(postData).then((snapShot) => {
       setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
+      // console.log("レシピ名をfirebaseで表示");
     });
     //リアルタイムで表示
     onSnapshot(postData, (post) => {
       setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-
     });
 
   }, []);
@@ -78,13 +84,14 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
       {posts.map((post) => (
         <div>
           <div key={post.id}>
+            {/* <p>{post.id}</p> */}
             <h1>{post.title}</h1>
+            <p>{post.ingredient}</p>
             <p>{post.text}</p>
-            <p>{post.text2}</p>
           </div>
         </div>
       ))}
-      <SendMessage />
+      {/* <SendMessage /> */}
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
@@ -94,8 +101,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
             <div onKeyDown={handleKeyDown}>
               <div className='recipeInput_item'>
                 <div className="recipeInput_title">レシピの名前</div>
-                <input type="text" onChange={(e) => setFbMessage(e.target.value)} value={fbMessage}
-                  
+                <input type="title" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName}
                   // value={newRecipeName}
                   // onChange={handleNameInputChange}
                 />
@@ -116,10 +122,10 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
               </div>
               <div className="recipeInput_item">
                 <h3 className="recipeInput_title">作り方</h3>
-                <input
-                  type="text"
-                  value={newDetail}
-                  onChange={handleRecipeInputChange}
+                <input type="text" onChange={(e) => setNewDetail(e.target.value)} value={newDetail}
+                  // type="text"
+                  // value={newDetail}
+                  // onChange={handleRecipeInputChange}
                 />
               </div>
             </div>

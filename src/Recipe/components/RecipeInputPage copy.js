@@ -49,7 +49,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     }
   };
 
-  console.log(recipes);
+  // console.log(recipes);
 
   const [posts, setPosts] = useState([]);
 

@@ -1,26 +1,55 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { db } from '../../Firebase';
 
-export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes }) => {
+export const RecipeListPage = ({ posts, selectedPosts, setSelectedPosts }) => {
 
-    const handleCheckboxChange = (recipeId) => {
-        if (selectedRecipes.includes(recipeId)) {
-            setSelectedRecipes(selectedRecipes.filter(id => id !== recipeId));
-            console.log(selectedRecipes + "a");
+    const handleCheckboxChange = (postsId) => {
+        if (selectedPosts.includes(postsId)) {
+            setSelectedPosts(selectedPosts.filter(id => id !== postsId));
+            console.log(selectedPosts + "a");
         } else {
-            setSelectedRecipes([...selectedRecipes, recipeId]);
-            console.log(selectedRecipes + "b");
+            setSelectedPosts([...selectedPosts, postsId]);
+            console.log(selectedPosts + "b");
         }
     };
 
+    const [posts, setPosts] = useState([]);
 
+    useEffect(() => {
+        const postData = collection(db, "posts");
+        getDocs(postData).then((snapShot) => {
+            setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
+            // console.log("レシピ名をfirebaseで表示");
+        });
+        //リアルタイムで表示
+        onSnapshot(postData, (post) => {
+            setPosts(post.docs.map((doc) => ({ ...doc.data() })));
+        });
+
+    }, []);
+
+    // return (
+    //   <div className="recipeInput_body">
+    //     {posts.map((post) => (
+    //       <div>
+    //         <div key={post.id}>
+    //           {/* <p>{post.id}</p> */}
+    //           <h1>{post.title}</h1>
+    //           <p>{post.ingredient}</p>
+    //           <p>{post.text}</p>
+    //         </div>
+    //       </div>
+    //     ))}
     return (
         <div className="recipeList_body">
             <h2 className='page_ttl'>追加されたレシピ一覧</h2>
-            {recipes.length === 0 ? (
+            {posts.length === 0 ? (
                 <p className='recipeList_nonText'>レシピはありません</p>
             ) : (
                 <ul>
-                    {recipes.map(recipe => (
+                    {/* {recipes.map(recipe => (
                         <li key={recipe.id}>
                             <input
                                 type="checkbox"
@@ -31,16 +60,31 @@ export const RecipeListPage = ({ recipes, selectedRecipes, setSelectedRecipes })
                                 {recipe.name}
                             </Link>
                         </li>
+                    ))} */}
+                    {posts.map((post) => (
+                        <div>
+                            <div key={post.id}>
+                            <input
+                                type="checkbox"
+                                checked={selectedPosts.includes(post.id)}
+                                onChange={() => handleCheckboxChange(post.id)}
+                            />
+                                {/* <p>{post.id}</p> */}
+                                <h1>{post.title}</h1>
+                                <p>{post.ingredient}</p>
+                                <p>{post.text}</p>
+                            </div>
+                        </div>
                     ))}
                 </ul>
             )}
             <div className="btn_container">
-            <Link to="/SelectedRecipes">
-                <div className='btn_link'>選択されたレシピ一覧へ</div>
-            </Link>
-            <Link to="/">
-                <div className='btn_link'>リストに戻る</div>
-            </Link>
+                <Link to="/SelectedRecipes">
+                    <div className='btn_link'>選択されたレシピ一覧へ</div>
+                </Link>
+                <Link to="/">
+                    <div className='btn_link'>リストに戻る</div>
+                </Link>
             </div>
         </div>
     );
