@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from '../../Firebase';
 
-export const RecipeListPage = ({ posts, selectedPosts, setSelectedPosts }) => {
+export const RecipeListPage = ({ recipePosts, selectedPosts, setSelectedPosts }) => {
 
     const handleCheckboxChange = (postsId) => {
         if (selectedPosts.includes(postsId)) {
@@ -70,9 +70,11 @@ export const RecipeListPage = ({ posts, selectedPosts, setSelectedPosts }) => {
                                 onChange={() => handleCheckboxChange(post.id)}
                             />
                                 {/* <p>{post.id}</p> */}
+                                <Link to={`/recipes/${post.id}`}>
                                 <h1>{post.title}</h1>
                                 <p>{post.ingredient}</p>
                                 <p>{post.text}</p>
+                                </Link>
                             </div>
                         </div>
                     ))}

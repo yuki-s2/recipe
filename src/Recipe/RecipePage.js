@@ -7,7 +7,8 @@ import Chat from '../Chat';
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
-
+  const [selectedPosts, setSelectedPosts] = useState([]);
+  
   const addRecipe = (recipeName, ingredient, detail) => {
     const newRecipe = {
       id: recipes.length + 1,
@@ -28,7 +29,7 @@ const RecipePage = () => {
         />
         <Route
           path="/RecipeListPage"
-          element={<RecipeListPage recipes={recipes} selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />}
+          element={<RecipeListPage recipes={recipes} selectedPosts={selectedPosts} setSelectedPosts={setSelectedPosts} />}
         />
         <Route
           path="/SelectedRecipes"
