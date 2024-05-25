@@ -1,12 +1,12 @@
 // RecipeInputPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, getDocs, onSnapshot, addDoc } from "firebase/firestore";
 // import SendMessage from './SendMessage.js';
 import SignOut from './SignOut.js';
 
-export const RecipeInputPage = ({ recipes, addRecipe }) => {
+export const RecipeInputPage = () => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
@@ -47,8 +47,8 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     if (!newRecipeName || !newDetail) {
       return;
     }
-    const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
-    addRecipe(ingredients, newDetail);
+    // const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
+    // addRecipe(ingredients, ingredients, newDetail);
 
     setNewRecipeName('');
     setNewDetail('');
@@ -62,36 +62,8 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
     }
   };
 
-  console.log(recipes);
-
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    const postData = collection(db, "posts");
-    getDocs(postData).then((snapShot) => {
-      setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
-      // console.log("レシピ名をfirebaseで表示");
-    });
-    //リアルタイムで表示
-    onSnapshot(postData, (post) => {
-      setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-    });
-
-  }, []);
-
   return (
     <div className="recipeInput_body">
-      {posts.map((post) => (
-        <div>
-          <div key={post.id}>
-            {/* <p>{post.id}</p> */}
-            <h1>{post.title}</h1>
-            <p>{post.ingredient}</p>
-            <p>{post.text}</p>
-          </div>
-        </div>
-      ))}
-      {/* <SendMessage /> */}
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
@@ -102,8 +74,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
               <div className='recipeInput_item'>
                 <div className="recipeInput_title">レシピの名前</div>
                 <input type="title" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName}
-                  // value={newRecipeName}
-                  // onChange={handleNameInputChange}
                 />
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
@@ -123,9 +93,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
               <div className="recipeInput_item">
                 <h3 className="recipeInput_title">作り方</h3>
                 <input type="text" onChange={(e) => setNewDetail(e.target.value)} value={newDetail}
-                  // type="text"
-                  // value={newDetail}
-                  // onChange={handleRecipeInputChange}
                 />
               </div>
             </div>
