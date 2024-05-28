@@ -3,24 +3,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-export const SelectedRecipes = ({ recipes, selectedRecipes }) => {
-    console.log(selectedRecipes + "d");
+export const SelectedRecipes = ({ selectedPosts, posts }) => {
 
     // 選択されたレシピの情報を取得
-    const selectedRecipesInfo = recipes.filter(recipe => selectedRecipes.includes(recipe.id));
-    console.log(selectedRecipesInfo + "e");
+    const selectedPostsInfo = posts ? posts.filter(post => selectedPosts.includes(post.id)) : [];
 
     return (
         <div>
             <h2>今日の献立</h2>
-            {recipes.length === 0 ? (
+            {selectedPostsInfo.length === 0 ? (
                 <p>レシピはありません</p>
             ) : (
                 <ul>
-                    {selectedRecipesInfo.map(recipe => (
-                        <li key={recipe.id}>
-                            <Link to={`/recipes/${recipe.id}`}>
-                                <h2>{recipe.name}</h2>
+                    {selectedPostsInfo.map(post => (
+                        <li key={post.id}>
+                            <Link to={`/recipes/${post.id}`}>
+                            <h1>{post.title}</h1>
+                            <p>{post.text}</p>
+                            <p>{post.ingredient}</p>
                             </Link>
                         </li>
                     ))}
