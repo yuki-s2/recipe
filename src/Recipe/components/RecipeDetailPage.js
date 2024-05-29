@@ -4,8 +4,8 @@ import { RecipeIngredients } from './RecipeIngredients';
 
 export const RecipeDetailPage = ({ posts }) => {
   const { postId } = useParams(); // URLパラメータからpostIdを取得
-    // postsが存在することを確認し、該当のレシピを取得
-    const recipe = posts ? posts.find(post => post.id === postId) : null;
+  // postsが存在することを確認し、該当のレシピを取得
+  const recipe = posts ? posts.find(post => post.id === postId) : null;
   if (!recipe) {
     return <div>登録されたレシピはありません</div>; // 該当のレシピがない場合の表示
   }
@@ -33,7 +33,9 @@ export const RecipeDetailPage = ({ posts }) => {
         </div>
 
         <div className="recipeDetail_inputItem">
-          {/* <RecipeIngredients recipe={recipe} /> */}
+          {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
+            <p key={index}>{ingredient}</p>
+          ))}       
         </div>
 
         <div className="recipeDetail_inputItem">
@@ -45,7 +47,7 @@ export const RecipeDetailPage = ({ posts }) => {
             <img src="/images/img_2.JPG" alt="" />
           </div>
           <h3 className='recipeDetail_title'>作り方</h3>
-          <p className='recipeDetail_detailsText'>{recipe.details}</p>
+          <p className='recipeDetail_detailsText'>{recipe.text}</p>
         </div>
 
         <div className="btn_container">

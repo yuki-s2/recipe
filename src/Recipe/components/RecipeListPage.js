@@ -24,6 +24,7 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
         onSnapshot(postData, (post) => {
             setPosts(post.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         });
+        console.log(posts);
         //setPostsが変更されたときにuseEffectが再実行されます。
     }, [setPosts]);
     return (
@@ -43,7 +44,9 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                             <Link to={`/recipes/${post.id}`}>
                                 <h1>{post.title}</h1>
                                 <p>{post.text}</p>
-                                <p>{post.ingredient}</p>
+                                {post.ingredient && post.ingredient.map((ingredient, index) => (
+                                    <p key={index}>{ingredient}</p>
+                                ))}
                             </Link>
                         </li>
                     ))}
