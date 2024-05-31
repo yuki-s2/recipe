@@ -33,6 +33,7 @@ export const RecipeDetailPage = ({ posts }) => {
         </div>
 
         <div className="recipeDetail_inputItem">
+        <h3 className='recipeDetail_title'>材料</h3>
           {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
             <p key={index}>{ingredient}</p>
           ))}       
