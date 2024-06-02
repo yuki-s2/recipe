@@ -2,24 +2,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../Firebase';
-import { collection, getDocs, onSnapshot, addDoc } from "firebase/firestore";
-// import SendMessage from './SendMessage.js';
+import { collection, addDoc } from "firebase/firestore";
 import SignOut from './SignOut.js';
 
 export const RecipeInputPage = () => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
-  // const [fbMessage, setFbMessage] = useState([]);
 
-
-  // const handleNameInputChange = (event) => {
-  //   setNewRecipeName(event.target.value);
-  // };
-  // const handleRecipeInputChange = (event) => {
-  //   event.preventDefault();
-  //   setNewDetail(event.target.value);
-  // };
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
     values[index] = event.target.value;
@@ -34,22 +24,15 @@ export const RecipeInputPage = () => {
     event.preventDefault();
 
     addDoc(collection(db, "posts"), {
-      // docId: doc.id,
       title: newRecipeName,
       text: newDetail,
       ingredient: newIngredients,
     });
-    // setNewRecipeName('');
-    // setNewDetail('');
-    // setNewIngredients(['']);
-
 
     if (!newRecipeName || !newDetail) {
       return;
     }
-    // const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
-    // addRecipe(ingredients, ingredients, newDetail);
-
+    
     setNewRecipeName('');
     setNewDetail('');
     setNewIngredients(['']);

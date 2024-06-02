@@ -19,18 +19,16 @@ export const SelectedRecipes = ({ selectedPosts, posts }) => {
                         <li key={post.id}>
                             <Link to={`/recipes/${post.id}`}>
                             <h1>{post.title}</h1>
-                            <p>{post.text}</p>
-                            <p>{post.ingredient}</p>
                             </Link>
                         </li>
                     ))}
                 </ul>
             )}
-            <Link to="/RecipeInputPage">
-                <div>追加されたレシピ一覧へ</div>
+            <Link to="/RecipeListPage">
+                <div className='btn_link'>追加されたレシピ一覧へ</div>
             </Link>
             <Link to="/">
-                <div>リストに戻る</div>
+                <div className='btn_link'>リストに戻る</div>
             </Link>
 
         </div>

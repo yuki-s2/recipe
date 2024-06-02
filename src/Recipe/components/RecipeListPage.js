@@ -20,7 +20,7 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
 
     useEffect(() => {
         const postData = collection(db, "posts");
-        //リアルタイムで表示
+        //onSnapshotは、データのリアルタイムリスニングを提供 このため、非同期処理を明示的に使用する必要はありません。
         onSnapshot(postData, (post) => {
             setPosts(post.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         });
@@ -43,10 +43,10 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                             />
                             <Link to={`/recipes/${post.id}`}>
                                 <h1>{post.title}</h1>
-                                <p>{post.text}</p>
+                                {/* <p>{post.text}</p>
                                 {post.ingredient && post.ingredient.map((ingredient, index) => (
                                     <p key={index}>{ingredient}</p>
-                                ))}
+                                ))} */}
                             </Link>
                         </li>
                     ))}
