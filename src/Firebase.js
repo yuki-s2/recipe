@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
@@ -19,4 +19,7 @@ const firebaseConfig = {
   const auth = getAuth(app);
 
 
-  export { db, auth, collection, doc, deleteDoc };
+  export { db, auth, collection, doc, deleteDoc, updateDoc };
+
+  //https://reffect.co.jp/react/react-crud-firebase-9#google_vignette CRUDについて
+//https://cloudsmith.co.jp/blog/cloud/firebase/2022/12/2247660.html firebaseとは
