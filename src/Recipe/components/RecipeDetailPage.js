@@ -84,10 +84,10 @@ export const RecipeDetailPage = ({ posts }) => {
         <h3 className='recipeDetail_name'>{recipe.title}</h3>
         <ul className="recipeDetail_edit">
           <li className='recipeDetail_editItem'>
-            <button onClick={() => setIsEditing(true)}>編集</button>
+            <button className='button_additionBtn' onClick={() => setIsEditing(true)}>編集</button>
           </li>
           <li className='recipeDetail_editItem'>
-            <button onClick={handleClickDelete}>削除</button>
+            <button className='button_additionBtn' onClick={handleClickDelete}>削除</button>
           </li>
         </ul>
 
