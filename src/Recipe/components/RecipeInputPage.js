@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, addDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import SignOut from './SignOut.js';
 
 export const RecipeInputPage = () => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
+  const [loading, setLoading] = useState(false);
+  const [isUploaded, setUploaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
@@ -27,15 +31,17 @@ export const RecipeInputPage = () => {
       title: newRecipeName,
       text: newDetail,
       ingredient: newIngredients,
+      imageUrl: imageUrl,
     });
 
     if (!newRecipeName || !newDetail) {
       return;
     }
-    
+
     setNewRecipeName('');
     setNewDetail('');
     setNewIngredients(['']);
+    setUploaded(false);
   };
 
   //材料エリアまとめて送信
@@ -45,9 +51,50 @@ export const RecipeInputPage = () => {
     }
   };
 
+
+
+
+  const OnFileUploadToFirebase = (e) => {
+    const storage = getStorage();
+    const file = e.target.files[0];
+    const storageRef = ref(storage, "images/" + file.name);
+    const uploadImage = uploadBytesResumable(storageRef, file);
+
+    uploadImage.on(
+      "state_changed",
+      (snapshot) => {
+        setLoading(true);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+          setLoading(false);
+          setUploaded(true);
+        });
+      }
+    );
+  };
+
+
   return (
     <div className="recipeInput_body">
       <div className='inner'>
+
+        {loading ? (
+          <p>アップロード中...</p>
+        ) : isUploaded ? (
+          <p>アップロード完了</p>
+        ) : (
+          <input
+            type='file'
+            accept='.png, .jpg, .jpeg'
+            onChange={OnFileUploadToFirebase}
+          />
+        )}
+
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
             <h2 className='page_ttl'>新しいレシピを追加する</h2>
@@ -89,6 +136,6 @@ export const RecipeInputPage = () => {
         </div>
         <SignOut />
       </div>
-    </div>
+    </div >
   );
 };

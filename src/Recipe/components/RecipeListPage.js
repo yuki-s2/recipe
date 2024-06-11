@@ -43,10 +43,9 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                             />
                             <Link to={`/recipes/${post.id}`}>
                                 <h1>{post.title}</h1>
-                                {/* <p>{post.text}</p>
-                                {post.ingredient && post.ingredient.map((ingredient, index) => (
-                                    <p key={index}>{ingredient}</p>
-                                ))} */}
+                                {post.imageUrl && (
+                                    <img src={post.imageUrl} alt={post.title} style={{ width: '100px', height: '100px' }} />
+                                )}
                             </Link>
                         </li>
                     ))}

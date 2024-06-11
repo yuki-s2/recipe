@@ -10,7 +10,8 @@ export const RecipeDetailPage = ({ posts }) => {
   const [editedRecipe, setEditedRecipe] = useState({
     title: recipe?.title || '',
     ingredient: Array.isArray(recipe?.ingredient) ? recipe.ingredient : [],
-    text: recipe?.text || ''
+    text: recipe?.text || '',
+    imageUrl: recipe?.imageUrl || ''
   });
 
   useEffect(() => {
@@ -18,7 +19,8 @@ export const RecipeDetailPage = ({ posts }) => {
       setEditedRecipe({
         title: recipe.title,
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
-        text: recipe.text
+        text: recipe.text,
+        imageUrl: recipe.imageUrl
       });
     }
   }, [recipe]);
@@ -43,7 +45,7 @@ export const RecipeDetailPage = ({ posts }) => {
       </div>
     );
   }
-
+console.log(recipe);
   const handleClickDelete = async () => {
     try {
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
@@ -126,10 +128,13 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
             <div className="svgContent_mainImg">
               <svg width="70%" height="70%" viewBox="0 0 393 352">
-                <image href="/images/img_2.JPG" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" clipPath="url(#clip01)" />
+                {/* <image href="/images/img_2.JPG" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" clipPath="url(#clip01)" /> */}
+                {recipe.imageUrl && (
+                  <img src={recipe.imageUrl} alt={recipe.title} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" clipPath="url(#clip01)" />
+                )}
               </svg>
             </div>
-
+<p>{recipe.imageUrl}</p>
             <div className="recipeDetail_inputItem">
               <h3 className='recipeDetail_title'>材料</h3>
               {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
