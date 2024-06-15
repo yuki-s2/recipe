@@ -1,41 +1,33 @@
 // RecipePage.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Form } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 import { RecipeDetailPage, RecipeInputPage, RecipeListPage, SelectedRecipes } from './components';
 import Chat from '../Chat';
 
 const RecipePage = () => {
-  const [recipes, setRecipes] = useState([]);
   const [selectedRecipes, setSelectedRecipes] = useState([]);
-
-  const addRecipe = (recipeName, ingredient, detail) => {
-    const newRecipe = {
-      id: recipes.length + 1,
-      name: recipeName,
-      ingredients: ingredient,
-      details: detail,
-    };
-    setRecipes([...recipes, newRecipe]);
-  };
+  const [selectedPosts, setSelectedPosts] = useState([]);
+  //選択されたレシピリストページへ渡す
+  const [posts, setPosts] = useState([]);
 
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={<RecipeInputPage recipes={recipes} addRecipe={addRecipe} />}
+          element={<RecipeInputPage selectedPosts={selectedPosts} />}
         />
         <Route
           path="/RecipeListPage"
-          element={<RecipeListPage recipes={recipes} selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />}
+          element={<RecipeListPage selectedPosts={selectedPosts} setSelectedPosts={setSelectedPosts} posts={posts} setPosts={setPosts} />}
         />
         <Route
           path="/SelectedRecipes"
-          element={<SelectedRecipes recipes={recipes} selectedRecipes={selectedRecipes} />}
+          element={<SelectedRecipes selectedPosts={selectedPosts} posts={posts}  />}
         />
-        <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
+        <Route path="/recipes/:postId" element={<RecipeDetailPage posts={posts}  />} />
         <Route element={<RecipeListPage />} />
-        <Route element={<Chat recipes={recipes} selectedRecipes={selectedRecipes} />} />
+        <Route element={<Chat selectedPosts={selectedPosts} selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>
   );

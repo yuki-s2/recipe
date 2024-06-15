@@ -1,24 +1,20 @@
 // RecipeInputPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../Firebase';
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
-import SendMessage from './SendMessage.js';
+import { collection, addDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import SignOut from './SignOut.js';
 
-
-export const RecipeInputPage = ({ recipes, addRecipe }) => {
+export const RecipeInputPage = () => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
+  const [loading, setLoading] = useState(false);
+  const [isUploaded, setUploaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const [detailImg, setDetailImg] = useState('');
 
-  const handleNameInputChange = (event) => {
-    setNewRecipeName(event.target.value);
-  };
-  const handleRecipeInputChange = (event) => {
-    event.preventDefault();
-    setNewDetail(event.target.value);
-  };
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
     values[index] = event.target.value;
@@ -28,61 +24,106 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
   const handleAddIngredientField = () => {
     setNewIngredients([...newIngredients, '']); // 新しい材料入力フィールドを追加する
   };
+  const handleAddDetailImgField = () => {
+    setDetailImg([...detailImg, '']); // 新しい画像フィールドを追加する
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // db.collection("posts").add({
-    //   text: newRecipeName,
-    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    // });
+    addDoc(collection(db, "posts"), {
+      title: newRecipeName,
+      text: newDetail,
+      ingredient: newIngredients,
+      imageUrl: imageUrl,
+      detailImg: detailImg,
+    });
 
     if (!newRecipeName || !newDetail) {
       return;
     }
-    const ingredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
-    addRecipe(newRecipeName, ingredients, newDetail);
 
     setNewRecipeName('');
     setNewDetail('');
     setNewIngredients(['']);
+    setUploaded(false);
   };
 
+  //材料エリアまとめて送信
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
   };
 
-  console.log(recipes);
 
-  const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const postData = collection(db, "posts");
-    getDocs(postData).then((snapShot) => {
-      setPosts(snapShot.docs.map((doc) => ({ ...doc.data() })));
-    });
-    //リアルタイムで表示
-    onSnapshot(postData, (post) => {
-      setPosts(post.docs.map((doc) => ({ ...doc.data() })));
-    });
-  }, []);
+
+  const OnFileUploadToFirebase = (e) => {
+    const storage = getStorage();
+    const file = e.target.files[0];
+    const storageRef = ref(storage, "images/" + file.name);
+    const uploadImage = uploadBytesResumable(storageRef, file);
+
+    uploadImage.on(
+      "state_changed",
+      (snapshot) => {
+        setLoading(true);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+          setLoading(false);
+          setUploaded(true);
+        });
+      }
+    );
+  };
+
+  const OnAllFileUploadToFirebase = (e) => {
+    const storage = getStorage();
+    const file = e.target.files[0];
+    const storageRef = ref(storage, "images/" + file.name);
+    const uploadImage = uploadBytesResumable(storageRef, file);
+
+    uploadImage.on(
+      "state_changed",
+      (snapshot) => {
+        setLoading(true);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        getDownloadURL(uploadImage.snapshot.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+          setLoading(false);
+          setUploaded(true);
+        });
+      }
+    );
+  };
+
 
   return (
     <div className="recipeInput_body">
-      {posts.map((post) => (
-        <div>
-          <div key={post.id}>
-            <h1>{post.title}</h1>
-            <p>{post.text}</p>
-            <p>{post.text2}</p>
-          </div>
-        </div>
-      ))}
-      <SendMessage />
-      <SignOut />
       <div className='inner'>
+
+        {loading ? (
+          <p>アップロード中...</p>
+        ) : isUploaded ? (
+          <p>アップロード完了</p>
+        ) : (
+          <input
+            type='file'
+            accept='.png, .jpg, .jpeg'
+            onChange={OnFileUploadToFirebase}
+          />
+        )}
+
         <div className="recipeInput_wrap">
           <div className="recipeInput_ttl">
             <h2 className='page_ttl'>新しいレシピを追加する</h2>
@@ -91,11 +132,7 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
             <div onKeyDown={handleKeyDown}>
               <div className='recipeInput_item'>
                 <div className="recipeInput_title">レシピの名前</div>
-                <input
-                  type="text"
-                  // placeholder="レシピの名前"
-                  value={newRecipeName}
-                  onChange={handleNameInputChange}
+                <input type="title" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName}
                 />
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
@@ -104,7 +141,6 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                   <input
                     key={index}
                     type="text"
-                    // placeholder={`材料${index + 1}`}
                     value={ingredient}
                     onChange={(event) => handleAdditionalInfoChange(index, event)}
                   />
@@ -113,13 +149,37 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
                   追加する
                 </button>
               </div>
+
+
+
+              <div className="recipeInput_item recipeInput_ingredient">
+                <div className="recipeInput_title">作り方の画像</div>
+                {newIngredients.map((detailImg, index) => (
+  
+                  loading ? (
+                    <p>アップロード中...</p>
+                  ) : isUploaded ? (
+                    <p>アップロード完了</p>
+                  ) : (
+                    <input
+                    type='file'
+                    value={detailImg}
+                    accept='.png, .jpg, .jpeg'
+                    onChange={OnAllFileUploadToFirebase}
+                  />
+                  )
+                ))}
+                <button className='button_additionBtn' type="button" onClick={handleAddDetailImgField}>
+                  追加する
+                </button>
+              </div>
+
+
+
+
               <div className="recipeInput_item">
                 <h3 className="recipeInput_title">作り方</h3>
-                <input
-                  type="text"
-                  // placeholder="作り方"
-                  value={newDetail}
-                  onChange={handleRecipeInputChange}
+                <input type="text" onChange={(e) => setNewDetail(e.target.value)} value={newDetail}
                 />
               </div>
             </div>
@@ -131,7 +191,8 @@ export const RecipeInputPage = ({ recipes, addRecipe }) => {
             <div className='btn_link'>追加されたレシピ一覧へ</div>
           </Link>
         </div>
+        <SignOut />
       </div>
-    </div>
+    </div >
   );
 };
