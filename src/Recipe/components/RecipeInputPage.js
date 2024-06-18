@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, deleteObject } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import SignOut from './SignOut.js';
 
 export const RecipeInputPage = ({ posts }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
   const [newDetail, setNewDetail] = useState('');
-  const [newIngredients, setNewIngredients] = useState(['']); // 初期の材料入力フィールドを1つ持つ
+  const [newIngredients, setNewIngredients] = useState(['']);
   const [loading, setLoading] = useState(false);
-  const [loadingDetailImgs, setLoadingDetailImgs] = useState(false); // 新しい状態を追加
+  const [loadingDetailImgs, setLoadingDetailImgs] = useState(false);
   const [isUploaded, setUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [newDetailImgs, setNewDetailImgs] = useState([]);
@@ -19,11 +19,15 @@ export const RecipeInputPage = ({ posts }) => {
     detailImgs: []
   });
 
-  const { postId } = useParams(); // URLパラメータからpostIdを取得
+  const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
   useEffect(() => {
     if (recipe) {
+      setNewRecipeName(recipe.title);
+      setNewDetail(recipe.text);
+      setNewIngredients(recipe.ingredient);
+      setImageUrl(recipe.imageUrl);
       setEditedRecipe({
         imageUrl: recipe.imageUrl,
         detailImgs: recipe.detailImgs || []
@@ -64,11 +68,11 @@ export const RecipeInputPage = ({ posts }) => {
   };
 
   const handleAddIngredientField = () => {
-    setNewIngredients([...newIngredients, '']); // 新しい材料入力フィールドを追加する
+    setNewIngredients([...newIngredients, '']);
   };
 
   const handleAddDetailImgField = async () => {
-    setLoadingDetailImgs(true); // 画像アップロード用のloadingを設定
+    setLoadingDetailImgs(true);
     try {
       const detailImgUrls = await Promise.all(
         newDetailImgs.map(async (file) => {
@@ -91,66 +95,72 @@ export const RecipeInputPage = ({ posts }) => {
     } catch (error) {
       console.error("Error updating document: ", error);
     } finally {
-      setLoadingDetailImgs(false); // 画像アップロード用のloadingを解除
+      setLoadingDetailImgs(false);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const detailImgUrls = await Promise.all(
-      newDetailImgs.map(async (file) => {
-        const storage = getStorage();
-        const storageRef = ref(storage, "images/" + file.name);
-        await uploadBytesResumable(storageRef, file);
-        return await getDownloadURL(storageRef);
-      })
-    );
+    try {
+      setLoading(true);
+      const detailImgUrls = await Promise.all(
+        newDetailImgs.map(async (file) => {
+          const storage = getStorage();
+          const storageRef = ref(storage, "images/" + file.name);
+          await uploadBytesResumable(storageRef, file);
+          return await getDownloadURL(storageRef);
+        })
+      );
 
-    if (recipe) {
-      // 既存レシピの更新
-      await updateDoc(doc(db, "posts", recipe.id), {
-        title: newRecipeName,
-        text: newDetail,
-        ingredient: newIngredients,
-        imageUrl: imageUrl,
-        detailImgs: detailImgUrls,
-      });
-    } else {
-      // 新規レシピの追加
-      await addDoc(collection(db, "posts"), {
-        title: newRecipeName,
-        text: newDetail,
-        ingredient: newIngredients,
-        imageUrl: imageUrl,
-        detailImgs: detailImgUrls,
-      });
+      if (recipe) {
+        await updateDoc(doc(db, "posts", recipe.id), {
+          title: newRecipeName,
+          text: newDetail,
+          ingredient: newIngredients,
+          imageUrl: imageUrl,
+          detailImgs: [...editedRecipe.detailImgs, ...detailImgUrls],
+        });
+      } else {
+        await addDoc(collection(db, "posts"), {
+          title: newRecipeName,
+          text: newDetail,
+          ingredient: newIngredients,
+          imageUrl: imageUrl,
+          detailImgs: detailImgUrls,
+        });
+      }
+
+      setNewRecipeName('');
+      setNewDetail('');
+      setNewIngredients(['']);
+      setImageUrl('');
+      setNewDetailImgs([]);
+      setEditedRecipe({ imageUrl: '', detailImgs: [] });
+      setUploaded(false);
+    } catch (error) {
+      console.error("Error saving document: ", error);
+    } finally {
+      setLoading(false);
     }
-
-    if (!newRecipeName || !newDetail) {
-      return;
-    }
-
-    setNewRecipeName('');
-    setNewDetail('');
-    setNewIngredients(['']);
-    setImageUrl('');
-    setNewDetailImgs([]);
-    setUploaded(false);
   };
 
   const handleRemoveImage = async (index) => {
-    const storage = getStorage();
-    const imageRef = ref(storage, editedRecipe.detailImgs[index]);
-    await deleteObject(imageRef);
+    try {
+      const storage = getStorage();
+      const imageRef = ref(storage, editedRecipe.detailImgs[index]);
+      await deleteObject(imageRef);
 
-    const updatedDetailImgs = editedRecipe.detailImgs.filter((_, i) => i !== index);
-    setEditedRecipe({ ...editedRecipe, detailImgs: updatedDetailImgs });
+      const updatedDetailImgs = editedRecipe.detailImgs.filter((_, i) => i !== index);
+      setEditedRecipe({ ...editedRecipe, detailImgs: updatedDetailImgs });
 
-    if (recipe) {
-      await updateDoc(doc(db, "posts", recipe.id), {
-        detailImgs: updatedDetailImgs
-      });
+      if (recipe) {
+        await updateDoc(doc(db, "posts", recipe.id), {
+          detailImgs: updatedDetailImgs
+        });
+      }
+    } catch (error) {
+      console.error("Error removing image: ", error);
     }
   };
 
@@ -189,7 +199,7 @@ export const RecipeInputPage = ({ posts }) => {
             <div>
               <div className='recipeInput_item'>
                 <div className="recipeInput_title">レシピの名前</div>
-                <input type="title" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
+                <input type="text" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
                 <div className="recipeInput_title">材料</div>
@@ -220,7 +230,7 @@ export const RecipeInputPage = ({ posts }) => {
                   onChange={handleFileSelection}
                 />
                 {loadingDetailImgs ? (
-                  <p>詳細画像をアップロード中...</p> // 新しいloading状態の表示
+                  <p>詳細画像をアップロード中...</p>
                 ) : (
                   <button className='button_additionBtn' type="button" onClick={handleAddDetailImgField}>
                     画像をアップロード
@@ -242,6 +252,6 @@ export const RecipeInputPage = ({ posts }) => {
         </div>
         <SignOut />
       </div>
-    </div >
+    </div>
   );
 };

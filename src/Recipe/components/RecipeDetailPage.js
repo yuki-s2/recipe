@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { db, collection, doc, deleteDoc, updateDoc } from '../../Firebase';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
-
 export const RecipeDetailPage = ({ posts }) => {
   const { postId } = useParams(); // URLパラメータからpostIdを取得
   const recipe = posts ? posts.find(post => post.id === postId) : null;
@@ -13,9 +12,9 @@ export const RecipeDetailPage = ({ posts }) => {
     title: recipe?.title || '',
     ingredient: Array.isArray(recipe?.ingredient) ? recipe.ingredient : [],
     text: recipe?.text || '',
-    imageUrl: recipe?.imageUrl || ''
+    imageUrl: recipe?.imageUrl || '',
+    detailImgs: recipe?.detailImgs || [] // 修正点：初期化を追加
   });
-
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +24,8 @@ export const RecipeDetailPage = ({ posts }) => {
         title: recipe.title,
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
         text: recipe.text,
-        imageUrl: recipe.imageUrl
+        imageUrl: recipe.imageUrl,
+        detailImgs: recipe.detailImgs || [] // 修正点：detailImgsもセット
       });
     }
   }, [recipe]);
@@ -50,7 +50,7 @@ export const RecipeDetailPage = ({ posts }) => {
       </div>
     );
   }
-  console.log(recipe);
+  console.log(recipe.detailImgs);
 
   const handleClickDelete = async () => {
     try {
@@ -65,7 +65,6 @@ export const RecipeDetailPage = ({ posts }) => {
       console.error("Error removing document: ", error);
     }
   };
-  
 
   const handleSaveChanges = async () => {
     setLoading(true);
@@ -77,7 +76,7 @@ export const RecipeDetailPage = ({ posts }) => {
         await uploadBytes(imageRef, newImage);
         imageUrl = await getDownloadURL(imageRef);
       }
-  
+
       await updateDoc(doc(collection(db, "posts"), recipe.id), { ...editedRecipe, imageUrl });
       alert('更新が完了しました');
       setIsEditing(false);
@@ -87,7 +86,6 @@ export const RecipeDetailPage = ({ posts }) => {
       setLoading(false);
     }
   };
-  
 
   const handleIngredientChange = (index, value) => {
     const newIngredients = [...editedRecipe.ingredient];
@@ -113,9 +111,7 @@ export const RecipeDetailPage = ({ posts }) => {
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
-  
 
-  
   return (
     <div className='recipeDetail_body'>
       <div className="inner">
@@ -198,11 +194,11 @@ export const RecipeDetailPage = ({ posts }) => {
 
             <div className="recipeDetail_inputItem">
               <div className="svgContent_subImg">
-                <img src="/images/img_2.JPG" alt="" />
-                <img src="/images/img_2.JPG" alt="" />
-                <img src="/images/img_2.JPG" alt="" />
-                <img src="/images/img_2.JPG" alt="" />
-                <img src="/images/img_2.JPG" alt="" />
+                {recipe.detailImgs && recipe.detailImgs.map((detailImg, index) => (
+                  <div key={index}>
+                    <img src={detailImg} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
+                  </div>
+                ))}
               </div>
               <h3 className='recipeDetail_title'>作り方</h3>
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
