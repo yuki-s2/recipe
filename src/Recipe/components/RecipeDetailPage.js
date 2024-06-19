@@ -13,11 +13,11 @@ export const RecipeDetailPage = ({ posts }) => {
     ingredient: Array.isArray(recipe?.ingredient) ? recipe.ingredient : [],
     text: recipe?.text || '',
     imageUrl: recipe?.imageUrl || '',
-    detailImgs: recipe?.detailImgs || [] // 修正点：初期化を追加
+    imageDetailUrl: recipe?.images_detailUrl || [] // 修正点：初期化を追加
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  //全ての更新
   useEffect(() => {
     if (recipe) {
       setEditedRecipe({
@@ -25,7 +25,7 @@ export const RecipeDetailPage = ({ posts }) => {
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
         text: recipe.text,
         imageUrl: recipe.imageUrl,
-        detailImgs: recipe.detailImgs || [] // 修正点：detailImgsもセット
+        imageDetailUrl: recipe.images_detailUrl || [] // 修正点：imageDetailUrlもセット
       });
     }
   }, [recipe]);
@@ -50,8 +50,7 @@ export const RecipeDetailPage = ({ posts }) => {
       </div>
     );
   }
-  console.log(recipe.detailImgs);
-
+  //全てを削除する
   const handleClickDelete = async () => {
     try {
       if (recipe.imageUrl) {
@@ -65,7 +64,7 @@ export const RecipeDetailPage = ({ posts }) => {
       console.error("Error removing document: ", error);
     }
   };
-
+  //全てを更新する
   const handleSaveChanges = async () => {
     setLoading(true);
     try {
@@ -87,31 +86,34 @@ export const RecipeDetailPage = ({ posts }) => {
     }
   };
 
+  //材料入力
   const handleIngredientChange = (index, value) => {
     const newIngredients = [...editedRecipe.ingredient];
     newIngredients[index] = value;
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
+  //材料追加
   const addIngredientField = () => {
     setEditedRecipe({ ...editedRecipe, ingredient: [...editedRecipe.ingredient, ''] });
   };
-
+  //材料削除
   const removeIngredientField = (index) => {
     const newIngredients = editedRecipe.ingredient.filter((_, i) => i !== index);
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
+  //画像を更新する
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setNewImage(e.target.files[0]);
     }
   };
-
+  //画像を削除する
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
-
+  console.log(recipe.imageUrl);
   return (
     <div className='recipeDetail_body'>
       <div className="inner">
@@ -124,7 +126,7 @@ export const RecipeDetailPage = ({ posts }) => {
             <button className='button_additionBtn' onClick={handleClickDelete}>削除</button>
           </li>
         </ul>
-
+        {/* 編集画面 */}
         {isEditing ? (
           <div>
             {loading ? (
@@ -144,11 +146,13 @@ export const RecipeDetailPage = ({ posts }) => {
                 )}
               </div>
             )}
+            {/* レシピ名編集 */}
             <input
               type="text"
               value={editedRecipe.title}
               onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
             />
+            {/* 材料編集 */}
             {editedRecipe.ingredient.map((ingredient, index) => (
               <div key={index}>
                 <input
@@ -167,6 +171,7 @@ export const RecipeDetailPage = ({ posts }) => {
             <button onClick={handleSaveChanges}>保存</button>
           </div>
         ) : (
+          // 編集画面ではない場合こちらを表示
           <div>
             <div className="svgContent_main">
               <svg width="700px" height="500px" viewBox="0 0 700 500">
@@ -193,13 +198,13 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
 
             <div className="recipeDetail_inputItem">
-              <div className="svgContent_subImg">
-                {recipe.detailImgs && recipe.detailImgs.map((detailImg, index) => (
+              {recipe.imageDetailUrl && recipe.imageDetailUrl.map((imageDetailUrl, index) => (
+                <div className="svgContent_subImg">
                   <div key={index}>
-                    <img src={detailImg} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
+                    <img src={imageDetailUrl}/>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
               <h3 className='recipeDetail_title'>作り方</h3>
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>

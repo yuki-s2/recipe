@@ -16,7 +16,7 @@ export const RecipeInputPage = ({ posts }) => {
   const [newDetailImgs, setNewDetailImgs] = useState([]);
   const [editedRecipe, setEditedRecipe] = useState({
     imageUrl: '',
-    detailImgs: []
+    imageDetailUrl: []
   });
 
   const { postId } = useParams();
@@ -30,7 +30,7 @@ export const RecipeInputPage = ({ posts }) => {
       setImageUrl(recipe.imageUrl);
       setEditedRecipe({
         imageUrl: recipe.imageUrl,
-        detailImgs: recipe.detailImgs || []
+        imageDetailUrl: recipe.images_detailUrl || []
       });
     }
   }, [recipe]);
@@ -119,7 +119,7 @@ export const RecipeInputPage = ({ posts }) => {
           text: newDetail,
           ingredient: newIngredients,
           imageUrl: imageUrl,
-          detailImgs: [...editedRecipe.detailImgs, ...detailImgUrls],
+          imageDetailUrl: [...editedRecipe.imageDetailUrl, ...detailImgUrls],
         });
       } else {
         await addDoc(collection(db, "posts"), {
@@ -127,7 +127,7 @@ export const RecipeInputPage = ({ posts }) => {
           text: newDetail,
           ingredient: newIngredients,
           imageUrl: imageUrl,
-          detailImgs: detailImgUrls,
+          imageDetailUrl: detailImgUrls,
         });
       }
 
@@ -136,7 +136,7 @@ export const RecipeInputPage = ({ posts }) => {
       setNewIngredients(['']);
       setImageUrl('');
       setNewDetailImgs([]);
-      setEditedRecipe({ imageUrl: '', detailImgs: [] });
+      setEditedRecipe({ imageUrl: '', imageDetailUrl: [] });
       setUploaded(false);
     } catch (error) {
       console.error("Error saving document: ", error);
@@ -148,15 +148,15 @@ export const RecipeInputPage = ({ posts }) => {
   const handleRemoveImage = async (index) => {
     try {
       const storage = getStorage();
-      const imageRef = ref(storage, editedRecipe.detailImgs[index]);
+      const imageRef = ref(storage, editedRecipe.imageDetailUrl[index]);
       await deleteObject(imageRef);
 
-      const updatedDetailImgs = editedRecipe.detailImgs.filter((_, i) => i !== index);
-      setEditedRecipe({ ...editedRecipe, detailImgs: updatedDetailImgs });
+      const updatedDetailImgs = editedRecipe.imageDetailUrl.filter((_, i) => i !== index);
+      setEditedRecipe({ ...editedRecipe, imageDetailUrl: updatedDetailImgs });
 
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
-          detailImgs: updatedDetailImgs
+          imageDetailUrl: updatedDetailImgs
         });
       }
     } catch (error) {
@@ -217,7 +217,7 @@ export const RecipeInputPage = ({ posts }) => {
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
                 <div className="recipeInput_title">作り方の画像</div>
-                {editedRecipe.detailImgs.map((detailImg, index) => (
+                {editedRecipe.imageDetailUrl.map((detailImg, index) => (
                   <div key={index}>
                     <img src={detailImg} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
                     <button type="button" onClick={() => handleRemoveImage(index)}>画像を削除</button>
