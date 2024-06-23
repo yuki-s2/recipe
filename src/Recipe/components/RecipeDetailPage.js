@@ -205,6 +205,9 @@ export const RecipeDetailPage = ({ posts }) => {
                   </div>
                 </div>
               ))}
+                          {recipe.images_detailUrl && recipe.images_detailUrl.map((imageUrl, index) => (
+              <img key={index} src={imageUrl} alt={`Recipe Step ${index + 1}`} className="recipeDetail_img" />
+            ))}
               <h3 className='recipeDetail_title'>作り方</h3>
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>

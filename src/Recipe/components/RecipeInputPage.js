@@ -16,10 +16,12 @@ export const RecipeInputPage = ({ posts }) => {
   const [newDetailImgs, setNewDetailImgs] = useState([]);
   const [editedRecipe, setEditedRecipe] = useState({
     imageUrl: '',
-    imageDetailUrl: []
+    images_detailUrl: [] // 名前変更？
   });
 
+  //現在のルートパスからパラメータを取得
   const { postId } = useParams();
+  //取得したパラメーターと同じidのレシピを探す
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
   useEffect(() => {
@@ -30,26 +32,24 @@ export const RecipeInputPage = ({ posts }) => {
       setImageUrl(recipe.imageUrl);
       setEditedRecipe({
         imageUrl: recipe.imageUrl,
-        imageDetailUrl: recipe.images_detailUrl || []
+        images_detailUrl: recipe?.images_detailUrl || []
       });
     }
   }, [recipe]);
 
-  const handleAdditionalInfoChange = (index, event) => {
-    const values = [...newIngredients];
-    values[index] = event.target.value;
-    setNewIngredients(values);
-  };
-
+  //firebaseにトップ画像をアップロード
   const handleFileUploadToFirebase = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
+      // Firebase Storage の参照を取得
       const storage = getStorage();
       const storageRef = ref(storage, "images/" + file.name);
+      //アップロードの進行状況をリアルタイムで監視できるため、進行状況バーを表示したりすることができる
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
         "state_changed",
+        //snapshot はアップロードの現在の状態を示すオブジェクト
         (snapshot) => {
           setLoading(true);
         },
@@ -57,6 +57,7 @@ export const RecipeInputPage = ({ posts }) => {
           console.error("Error uploading file: ", error);
         },
         () => {
+          //アップロードしたファイルのダウンロードURLを取得
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImageUrl(downloadURL);
             setLoading(false);
@@ -67,31 +68,45 @@ export const RecipeInputPage = ({ posts }) => {
     }
   };
 
+  //材料フィールドを追加
+  const handleAdditionalInfoChange = (index, event) => {
+    const values = [...newIngredients];
+    values[index] = event.target.value;
+    setNewIngredients(values);
+  };
+
+  //材料を追加
   const handleAddIngredientField = () => {
     setNewIngredients([...newIngredients, '']);
   };
 
-  const handleAddDetailImgField = async () => {
-    setLoadingDetailImgs(true);
-    try {
-      const detailImgUrls = await Promise.all(
-        newDetailImgs.map(async (file) => {
-          const storage = getStorage();
-          const storageRef = ref(storage, "images/" + file.name);
-          await uploadBytesResumable(storageRef, file);
-          return await getDownloadURL(storageRef);
-        })
-      );
+  // 詳細画像をアップロードする共通関数
+  const uploadDetailImages = async (files) => {
+    const detailImgUrls = await Promise.all(
+      files.map(async (file) => {
+        const storage = getStorage();
+        const storageRef = ref(storage, "images_detailUrl/" + file.name);
+        await uploadBytesResumable(storageRef, file);
+        return await getDownloadURL(storageRef);
+      })
+    );
+    return detailImgUrls;
+  };
 
-      const updatedDetailImgs = [...editedRecipe.detailImgs, ...detailImgUrls];
-      setEditedRecipe({ ...editedRecipe, detailImgs: updatedDetailImgs });
+  // 詳細画像をアップロード
+  const handleFileSelection = async (e) => {
+    setLoadingDetailImgs(true);
+    const files = Array.from(e.target.files);
+    try {
+      const detailImgUrls = await uploadDetailImages(files);
+      const updatedDetailImgs = [...editedRecipe.images_detailUrl, ...detailImgUrls];
+      setEditedRecipe({ ...editedRecipe, images_detailUrl: updatedDetailImgs });
 
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
-          detailImgs: updatedDetailImgs
+          images_detailUrl: updatedDetailImgs
         });
       }
-      setNewDetailImgs([]);
     } catch (error) {
       console.error("Error updating document: ", error);
     } finally {
@@ -104,39 +119,34 @@ export const RecipeInputPage = ({ posts }) => {
 
     try {
       setLoading(true);
-      const detailImgUrls = await Promise.all(
-        newDetailImgs.map(async (file) => {
-          const storage = getStorage();
-          const storageRef = ref(storage, "images/" + file.name);
-          await uploadBytesResumable(storageRef, file);
-          return await getDownloadURL(storageRef);
-        })
-      );
-
+      const detailImgUrls = await uploadDetailImages(newDetailImgs);
+      
+      //recipeがあるなら(更新)
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
           title: newRecipeName,
           text: newDetail,
           ingredient: newIngredients,
           imageUrl: imageUrl,
-          imageDetailUrl: [...editedRecipe.imageDetailUrl, ...detailImgUrls],
+          images_detailUrl: [...editedRecipe.images_detailUrl, ...detailImgUrls],
         });
       } else {
+        //新しいrecipeになる情報を追加
         await addDoc(collection(db, "posts"), {
           title: newRecipeName,
           text: newDetail,
           ingredient: newIngredients,
           imageUrl: imageUrl,
-          imageDetailUrl: detailImgUrls,
+          images_detailUrl: detailImgUrls,
         });
       }
-
+      //フォームを空にする
       setNewRecipeName('');
       setNewDetail('');
       setNewIngredients(['']);
       setImageUrl('');
       setNewDetailImgs([]);
-      setEditedRecipe({ imageUrl: '', imageDetailUrl: [] });
+      setEditedRecipe({ imageUrl: '', images_detailUrl: [] });
       setUploaded(false);
     } catch (error) {
       console.error("Error saving document: ", error);
@@ -145,28 +155,27 @@ export const RecipeInputPage = ({ posts }) => {
     }
   };
 
+  //画像を削除
   const handleRemoveImage = async (index) => {
     try {
       const storage = getStorage();
-      const imageRef = ref(storage, editedRecipe.imageDetailUrl[index]);
+      const imageRef = ref(storage, editedRecipe.images_detailUrl[index]);
       await deleteObject(imageRef);
 
-      const updatedDetailImgs = editedRecipe.imageDetailUrl.filter((_, i) => i !== index);
-      setEditedRecipe({ ...editedRecipe, imageDetailUrl: updatedDetailImgs });
+      //editedRecipe は現在編集中のレシピオブジェクト
+      //_ は配列の要素（詳細画像のURL）、i はその要素のインデックス
+      //images_detailUrl 配列の中で、指定された index に一致する要素を除外した新しい配列 updatedDetailImgs を作成
+      const updatedDetailImgs = editedRecipe.images_detailUrl.filter((_, i) => i !== index);
+      setEditedRecipe({ ...editedRecipe, images_detailUrl: updatedDetailImgs });
 
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
-          imageDetailUrl: updatedDetailImgs
+          images_detailUrl: updatedDetailImgs
         });
       }
     } catch (error) {
       console.error("Error removing image: ", error);
     }
-  };
-
-  const handleFileSelection = (e) => {
-    const files = Array.from(e.target.files);
-    setNewDetailImgs(files);
   };
 
   return (
@@ -217,9 +226,9 @@ export const RecipeInputPage = ({ posts }) => {
               </div>
               <div className="recipeInput_item recipeInput_ingredient">
                 <div className="recipeInput_title">作り方の画像</div>
-                {editedRecipe.imageDetailUrl.map((detailImg, index) => (
+                {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
                   <div key={index}>
-                    <img src={detailImg} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
+                    <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
                     <button type="button" onClick={() => handleRemoveImage(index)}>画像を削除</button>
                   </div>
                 ))}
@@ -232,9 +241,7 @@ export const RecipeInputPage = ({ posts }) => {
                 {loadingDetailImgs ? (
                   <p>詳細画像をアップロード中...</p>
                 ) : (
-                  <button className='button_additionBtn' type="button" onClick={handleAddDetailImgField}>
-                    画像をアップロード
-                  </button>
+                    <p>画像をアップロード</p>
                 )}
               </div>
               <div className="recipeInput_item">
