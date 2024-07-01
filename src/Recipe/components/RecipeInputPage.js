@@ -120,7 +120,7 @@ export const RecipeInputPage = ({ posts }) => {
     try {
       setLoading(true);
       const detailImgUrls = await uploadDetailImages(newDetailImgs);
-      
+
       //recipeがあるなら(更新)
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
@@ -167,6 +167,7 @@ export const RecipeInputPage = ({ posts }) => {
       //images_detailUrl 配列の中で、指定された index に一致する要素を除外した新しい配列 updatedDetailImgs を作成
       const updatedDetailImgs = editedRecipe.images_detailUrl.filter((_, i) => i !== index);
       setEditedRecipe({ ...editedRecipe, images_detailUrl: updatedDetailImgs });
+      console.log(updatedDetailImgs + "テスト");
 
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
@@ -201,9 +202,14 @@ export const RecipeInputPage = ({ posts }) => {
           />
         )}
         <div className="recipeInput_wrap">
-          <div className="recipeInput_ttl">
-            <h2 className='page_ttl'>新しいレシピを追加する</h2>
+          <div className="recipeInput_head">
+            <div className="add">add</div>
+            <div className="recipeInput_menu">
+              <img className="recipeInput_edit" src="" alt="編集" />
+              <img className="recipeInput_delete" src="" alt="削除" />
+            </div>
           </div>
+          <h2 className='page_ttl'>新しいレシピを追加する</h2>
           <form className='recipeInput_form recipeInput_container' onSubmit={handleSubmit}>
             <div>
               <div className='recipeInput_item'>
@@ -241,7 +247,7 @@ export const RecipeInputPage = ({ posts }) => {
                 {loadingDetailImgs ? (
                   <p>詳細画像をアップロード中...</p>
                 ) : (
-                    <p>画像をアップロード</p>
+                  <p>画像をアップロード</p>
                 )}
               </div>
               <div className="recipeInput_item">

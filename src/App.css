@@ -82,21 +82,6 @@ body {
   border-radius: 0.5em;
 }
 
-.recipeInput_ttl {
-  padding: 2em 0;
-  background: #cfdfe2;
-  box-shadow: inset 4px 4px #f7f6f6, inset -4px -4px rgb(200, 199, 199);
-  border-radius: 0.5em 0.5em 0 0;
-  padding: 2em 4em;
-  border-bottom: 1px solid #9a9898;
-}
-.recipeInput_ttl .page_ttl {
-  color: #fff;
-  text-shadow: 2px 3px 2px #c2c1c1;
-  font-size: 1.5em;
-  letter-spacing: 2px;
-}
-
 .recipeInput_container {
   box-shadow: inset 3px 3px #f3f1f1, inset -4px -4px #f3f1f1;
   border-radius: 0.5em;

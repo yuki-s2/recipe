@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { db, collection, doc, deleteDoc, updateDoc } from '../../Firebase';
+import { db } from '../../Firebase';
+import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 export const RecipeDetailPage = ({ posts }) => {
@@ -13,11 +14,11 @@ export const RecipeDetailPage = ({ posts }) => {
     ingredient: Array.isArray(recipe?.ingredient) ? recipe.ingredient : [],
     text: recipe?.text || '',
     imageUrl: recipe?.imageUrl || '',
-    imageDetailUrl: recipe?.images_detailUrl || [] // 修正点：初期化を追加
+    images_detailUrl: recipe?.images_detailUrl || []
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  //全ての更新
+
   useEffect(() => {
     if (recipe) {
       setEditedRecipe({
@@ -25,10 +26,14 @@ export const RecipeDetailPage = ({ posts }) => {
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
         text: recipe.text,
         imageUrl: recipe.imageUrl,
-        imageDetailUrl: recipe.images_detailUrl || [] // 修正点：imageDetailUrlもセット
+        images_detailUrl: recipe.images_detailUrl || []
       });
     }
   }, [recipe]);
+
+  useEffect(() => {
+    console.log(editedRecipe);
+  }, [editedRecipe]);
 
   if (!recipe) {
     return (
@@ -50,7 +55,8 @@ export const RecipeDetailPage = ({ posts }) => {
       </div>
     );
   }
-  //全てを削除する
+
+  // 全てを削除する
   const handleClickDelete = async () => {
     try {
       if (recipe.imageUrl) {
@@ -64,7 +70,8 @@ export const RecipeDetailPage = ({ posts }) => {
       console.error("Error removing document: ", error);
     }
   };
-  //全てを更新する
+
+  // 全てを更新する
   const handleSaveChanges = async () => {
     setLoading(true);
     try {
@@ -86,34 +93,36 @@ export const RecipeDetailPage = ({ posts }) => {
     }
   };
 
-  //材料入力
+  // 材料入力
   const handleIngredientChange = (index, value) => {
     const newIngredients = [...editedRecipe.ingredient];
     newIngredients[index] = value;
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
-  //材料追加
+  // 材料追加
   const addIngredientField = () => {
     setEditedRecipe({ ...editedRecipe, ingredient: [...editedRecipe.ingredient, ''] });
   };
-  //材料削除
+
+  // 材料削除
   const removeIngredientField = (index) => {
     const newIngredients = editedRecipe.ingredient.filter((_, i) => i !== index);
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
-  //画像を更新する
+  // 画像を更新する
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setNewImage(e.target.files[0]);
     }
   };
-  //画像を削除する
+
+  // 画像を削除する
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
-  console.log(recipe.imageUrl);
+
   return (
     <div className='recipeDetail_body'>
       <div className="inner">
@@ -198,16 +207,11 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
 
             <div className="recipeDetail_inputItem">
-              {recipe.imageDetailUrl && recipe.imageDetailUrl.map((imageDetailUrl, index) => (
-                <div className="svgContent_subImg">
-                  <div key={index}>
-                    <img src={imageDetailUrl}/>
-                  </div>
+              {recipe.images_detailUrl && recipe.images_detailUrl.map((imageUrl, index) => (
+                <div className="svgContent_subImg" key={index}>
+                  <img src={imageUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
                 </div>
               ))}
-                          {recipe.images_detailUrl && recipe.images_detailUrl.map((imageUrl, index) => (
-              <img key={index} src={imageUrl} alt={`Recipe Step ${index + 1}`} className="recipeDetail_img" />
-            ))}
               <h3 className='recipeDetail_title'>作り方</h3>
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>
