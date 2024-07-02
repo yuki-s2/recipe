@@ -205,12 +205,14 @@ export const RecipeInputPage = ({ posts }) => {
           <div className="recipeInput_head">
             <div className="add">add</div>
             <div className="recipeInput_menu">
-              <img className="recipeInput_edit" src="" alt="編集" />
-              <img className="recipeInput_delete" src="" alt="削除" />
+              <button><img className="recipeInput_edit" src="" alt="編集" /></button>
+              <button><img className="recipeInput_delete" src="" alt="削除" /></button>
             </div>
           </div>
+          <div className="recipeInput_contents">
+          <div className="recipeInput_container">
           <h2 className='page_ttl'>新しいレシピを追加する</h2>
-          <form className='recipeInput_form recipeInput_container' onSubmit={handleSubmit}>
+          <form className='recipeInput_form' onSubmit={handleSubmit}>
             <div>
               <div className='recipeInput_item'>
                 <div className="recipeInput_title">レシピの名前</div>
@@ -257,6 +259,8 @@ export const RecipeInputPage = ({ posts }) => {
             </div>
             <button className='button_additionBtn' type="submit">追加する</button>
           </form>
+          </div>
+          </div>
         </div>
         <div className="btn_container">
           <Link to="/RecipeListPage">
