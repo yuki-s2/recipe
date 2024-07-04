@@ -182,26 +182,6 @@ export const RecipeInputPage = ({ posts }) => {
   return (
     <div className="recipeInput_body">
       <div className='inner'>
-        {loading ? (
-          <p>アップロード中...</p>
-        ) : isUploaded ? (
-          <>
-            <p>アップロード完了</p>
-            {editedRecipe.imageUrl && (
-              <div>
-                <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
-                <button onClick={() => handleRemoveImage(0)}>画像を削除</button>
-              </div>
-            )}
-          </>
-        ) : (
-          <input
-            className='input'
-            type='file'
-            accept='.png, .jpg, .jpeg'
-            onChange={handleFileUploadToFirebase}
-          />
-        )}
         <div className="recipeInput_wrap">
           <div className="recipeInput_head">
             <div className="add">add</div>
@@ -215,6 +195,25 @@ export const RecipeInputPage = ({ posts }) => {
               <h2 className='page_ttl'>新しいレシピを追加する</h2>
               <form className='recipeInput_form' onSubmit={handleSubmit}>
                 <div>
+                  {loading ? (
+                    <p>アップロード中...</p>
+                  ) : isUploaded ? (
+                    <>
+                      <p>アップロード完了</p>
+                      {editedRecipe.imageUrl && (
+                        <div>
+                          <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
+                          <button onClick={() => handleRemoveImage(0)}>画像を削除</button>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <input
+                      type='file'
+                      accept='.png, .jpg, .jpeg'
+                      onChange={handleFileUploadToFirebase}
+                    />
+                  )}
                   <div className='recipeInput_item'>
                     <div className="recipeInput_title">レシピの名前</div>
                     <input className='input' type="text" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
@@ -235,19 +234,19 @@ export const RecipeInputPage = ({ posts }) => {
                     </button>
                   </div>
                   <div className="recipeInput_item">
-                    <div className="recipeInput_title">作り方の画像</div>
-                    {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
-                      <div key={index}>
-                        <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
-                        <button type="button" onClick={() => handleRemoveImage(index)}>画像を削除</button>
-                      </div>
-                    ))}
+                    <button className="">作り方の画像を追加する</button>
                     <div className="recipeInput_wrap">
                       <div className="recipeInput_head">
                         <div className="add">add</div>
                       </div>
-                      <div className="recipeInput_contents">
-                      <div className="recipeInput_menu">
+                      <div className="recipeInput_contents is-img">
+                        {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
+                          <div key={index}>
+                            <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
+                            <button type="button" onClick={() => handleRemoveImage(index)}>画像を削除</button>
+                          </div>
+                        ))}
+                        <div className="recipeInput_menu">
                           <input
                             className='input_img'
                             type='file'

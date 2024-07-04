@@ -95,15 +95,13 @@ body {
   color: #777676;
   font-size: 0.7em;
   letter-spacing: 0.1em;
-}
-
-.recipeInput_menu button + button {
-  margin-left: 1em;
+  border-radius: 0.5em 0.5em 0 0;
 }
 
 .recipeInput_contents {
   background: #fff;
   padding: 2em 1em 1.5em;
+  border-radius: 0 0 0.5em 0.5em;
 }
 
 .recipeInput_container {
@@ -116,10 +114,6 @@ body {
 
 .recipeInput_form {
   margin-top: 2em;
-}
-
-.recipeInput_item {
-  text-align: left;
 }
 
 .recipeInput_item + .recipeInput_item {
@@ -143,6 +137,10 @@ body {
 
 ::placeholder {
   color: #fff;
+}
+
+.recipeInput_title {
+  text-align: left;
 }
 
 .recipeInput_ingredient {
@@ -199,6 +197,45 @@ body {
 
 .recipeInput_howTo input {
   height: 7em;
+}
+
+.recipeInput_menu {
+  position: relative;
+  width: 5em;
+  height: 5em;
+}
+.recipeInput_menu button {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  border: none;
+  border-radius: 50%;
+  background: #fadff9;
+  width: 3em;
+  height: 3em;
+  font-size: 0.5em;
+  color: #9a9898;
+}
+
+input[type=file].input_img {
+  width: 100%;
+  height: 100%;
+}
+
+::file-selector-button,
+::-webkit-file-upload-button {
+  display: inline-block;
+  background-color: rgb(200, 219, 248);
+  cursor: pointer;
+  border: 1px solid #b1b0b0;
+  width: 100%;
+  height: 100%;
+}
+
+.recipeInput_contents.is-img p {
+  margin-top: 1em;
+  font-size: 0.8em;
+  color: #9a989a;
 }
 
 /* --------------------------------------------------- RecipeInputPage */

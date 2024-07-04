@@ -85,13 +85,13 @@ body {
   color: #777676;
   font-size: .7em;
   letter-spacing: .1em;
+  border-radius: .5em .5em 0 0;
 }
-.recipeInput_menu button + button {
-  margin-left: 1em;
-}
+
 .recipeInput_contents {
   background: #fff;
   padding: 2em 1em 1.5em;
+  border-radius: 0 0 .5em .5em;
 }
 // .recipeInput_ttl {
 //   padding: 2em 0;
@@ -121,7 +121,7 @@ body {
 .recipeInput_item {
   // display: flex;
   // gap: 2em;
-  text-align: left;
+  // text-align: left;
 }
 .recipeInput_item + .recipeInput_item {
   margin-top: 2em;
@@ -140,12 +140,8 @@ body {
   // color: rgb(159, 178, 192);
   color: #fff;
 }
-.recipeInput_ingredient {
-  // text-align: center;
-  .recipeInput_title {
-    // margin: 0 auto;
-    // text-align: center;
-  }
+.recipeInput_title {
+  text-align: left;
 }
 .recipeInput_ingredient {
   display: inline-block;
@@ -192,7 +188,42 @@ margin-top: 2em;
 .recipeInput_howTo input {
   height: 7em;
 }
+.recipeInput_menu {
+  position: relative;
+  width: 5em;
+  height: 5em;
+  button {
+    position: absolute;
+    top: .2em;
+    right: .2em;
+    border: none;
+    border-radius: 50%;
+    background: #fadff9;
+    width: 3em;
+    height: 3em;
+    font-size: .5em;
+    color: #9a9898;
+  }
+}
+input[type='file'].input_img {
+  width: 100%;
+  height: 100%;
+}
 
+::file-selector-button,
+::-webkit-file-upload-button {
+  display: inline-block;
+  background-color: rgb(200, 219, 248);
+  cursor: pointer;
+  border: 1px solid #b1b0b0;
+  width: 100%;
+  height: 100%;
+}
+.recipeInput_contents.is-img p {
+  margin-top: 1em;
+  font-size: .8em;
+  color: #9a989a;
+}
 /* --------------------------------------------------- RecipeInputPage */
 
 .recipeList_body {
