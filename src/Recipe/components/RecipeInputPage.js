@@ -234,19 +234,21 @@ export const RecipeInputPage = ({ posts }) => {
                     </button>
                   </div>
                   <div className="recipeInput_item">
-                    <button className="">作り方の画像を追加する</button>
+                    <div className="input_imgBtn">
+                    <button>作り方の画像を追加する</button>
+                    </div>
                     <div className="recipeInput_wrap">
                       <div className="recipeInput_head">
                         <div className="add">add</div>
                       </div>
                       <div className="recipeInput_contents is-img">
+                        <div className="recipeInput_img">
                         {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
                           <div key={index}>
                             <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
                             <button type="button" onClick={() => handleRemoveImage(index)}>画像を削除</button>
                           </div>
                         ))}
-                        <div className="recipeInput_menu">
                           <input
                             className='input_img'
                             type='file'

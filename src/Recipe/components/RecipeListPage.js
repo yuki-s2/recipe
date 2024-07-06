@@ -33,20 +33,28 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
             {posts && posts.length === 0 ? (
                 <p className='recipeList_nonText'>レシピはありません</p>
             ) : (
-                <ul>
+                <ul className='recipeList_items'>
                     {posts && posts.map((post) => (
-                        <li key={post.id}>
-                            <input
-                                type="checkbox"
-                                checked={selectedPosts.includes(post.id)}
-                                onChange={() => handleCheckboxChange(post.id)}
-                            />
-                            <Link to={`/recipes/${post.id}`}>
-                                <h1>{post.title}</h1>
-                                {post.imageUrl && (
-                                    <img src={post.imageUrl} alt={post.title} style={{ width: '100px', height: '100px' }} />
-                                )}
-                            </Link>
+                        <li className="recipeList_item" key={post.id}>
+                                <div className="checkboxWrap">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedPosts.includes(post.id)}
+                                        onChange={() => handleCheckboxChange(post.id)}
+                                    />
+                                </div>
+                                <Link to={`/recipes/${post.id}`}>
+                                    <div className="recipeList_itemContainer">
+                                        <div className="recipeList_img">
+                                            {post.imageUrl && (
+                                                <img src={post.imageUrl} alt={post.title} />
+                                            )}
+                                        </div>
+                                        <div className="recipeList_info">
+                                            <h1>{post.title}</h1>
+                                        </div>
+                                    </div>
+                                </Link>
                         </li>
                     ))}
                 </ul>
