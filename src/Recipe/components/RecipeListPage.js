@@ -30,12 +30,13 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
     return (
         <div className="recipeList_body">
             <h2 className='page_ttl'>追加されたレシピ一覧</h2>
-            {posts && posts.length === 0 ? (
-                <p className='recipeList_nonText'>レシピはありません</p>
-            ) : (
-                <ul className='recipeList_items'>
-                    {posts && posts.map((post) => (
-                        <li className="recipeList_item" key={post.id}>
+            <div className="recipeList_contentsWrap">
+                {posts && posts.length === 0 ? (
+                    <p className='recipeList_nonText'>レシピはありません</p>
+                ) : (
+                    <ul className='recipeList_items'>
+                        {posts && posts.map((post) => (
+                            <li className="recipeList_item" key={post.id}>
                                 <div className="checkboxWrap">
                                     <input
                                         type="checkbox"
@@ -55,17 +56,18 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                                         </div>
                                     </div>
                                 </Link>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <div className="btn_container">
-                <Link to="/SelectedRecipes">
-                    <div className='btn_link'>選択されたレシピ一覧へ</div>
-                </Link>
-                <Link to="/">
-                    <div className='btn_link'>リストに戻る</div>
-                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <div className="btn_container">
+                    <Link to="/SelectedRecipes">
+                        <div className='btn_link'>選択されたレシピ一覧へ</div>
+                    </Link>
+                    <Link to="/">
+                        <div className='btn_link'>リストに戻る</div>
+                    </Link>
+                </div>
             </div>
         </div>
     );

@@ -144,7 +144,7 @@ export const RecipeDetailPage = ({ posts }) => {
               <div>
                 <input
                   type='file'
-                  accept='.png, .jpg, .jpeg'
+                  accept='.png, .jpg, .jpeg, .webp'
                   onChange={handleImageChange}
                 />
                 {editedRecipe.imageUrl && (

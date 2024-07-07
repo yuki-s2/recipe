@@ -253,7 +253,7 @@ export const RecipeInputPage = ({ posts }) => {
                             className='input_img'
                             type='file'
                             multiple
-                            accept='.png, .jpg, .jpeg'
+                            accept='.png, .jpg, .jpeg, .webp'
                             onChange={handleFileSelection}
                           />
                           <button><img className="recipeInput_delete" src="" alt="削除" /></button>
