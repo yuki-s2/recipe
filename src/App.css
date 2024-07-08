@@ -344,13 +344,12 @@ input[type=file].input_img {
   width: 25px;
   height: 25px;
   background: #8b8294;
-  background: url("/public/images/heat.svg") no-repeat center center;
+  -webkit-mask-image: url(/public/images/heat.svg);
+          mask-image: url(/public/images/heat.svg);
 }
 
 .recipeList_item input[type=checkbox]:checked::before {
-  background: #FF5252;
-  fill: #FF5252;
-  stroke: #FF5252;
+  background-color: #61C4DF;
 }
 
 .recipeList_nonText {
