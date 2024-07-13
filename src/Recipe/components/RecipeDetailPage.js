@@ -137,47 +137,58 @@ export const RecipeDetailPage = ({ posts }) => {
         </ul>
         {/* 編集画面 */}
         {isEditing ? (
-          <div>
-            {loading ? (
-              <p>アップロード中...</p>
-            ) : (
-              <div>
-                <input
-                  type='file'
-                  accept='.png, .jpg, .jpeg, .webp'
-                  onChange={handleImageChange}
-                />
-                {editedRecipe.imageUrl && (
-                  <div>
-                    <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
-                    <button onClick={handleRemoveImage}>画像を削除</button>
+          <div className="recipeInput_body">
+            <div className='inner'>
+              <div className="recipeInput_wrap">
+                <div className="recipeInput_head">
+                  <div className="">編集</div>
+                </div>
+                <div className="recipeInput_contents">
+                  <div className="recipeInput_container">
+                    {loading ? (
+                      <p>アップロード中...</p>
+                    ) : (
+                      <div>
+                        <input
+                          type='file'
+                          accept='.png, .jpg, .jpeg, .webp'
+                          onChange={handleImageChange}
+                        />
+                        {editedRecipe.imageUrl && (
+                          <div>
+                            <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
+                            <button onClick={handleRemoveImage}>画像を削除</button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* レシピ名編集 */}
+                    <input
+                      type="text"
+                      value={editedRecipe.title}
+                      onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
+                    />
+                    {/* 材料編集 */}
+                    {editedRecipe.ingredient.map((ingredient, index) => (
+                      <div key={index}>
+                        <input
+                          type="text"
+                          value={ingredient}
+                          onChange={(e) => handleIngredientChange(index, e.target.value)}
+                        />
+                        <button onClick={() => removeIngredientField(index)}>削除</button>
+                      </div>
+                    ))}
+                    <button onClick={addIngredientField}>材料を追加</button>
+                    <textarea
+                      value={editedRecipe.text}
+                      onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
+                    />
+                    <button onClick={handleSaveChanges}>保存</button>
                   </div>
-                )}
+                </div>
               </div>
-            )}
-            {/* レシピ名編集 */}
-            <input
-              type="text"
-              value={editedRecipe.title}
-              onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
-            />
-            {/* 材料編集 */}
-            {editedRecipe.ingredient.map((ingredient, index) => (
-              <div key={index}>
-                <input
-                  type="text"
-                  value={ingredient}
-                  onChange={(e) => handleIngredientChange(index, e.target.value)}
-                />
-                <button onClick={() => removeIngredientField(index)}>削除</button>
-              </div>
-            ))}
-            <button onClick={addIngredientField}>材料を追加</button>
-            <textarea
-              value={editedRecipe.text}
-              onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
-            />
-            <button onClick={handleSaveChanges}>保存</button>
+            </div>
           </div>
         ) : (
           // 編集画面ではない場合こちらを表示
