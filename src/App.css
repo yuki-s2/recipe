@@ -274,82 +274,69 @@ input[type=file].input_img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 2em;
+  gap: 3em;
   justify-content: center;
 }
 
 .recipeList_item {
-  background: #fff;
-  border-radius: 0.5em;
-  box-shadow: 0 0 8px rgb(201, 201, 201);
-  padding: 0.2em;
-  position: relative;
-  transition: 0.5s;
+  width: clamp(250px, 30%, 400px);
+  display: block;
 }
 
-.recipeList_item:hover {
-  background: #fdf7d5;
+.recipeList_itemTop {
+  width: 40%;
+  height: 10%;
+  background: #f2a3bd;
+  border-radius: 20px 20px 0 0;
+  margin-left: 5%;
+  border-top: 0.15em solid #8b8294;
+  border-left: 0.15em solid #8b8294;
+  border-right: 0.15em solid #8b8294;
 }
 
-.recipeList_itemContainer {
-  border: 0.15em solid #8b8294;
-  border-radius: 0.5em;
-  width: 10em;
-  aspect-ratio: 1/1;
-}
-
-.recipeList_img img {
+.recipeList_itemImg {
+  background: #f2a3bd;
   width: 100%;
-  height: 7em;
-  border-radius: 0.2em 0.2em 0;
+  aspect-ratio: 3/2;
+  border-radius: 10px;
+  border: 0.15em solid #8b8294;
+  padding: 1em 0.5em;
+  display: inline-block;
+}
+
+.recipeList_itemImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
   -o-object-fit: cover;
      object-fit: cover;
+  border: 0.1em solid #8b8294;
 }
 
-.recipeList_info {
-  border-top: 0.15em solid #8b8294;
-  padding: 1em 0;
-}
-.recipeList_info h1 {
-  font-size: 0.7em;
-  color: #8b8294;
-  text-align: center;
-  margin: 0;
-  padding-right: 3em;
-  margin-left: 3em;
+.recipeList_itemTtl {
+  position: relative;
+  color: #777676;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
 }
 
-.checkboxWrap {
-  position: absolute;
-  display: inline-block;
-  bottom: 1.2em;
-  left: 1em;
+.heart-icon {
+  margin-right: 1em;
 }
 
 .recipeList_item input[type=checkbox] {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 25px;
   height: 25px;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-}
-
-.recipeList_item input[type=checkbox]::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
   cursor: pointer;
-  width: 25px;
-  height: 25px;
-  background: #8b8294;
-  -webkit-mask-image: url(/public/images/heat.svg);
-          mask-image: url(/public/images/heat.svg);
-}
-
-.recipeList_item input[type=checkbox]:checked::before {
-  background-color: #61C4DF;
+  margin-right: 1em;
 }
 
 .recipeList_nonText {
@@ -373,7 +360,7 @@ input[type=file].input_img {
 
 .recipeDetail_name {
   font-size: 2em;
-  padding: 2em 0;
+  padding: 1em 0;
 }
 
 .recipeDetail_detailsContainer {
@@ -381,9 +368,34 @@ input[type=file].input_img {
   gap: 1em;
 }
 
+.svgContent_mainImg {
+  margin: 2em auto 0;
+  max-width: 700px;
+  aspect-ratio: 2/1;
+  padding: 0.2em;
+  position: relative; /* これが重要 */
+  overflow: hidden; /* 子要素が親要素を超えないようにする */
+}
+
+.svgContent_mainImg::before {
+  display: block;
+  content: "";
+  position: absolute;
+  background: #8b8294;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  pointer-events: none; /* 擬似要素がクリックイベントを受け取らないようにする */
+}
+
 .recipeDetail_detailsText {
   font-size: 1.2em;
   width: 100%;
+  overflow-wrap: break-word;
+  text-align: left;
+  margin-top: 0.5em;
 }
 
 .recipeDetail_img svg {

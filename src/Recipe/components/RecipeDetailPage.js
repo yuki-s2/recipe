@@ -61,7 +61,7 @@ export const RecipeDetailPage = ({ posts }) => {
     try {
       if (recipe.imageUrl) {
         const storage = getStorage();
-        const imageRef = ref(storage, recipe.imageUrl);
+        const imageRef = ref(storage, recipe?.imageUrl);
         await deleteObject(imageRef);
       }
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
@@ -145,6 +145,7 @@ export const RecipeDetailPage = ({ posts }) => {
                 </div>
                 <div className="recipeInput_contents">
                   <div className="recipeInput_container">
+                    <h2 className='page_ttl'>レシピを編集する</h2>
                     {loading ? (
                       <p>アップロード中...</p>
                     ) : (
@@ -163,28 +164,40 @@ export const RecipeDetailPage = ({ posts }) => {
                       </div>
                     )}
                     {/* レシピ名編集 */}
-                    <input
-                      type="text"
-                      value={editedRecipe.title}
-                      onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
-                    />
+                    <div className='recipeInput_item'>
+                      <div className="recipeInput_title">レシピの名前</div>
+                      <input
+                        className='input'
+                        type="text"
+                        value={editedRecipe.title}
+                        onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
+                      />
+                    </div>
                     {/* 材料編集 */}
-                    {editedRecipe.ingredient.map((ingredient, index) => (
-                      <div key={index}>
-                        <input
-                          type="text"
-                          value={ingredient}
-                          onChange={(e) => handleIngredientChange(index, e.target.value)}
-                        />
-                        <button onClick={() => removeIngredientField(index)}>削除</button>
-                      </div>
-                    ))}
-                    <button onClick={addIngredientField}>材料を追加</button>
-                    <textarea
-                      value={editedRecipe.text}
-                      onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
-                    />
-                    <button onClick={handleSaveChanges}>保存</button>
+                    <div className="recipeInput_item recipeInput_ingredient">
+                      <div className="recipeInput_title">材料</div>
+                      {editedRecipe.ingredient.map((ingredient, index) => (
+                        <div key={index}>
+                          <input
+                            className='input'
+                            type="text"
+                            value={ingredient}
+                            onChange={(e) => handleIngredientChange(index, e.target.value)}
+                          />
+                          <button onClick={() => removeIngredientField(index)}>削除</button>
+                        </div>
+                      ))}
+                      <button className='button_additionBtn' onClick={addIngredientField}>材料を追加</button>
+                    </div>
+                    <div className="recipeInput_item">
+                      <h3 className="recipeInput_title">作り方</h3>
+                      <textarea
+                        className='input'
+                        value={editedRecipe.text}
+                        onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
+                      />
+                    </div>
+                    <button className='button_additionBtn' onClick={handleSaveChanges}>保存</button>
                   </div>
                 </div>
               </div>
@@ -194,7 +207,7 @@ export const RecipeDetailPage = ({ posts }) => {
           // 編集画面ではない場合こちらを表示
           <div>
             <div className="svgContent_main">
-              <svg width="700px" height="500px" viewBox="0 0 700 500">
+              <svg>
                 <defs>
                   <clipPath id="clip01" clipPathUnits="objectBoundingBox">
                     <path d="M0.1,0 L0.9,0 Q1,0 1,0.1 L1,0.9 Q1,1 0.9,1 L0.1,1 Q0,1 0,0.9 L0,0.1 Q0,0 0.1,0 Z" />
@@ -204,7 +217,7 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
             <div className="svgContent_mainImg">
               {recipe.imageUrl && (
-                <svg width="700px" height="500px" viewBox="0 0 700 500" style={{ clipPath: "url(#clip01)" }}>
+                <svg width="100%" height="100%" style={{ clipPath: "url(#clip01)" }}>
                   <image href={recipe.imageUrl} x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
                 </svg>
               )}
