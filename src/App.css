@@ -224,34 +224,6 @@ body {
   height: 5em;
 }
 
-.recipeInput_contents.is-img button {
-  position: absolute;
-  top: 0.2em;
-  right: 0.2em;
-  border: none;
-  border-radius: 50%;
-  background: #fadff9;
-  width: 3em;
-  height: 3em;
-  font-size: 0.5em;
-  color: #9a9898;
-}
-
-input[type=file].input_img {
-  width: 100%;
-  height: 100%;
-}
-
-::file-selector-button,
-::-webkit-file-upload-button {
-  display: inline-block;
-  background-color: rgb(200, 219, 248);
-  cursor: pointer;
-  border: 1px solid #b1b0b0;
-  width: 100%;
-  height: 100%;
-}
-
 .recipeInput_contents.is-img p {
   margin-top: 1em;
   font-size: 0.8em;
@@ -390,14 +362,6 @@ input[type=file].input_img {
   pointer-events: none; /* 擬似要素がクリックイベントを受け取らないようにする */
 }
 
-.recipeDetail_detailsText {
-  font-size: 1.2em;
-  width: 100%;
-  overflow-wrap: break-word;
-  text-align: left;
-  margin-top: 0.5em;
-}
-
 .recipeDetail_img svg {
   position: absolute;
   top: 0;
@@ -415,17 +379,42 @@ input[type=file].input_img {
   left: 0;
 }
 
-.svgContent_subImg {
+.processImg_items {
   display: flex;
+  flex-direction: row;
+  row-gap: 1.5em;
+  flex-wrap: wrap;
+  margin-top: 3em;
 }
 
-.svgContent_subImg img {
+.processImg_item {
+  position: relative;
+}
+
+.processImg_itemNumber {
+  position: absolute;
+  top: -1em;
+  left: 1em;
+  color: #333;
+}
+
+.processImg_item img {
   -o-object-fit: cover;
      object-fit: cover;
   width: 20%;
   aspect-ratio: 5/4;
   -webkit-clip-path: inset(10px 10px 10px 10px round 40px);
           clip-path: inset(10px 10px 10px 10px round 40px);
+}
+
+.recipeDetail_detailsText {
+  font-size: 0.9em;
+  width: 100%;
+  overflow-wrap: break-word;
+  text-align: left;
+  margin-top: 1em;
+  color: #5f5866;
+  line-height: 1.4;
 }
 
 /* --------------------------------------------------- Chat */

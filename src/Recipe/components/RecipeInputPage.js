@@ -159,7 +159,7 @@ export const RecipeInputPage = ({ posts }) => {
       console.error("Error removing image: ", error);
     }
   };
-
+  
   return (
     <div className="recipeInput_body">
       <div className='inner'>

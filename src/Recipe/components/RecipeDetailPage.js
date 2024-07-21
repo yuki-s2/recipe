@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import ProcessImg from './ProcessImg';
 
 export const RecipeDetailPage = ({ posts }) => {
   const { postId } = useParams(); // URLパラメータからpostIdを取得
@@ -215,12 +216,14 @@ export const RecipeDetailPage = ({ posts }) => {
                 </defs>
               </svg>
             </div>
-            <div className="svgContent_mainImg">
-              {recipe.imageUrl && (
-                <svg width="100%" height="100%" style={{ clipPath: "url(#clip01)" }}>
-                  <image href={recipe.imageUrl} x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
-                </svg>
-              )}
+            <div className="recipeDetail_inputItem">
+              <div className="svgContent_mainImg">
+                {recipe.imageUrl && (
+                  <svg width="100%" height="100%" style={{ clipPath: "url(#clip01)" }}>
+                    <image href={recipe.imageUrl} x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                  </svg>
+                )}
+              </div>
             </div>
 
             <div className="recipeDetail_inputItem">
@@ -231,12 +234,10 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
 
             <div className="recipeDetail_inputItem">
-              {recipe.images_detailUrl && recipe.images_detailUrl.map((imageUrl, index) => (
-                <div className="svgContent_subImg" key={index}>
-                  <img src={imageUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px' }} />
-                </div>
-              ))}
               <h3 className='recipeDetail_title'>作り方</h3>
+              {recipe.images_detailUrl && (
+                <ProcessImg images={recipe.images_detailUrl} />
+              )}
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>
           </div>
