@@ -129,6 +129,7 @@ body {
   padding: 2em 4em;
   background: #ffffff;
   overflow-y: scroll;
+  width: 100%;
 }
 
 .recipeInput_form {
@@ -218,10 +219,11 @@ body {
   height: 7em;
 }
 
-.recipeInput_img {
-  position: relative;
-  width: 5em;
-  height: 5em;
+.recipeInput_contents {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
 }
 
 .recipeInput_contents.is-img p {

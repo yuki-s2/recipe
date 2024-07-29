@@ -65,19 +65,32 @@ const RecipeInputForm = ({
               <div className="add">add</div>
             </div>
             <div className="recipeInput_contents is-img">
+            {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
+                <div className="recipeInput_img" key={index} style={{
+                  width: '30%',
+                  aspectRatio: '1/1',
+                  border: '2px dashed #ccc',
+                  cursor: 'pointer',
+                  backgroundImage: `url(${images_detailUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}>
+                  <button type="button" onClick={() => handleRemoveImage(index)} style={{ position: 'absolute', top: 0, right: 0 }}>画像を削除</button>
+                </div>
+              ))}
               <div className="recipeInput_img" onClick={() => document.getElementById('detailImgInput').click()} style={{
-                width: '200px',
-                height: '200px',
+                width: '30%',
+                aspectRatio: '1/1',
                 border: '2px dashed #ccc',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 cursor: 'pointer',
-                backgroundImage: editedRecipe.images_detailUrl.length > 0 ? `url(${editedRecipe.images_detailUrl[0]})` : 'none',
+                // backgroundImage: editedRecipe.images_detailUrl.length > 0 ? `url(${editedRecipe.images_detailUrl[0]})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}>
-                {editedRecipe.images_detailUrl.length === 0 && <span>クリックして画像をアップロード</span>}
+                 <span>クリックして画像をアップロード</span>
               </div>
               <input
                 id='detailImgInput'
@@ -88,18 +101,12 @@ const RecipeInputForm = ({
                 style={{ display: 'none' }}
                 onChange={handleFileSelection}
               />
-              {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
-                <div key={index} style={{ position: 'relative' }}>
-                  <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '100px', height: '100px', margin: '10px' }} />
-                  <button type="button" onClick={() => handleRemoveImage(index)} style={{ position: 'absolute', top: 0, right: 0 }}>画像を削除</button>
-                </div>
-              ))}
-              {loadingDetailImgs ? (
-                <p>詳細画像をアップロード中...</p>
-              ) : (
-                <p>画像をアップロード</p>
-              )}
             </div>
+            {loadingDetailImgs ? (
+              <p>詳細画像をアップロード中...</p>
+            ) : (
+              <p>画像をアップロード</p>
+            )}
           </div>
         </div>
         <div className="recipeInput_item">

@@ -123,6 +123,7 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   padding: 2em 4em;
   background: #ffffff;
   overflow-y: scroll;
+  width: 100%;
 }
 
 .recipeInput_form {
@@ -194,10 +195,11 @@ margin-top: 2em;
 .recipeInput_howTo input {
   height: 7em;
 }
-.recipeInput_img {
-  position: relative;
-  width: 5em;
-  height: 5em;
+.recipeInput_contents {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  flex-wrap: wrap;
 }
 // .recipeInput_contents.is-img {
 //   button {
