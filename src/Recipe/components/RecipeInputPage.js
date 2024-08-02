@@ -1,3 +1,4 @@
+// RecipeInputPage.js
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
@@ -73,6 +74,9 @@ export const RecipeInputPage = ({ posts }) => {
   };
 
   const uploadDetailImages = async (files) => {
+    // filesを配列に変換
+    files = Array.from(files);
+
     const detailImgUrls = await Promise.all(
       files.map(async (file) => {
         const storage = getStorage();
@@ -86,7 +90,7 @@ export const RecipeInputPage = ({ posts }) => {
 
   const handleFileSelection = async (e) => {
     setLoadingDetailImgs(true);
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files); // FileListをArrayに変換
     try {
       const detailImgUrls = await uploadDetailImages(files);
       const updatedDetailImgs = [...editedRecipe.images_detailUrl, ...detailImgUrls];
@@ -159,7 +163,7 @@ export const RecipeInputPage = ({ posts }) => {
       console.error("Error removing image: ", error);
     }
   };
-  
+
   return (
     <div className="recipeInput_body">
       <div className='inner'>
@@ -185,6 +189,7 @@ export const RecipeInputPage = ({ posts }) => {
               isUploaded={isUploaded}
               editedRecipe={editedRecipe}
               handleRemoveImage={handleRemoveImage}
+              uploadDetailImages={uploadDetailImages}
               handleFileUploadToFirebase={handleFileUploadToFirebase}
               handleFileSelection={handleFileSelection}
               loadingDetailImgs={loadingDetailImgs}

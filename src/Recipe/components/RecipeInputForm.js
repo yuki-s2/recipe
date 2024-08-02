@@ -1,3 +1,5 @@
+
+// RecipeInputForm.js
 import React from 'react';
 
 const RecipeInputForm = ({
@@ -34,48 +36,11 @@ const RecipeInputForm = ({
             )}
           </>
         ) : (
-
-          <div>
-            <div className="recipeInput_img" style={{
-              width: '30%',
-              aspectRatio: '1/1',
-              border: '2px dashed #ccc',
-              cursor: 'pointer',
-              backgroundImage: `url(${editedRecipe.imageUrl})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}>
-              <button type="button" onClick={() => handleRemoveImage} style={{ position: 'absolute', top: 0, right: 0 }}>画像を削除</button>
-            </div>
-            <div className="recipeInput_img" onClick={() => document.getElementById('detailImgInput').click()} style={{
-              width: '30%',
-              aspectRatio: '1/1',
-              border: '2px dashed #ccc',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}>
-              <span>クリックして画像をアップロード</span>
-            </div>
-            <input
-              className='input_img'
-              type='file'
-              multiple
-              accept='.png, .jpg, .jpeg, .webp'
-              style={{ display: 'none' }}
-              onChange={handleFileUploadToFirebase}
-            />
-
-          </div>
-
-          // <input
-          //   type='file'
-          //   accept='.png, .jpg, .jpeg'
-          //   onChange={handleFileUploadToFirebase}
-          // />
+          <input
+            type='file'
+            accept='.png, .jpg, .jpeg'
+            onChange={handleFileUploadToFirebase}
+          />
         )}
         <div className='recipeInput_item'>
           <div className="recipeInput_title">レシピの名前</div>
@@ -123,7 +88,6 @@ const RecipeInputForm = ({
                 justifyContent: 'center',
                 alignItems: 'center',
                 cursor: 'pointer',
-                // backgroundImage: editedRecipe.images_detailUrl.length > 0 ? `url(${editedRecipe.images_detailUrl[0]})` : 'none',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}>
