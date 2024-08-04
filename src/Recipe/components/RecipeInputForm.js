@@ -15,6 +15,7 @@ const RecipeInputForm = ({
   isUploaded,
   editedRecipe,
   handleRemoveImage,
+  handleRemoveImage2,
   handleFileUploadToFirebase,
   handleFileSelection,
   loadingDetailImgs
@@ -29,18 +30,29 @@ const RecipeInputForm = ({
           <>
             <p>アップロード完了</p>
             {editedRecipe.imageUrl && (
-              <div>
-                <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
-                <button onClick={() => handleRemoveImage(0)}>画像を削除</button>
+              <div className='recipeInput_img is-display'
+              style={{
+                backgroundImage: `url(${editedRecipe.imageUrl})`,
+              }}
+              >
+                <button type="button"  className='removeButton' onClick={() => handleRemoveImage2(0)}>✖️</button>
               </div>
+
             )}
           </>
         ) : (
-          <input
-            type='file'
-            accept='.png, .jpg, .jpeg'
-            onChange={handleFileUploadToFirebase}
-          />
+          <div>
+            <div className='recipeInput_img' onClick={() => document.getElementById('imgInput').click()}>
+              <span>クリックして画像をアップロード</span>
+            </div>
+            <input
+              style={{ display: 'none' }}
+              id='imgInput'
+              type='file'
+              accept='.png, .jpg, .jpeg'
+              onChange={handleFileUploadToFirebase}
+            />
+          </div>
         )}
         <div className='recipeInput_item'>
           <div className="recipeInput_title">レシピの名前</div>
@@ -61,41 +73,25 @@ const RecipeInputForm = ({
             追加する
           </button>
         </div>
-        <div className="recipeInput_item">
+        <div className="recipeInput_item smallItem">
           <div className="recipeInput_wrap">
             <div className="recipeInput_head">
               <div className="add">add</div>
             </div>
             <div className="recipeInput_contents is-img">
               {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
-                <div className="recipeInput_img" key={index} style={{
-                  width: '30%',
-                  aspectRatio: '1/1',
-                  border: '2px dashed #ccc',
-                  cursor: 'pointer',
+                <div className="recipeInput_img is-display" key={index} style={{
                   backgroundImage: `url(${images_detailUrl})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
                 }}>
-                  <button type="button" onClick={() => handleRemoveImage(index)} style={{ position: 'absolute', top: 0, right: 0 }}>画像を削除</button>
+                  <button type="button" className='removeButton' onClick={() => handleRemoveImage(index)} >✖️</button>
                 </div>
               ))}
-              <div className="recipeInput_img" onClick={() => document.getElementById('detailImgInput').click()} style={{
-                width: '30%',
-                aspectRatio: '1/1',
-                border: '2px dashed #ccc',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: 'pointer',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}>
+              <div className="recipeInput_img" onClick={() => document.getElementById('detailImgInput').click()}>
                 <span>クリックして画像をアップロード</span>
               </div>
               <input
                 id='detailImgInput'
-                className='input_img'
+                // className='input_img'
                 type='file'
                 multiple
                 accept='.png, .jpg, .jpeg, .webp'
@@ -115,7 +111,7 @@ const RecipeInputForm = ({
           <input className='input' type="text" onChange={(e) => setNewDetail(e.target.value)} value={newDetail} />
         </div>
       </div>
-      <button className='button_additionBtn' type="submit">追加する</button>
+      <button className='button_additionBtn' type="submit" disabled={!newRecipeName || !newDetail}>追加する</button>
     </form>
   </div>
 );

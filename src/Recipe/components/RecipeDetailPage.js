@@ -33,7 +33,7 @@ export const RecipeDetailPage = ({ posts }) => {
   }, [recipe]);
 
   useEffect(() => {
-    console.log(editedRecipe);
+    // console.log(editedRecipe);
   }, [editedRecipe]);
 
   if (!recipe) {
@@ -60,17 +60,31 @@ export const RecipeDetailPage = ({ posts }) => {
   // 全てを削除する
   const handleClickDelete = async () => {
     try {
+      const storage = getStorage();
+  
+      // メイン画像の削除
       if (recipe.imageUrl) {
-        const storage = getStorage();
-        const imageRef = ref(storage, recipe?.imageUrl);
+        const imageRef = ref(storage, recipe.imageUrl);
         await deleteObject(imageRef);
       }
+  
+      // 詳細画像の削除
+      if (recipe.images_detailUrl && recipe.images_detailUrl.length > 0) {
+        const deletePromises = recipe.images_detailUrl.map(async (url) => {
+          const detailImageRef = ref(storage, url);
+          await deleteObject(detailImageRef);
+        });
+        await Promise.all(deletePromises);
+      }
+  
+      // Firestore ドキュメントの削除
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
       alert('削除が完了しました');
     } catch (error) {
       console.error("Error removing document: ", error);
     }
   };
+  
 
   // 全てを更新する
   const handleSaveChanges = async () => {
@@ -123,6 +137,7 @@ export const RecipeDetailPage = ({ posts }) => {
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
+  // console.log(editedRecipe.imageUrl + "画像");
 
   return (
     <div className='recipeDetail_body'>

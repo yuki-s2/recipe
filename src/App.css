@@ -226,10 +226,35 @@ body {
   flex-wrap: wrap;
 }
 
-.recipeInput_contents.is-img p {
-  margin-top: 1em;
-  font-size: 0.8em;
-  color: #9a989a;
+.recipeInput_img {
+  width: 30%;
+  aspect-ratio: 1/1;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 0.5em;
+}
+.recipeInput_img.is-display {
+  border: 0.2em solid #333;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  border: 0.2em solid #333;
+  border-radius: 0.5em;
+  background: #9a9898;
+  width: 2em;
+  height: 2em;
+  font-size: 1em;
+  color: #333;
+  text-align: center;
 }
 
 /* RecipeListPage--------------------------------------------------- */

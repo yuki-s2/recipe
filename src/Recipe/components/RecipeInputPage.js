@@ -43,7 +43,7 @@ export const RecipeInputPage = ({ posts }) => {
       const storage = getStorage();
       const storageRef = ref(storage, "images/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
+  
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -54,14 +54,19 @@ export const RecipeInputPage = ({ posts }) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // 状態の更新
             setImageUrl(downloadURL);
+            setEditedRecipe(prevState => ({
+              ...prevState,
+              imageUrl: downloadURL
+            }));
             setLoading(false);
             setUploaded(true);
           });
         }
       );
     }
-  };
+  };  
 
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
@@ -123,8 +128,6 @@ export const RecipeInputPage = ({ posts }) => {
         images_detailUrl: [...editedRecipe.images_detailUrl, ...detailImgUrls],
       };
 
-      console.log(newRecipeData);
-
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), newRecipeData);
       } else {
@@ -164,6 +167,25 @@ export const RecipeInputPage = ({ posts }) => {
     }
   };
 
+  const handleRemoveImage2 = async () => {
+    try {
+      const storage = getStorage();
+      const imageRef = ref(storage, editedRecipe.imageUrl);
+      await deleteObject(imageRef);
+  
+      // editedRecipe の imageUrl を空にする
+      setEditedRecipe(prevState => ({ ...prevState, imageUrl: '' }));
+  
+      if (recipe) {
+        await updateDoc(doc(db, "posts", recipe.id), { imageUrl: '' });
+      }
+    } catch (error) {
+      console.error("Error removing image: ", error);
+    }
+  };
+  
+  console.log(editedRecipe.imageUrl + "画像");
+
   return (
     <div className="recipeInput_body">
       <div className='inner'>
@@ -189,6 +211,7 @@ export const RecipeInputPage = ({ posts }) => {
               isUploaded={isUploaded}
               editedRecipe={editedRecipe}
               handleRemoveImage={handleRemoveImage}
+              handleRemoveImage2={handleRemoveImage2}
               uploadDetailImages={uploadDetailImages}
               handleFileUploadToFirebase={handleFileUploadToFirebase}
               handleFileSelection={handleFileSelection}
