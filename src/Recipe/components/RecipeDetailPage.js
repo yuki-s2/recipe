@@ -241,11 +241,13 @@ export const RecipeDetailPage = ({ posts }) => {
               </div>
             </div>
 
-            <div className="recipeDetail_inputItem">
+            <div className="recipeDetail_inputItem ingredient">
               <h3 className='recipeDetail_title'>材料</h3>
+              <div className="recipeDetail_ingredients">
               {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
                 <p key={index}>{ingredient}</p>
               ))}
+            </div>
             </div>
 
             <div className="recipeDetail_inputItem">
