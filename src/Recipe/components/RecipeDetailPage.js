@@ -11,11 +11,11 @@ export const RecipeDetailPage = ({ posts }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedRecipe, setEditedRecipe] = useState({
-    title: recipe?.title || '',
-    ingredient: Array.isArray(recipe?.ingredient) ? recipe.ingredient : [],
-    text: recipe?.text || '',
-    imageUrl: recipe?.imageUrl || '',
-    images_detailUrl: recipe?.images_detailUrl || []
+    title: '',
+    ingredient: [],
+    text: '',
+    imageUrl: '',
+    images_detailUrl: []
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,10 +32,7 @@ export const RecipeDetailPage = ({ posts }) => {
     }
   }, [recipe]);
 
-  useEffect(() => {
-    // console.log(editedRecipe);
-  }, [editedRecipe]);
-
+  // もしrecipeがnullの場合は「レシピが見つかりません」のメッセージを表示
   if (!recipe) {
     return (
       <div>
@@ -57,7 +54,7 @@ export const RecipeDetailPage = ({ posts }) => {
     );
   }
 
-  // 全てを削除する
+  // 以下、レシピが存在する場合の処理
   const handleClickDelete = async () => {
     try {
       const storage = getStorage();

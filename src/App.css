@@ -444,11 +444,6 @@ body {
   line-height: 1.4;
 }
 
-.recipeDetail_inputItem.ingredient {
-  max-height: 15em;
-  overflow-y: auto;
-}
-
 .recipeDetail_ingredients {
   -moz-column-count: 3;
        column-count: 3;
