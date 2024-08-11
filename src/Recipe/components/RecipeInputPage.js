@@ -191,7 +191,7 @@ export const RecipeInputPage = ({ posts }) => {
       <div className='inner'>
         <div className="recipeInput_wrap">
           <div className="recipeInput_head">
-            <div className="add">add</div>
+            <div className="add">add new recipe</div>
             <div className="recipeInput_menu">
               <button><img className="recipeInput_edit" src="" alt="編集" /></button>
               <button><img className="recipeInput_delete" src="" alt="削除" /></button>

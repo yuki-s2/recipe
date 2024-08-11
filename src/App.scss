@@ -85,15 +85,15 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: .5em 1em;
-  border-bottom: 1px solid #9a989a;
+  padding: .5em 1.5em;
+  border-bottom: 4px solid #9a989a;
   background: #cfdfe2;
-  border-radius: 0.5em .5em 0 0;
-  box-shadow: inset 4px 4px #f7f6f6,inset -4px -4px rgb(200, 199, 199);
+  // border-radius: 0.5em .5em 0 0;
+  // box-shadow: inset 4px 4px #f7f6f6,inset -4px -4px rgb(200, 199, 199);
   color: #777676;
-  font-size: .7em;
+  font-size: 1em;
   letter-spacing: .1em;
-  border-radius: .5em .5em 0 0;
+  border-radius: 1em 1em 0 0;
 }
 
 .recipeInput_contents {
@@ -113,13 +113,13 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
 }
 
 .recipeInput_wrap {
-  border: 1px solid #9a9898;
-  border-radius: 0.5em;
+  border: 4px solid #9a9898;
+  border-radius: 1em;
 }
 
 .recipeInput_container {
-  border: 1px solid #9a989a;
-  border-radius: 0.5em;
+  // border: 1px solid #9a989a;
+  // border-radius: 0.5em;
   padding: 2em 4em;
   background: #ffffff;
   overflow-y: scroll;
@@ -134,21 +134,23 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   margin-top: 2em;
 }
 
+.recipeInput_item {
+  display: flex;
+  align-items: center;
+}
+
 .recipeInput_container .input {
   margin-top: .3em;
-  border: 1px solid #9a9898;
+  border: 4px solid #9a9898;
   display: block;
   width: 100%;
   padding: 1em;
   border-radius: 0.3em;
-  background: #ebeaea;
+  background: #f4f3f3;
   box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
 }
 ::placeholder {
   color: #fff;
-}
-.recipeInput_title {
-  text-align: left;
 }
 .recipeInput_ingredient {
   display: inline-block;
@@ -171,8 +173,10 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   color: #777676;
 }
 .recipeInput_title {
-  width: 8em;
   font-size: .7em;
+  text-align: left;
+  white-space: nowrap;
+  margin-right: 2em;
 }
 .recipeInput_howTo input {
   height: 7em;
@@ -181,31 +185,11 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   display: flex;
   flex-direction: row;
   gap: 1em;
-  flex-wrap: wrap;
 }
-// input[type='file'].input_img {
-//   width: 100%;
-//   height: 100%;
-// }
-
-// ::file-selector-button,
-// ::-webkit-file-upload-button {
-//   display: inline-block;
-//   background-color: rgb(200, 219, 248);
-//   cursor: pointer;
-//   border: 1px solid #b1b0b0;
-//   width: 100%;
-//   height: 100%;
-// }
-// .recipeInput_contents.is-img p {
-//   margin-top: 1em;
-//   font-size: .8em;
-//   color: #9a989a;
-// }
 .recipeInput_img {
-  width: 30%;
-  aspect-ratio: 1/1;
-  border: 2px dashed #ccc;
+  width: 50%;
+  aspect-ratio: 3/2;
+  border: 4px dashed #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -214,8 +198,16 @@ font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリ
   background-position: center;
   position: relative;
   border-radius: .5em;
+  margin: 0 auto;
   &.is-display {
     border: .2em solid #333;
+  }
+}
+.recipeInput_contents.is-flow {
+  .recipeInput_img {
+    width: 30%;
+    aspect-ratio: 1/1;
+    margin: 0;
   }
 }
 .removeButton {

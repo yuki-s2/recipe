@@ -1,6 +1,6 @@
 
 // RecipeInputForm.js
-import React from 'react';
+import React, { useRef } from 'react';
 
 const RecipeInputForm = ({
   newRecipeName,
@@ -19,35 +19,50 @@ const RecipeInputForm = ({
   handleFileUploadToFirebase,
   handleFileSelection,
   loadingDetailImgs
-}) => (
+}) => {
+  const imgInputRef = useRef(null);
+  const detailImgInputRef = useRef(null);
+return (
   <div className="recipeInput_container">
-    <h2 className='page_ttl'>新しいレシピを追加する</h2>
+    {/* <h2 className='page_ttl'>新しいレシピを追加する</h2> */}
     <form className='recipeInput_form' onSubmit={handleSubmit}>
       <div>
         {loading ? (
-          <p>アップロード中...</p>
+          <p>Uploading...</p>
         ) : isUploaded ? (
-          <>
-            <p>アップロード完了</p>
-            {editedRecipe.imageUrl && (
+          <div className='recipeInput_item'>
+            {editedRecipe.imageUrl ? (
               <div className='recipeInput_img is-display'
               style={{
                 backgroundImage: `url(${editedRecipe.imageUrl})`,
               }}
               >
-                <button type="button"  className='removeButton' onClick={() => handleRemoveImage2(0)}>✖️</button>
+                <button type="button"  className='removeButton' onClick={handleRemoveImage2}>✖️</button>
               </div>
-
+            ) : (
+              <React.Fragment>
+              <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
+                <span>Upload</span>
+              </div>
+              <input
+              ref={imgInputRef}
+                style={{ display: 'none' }}
+                type='file'
+                accept='.png, .jpg, .jpeg'
+                onChange={handleFileUploadToFirebase}
+              />
+            </React.Fragment>
             )}
-          </>
+          </div>
         ) : (
-          <div>
-            <div className='recipeInput_img' onClick={() => document.getElementById('imgInput').click()}>
-              <span>クリックして画像をアップロード</span>
+          <div className='recipeInput_item'>
+            <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
+              <span>Upload</span>
             </div>
             <input
+            ref={imgInputRef}
               style={{ display: 'none' }}
-              id='imgInput'
+              // id='imgInput'
               type='file'
               accept='.png, .jpg, .jpeg'
               onChange={handleFileUploadToFirebase}
@@ -73,12 +88,12 @@ const RecipeInputForm = ({
             追加する
           </button>
         </div>
-        <div className="recipeInput_item smallItem">
+        <div className="smallItem">
           <div className="recipeInput_wrap">
             <div className="recipeInput_head">
               <div className="add">add</div>
             </div>
-            <div className="recipeInput_contents is-img">
+            <div className="recipeInput_contents is-flow">
               {editedRecipe.images_detailUrl.map((images_detailUrl, index) => (
                 <div className="recipeInput_img is-display" key={index} style={{
                   backgroundImage: `url(${images_detailUrl})`,
@@ -86,11 +101,12 @@ const RecipeInputForm = ({
                   <button type="button" className='removeButton' onClick={() => handleRemoveImage(index)} >✖️</button>
                 </div>
               ))}
-              <div className="recipeInput_img" onClick={() => document.getElementById('detailImgInput').click()}>
-                <span>クリックして画像をアップロード</span>
+              <div className="recipeInput_img" onClick={() => detailImgInputRef.current.click()}>
+                <span>Upload</span>
               </div>
               <input
-                id='detailImgInput'
+              ref={detailImgInputRef}
+                // id='detailImgInput'
                 // className='input_img'
                 type='file'
                 multiple
@@ -115,5 +131,6 @@ const RecipeInputForm = ({
     </form>
   </div>
 );
+};
 
 export default RecipeInputForm;

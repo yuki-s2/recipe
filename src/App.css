@@ -92,15 +92,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em 1em;
-  border-bottom: 1px solid #9a989a;
+  padding: 0.5em 1.5em;
+  border-bottom: 4px solid #9a989a;
   background: #cfdfe2;
-  border-radius: 0.5em 0.5em 0 0;
-  box-shadow: inset 4px 4px #f7f6f6, inset -4px -4px rgb(200, 199, 199);
   color: #777676;
-  font-size: 0.7em;
+  font-size: 1em;
   letter-spacing: 0.1em;
-  border-radius: 0.5em 0.5em 0 0;
+  border-radius: 1em 1em 0 0;
 }
 
 .recipeInput_contents {
@@ -119,13 +117,11 @@ body {
 }
 
 .recipeInput_wrap {
-  border: 1px solid #9a9898;
-  border-radius: 0.5em;
+  border: 4px solid #9a9898;
+  border-radius: 1em;
 }
 
 .recipeInput_container {
-  border: 1px solid #9a989a;
-  border-radius: 0.5em;
   padding: 2em 4em;
   background: #ffffff;
   overflow-y: scroll;
@@ -140,14 +136,19 @@ body {
   margin-top: 2em;
 }
 
+.recipeInput_item {
+  display: flex;
+  align-items: center;
+}
+
 .recipeInput_container .input {
   margin-top: 0.3em;
-  border: 1px solid #9a9898;
+  border: 4px solid #9a9898;
   display: block;
   width: 100%;
   padding: 1em;
   border-radius: 0.3em;
-  background: #ebeaea;
+  background: #f4f3f3;
   box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
 }
 
@@ -157,10 +158,6 @@ body {
 
 ::placeholder {
   color: #fff;
-}
-
-.recipeInput_title {
-  text-align: left;
 }
 
 .recipeInput_ingredient {
@@ -188,8 +185,10 @@ body {
 }
 
 .recipeInput_title {
-  width: 8em;
   font-size: 0.7em;
+  text-align: left;
+  white-space: nowrap;
+  margin-right: 2em;
 }
 
 .recipeInput_howTo input {
@@ -200,13 +199,12 @@ body {
   display: flex;
   flex-direction: row;
   gap: 1em;
-  flex-wrap: wrap;
 }
 
 .recipeInput_img {
-  width: 30%;
-  aspect-ratio: 1/1;
-  border: 2px dashed #ccc;
+  width: 50%;
+  aspect-ratio: 3/2;
+  border: 4px dashed #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,9 +213,16 @@ body {
   background-position: center;
   position: relative;
   border-radius: 0.5em;
+  margin: 0 auto;
 }
 .recipeInput_img.is-display {
   border: 0.2em solid #333;
+}
+
+.recipeInput_contents.is-flow .recipeInput_img {
+  width: 30%;
+  aspect-ratio: 1/1;
+  margin: 0;
 }
 
 .removeButton {
