@@ -142,7 +142,6 @@ body {
 }
 
 .recipeInput_container .input {
-  margin-top: 0.3em;
   border: 4px solid #9a9898;
   display: block;
   width: 100%;
@@ -152,19 +151,28 @@ body {
   box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
 }
 
-::-moz-placeholder {
-  color: #fff;
+.recipeInput_ingredientInput {
+  width: 100%;
 }
 
-::placeholder {
-  color: #fff;
+.recipeInput_item.recipeInput_ingredient {
+  display: block;
+  width: 100%;
+}
+
+.recipeInput_ingredientContainer {
+  display: flex;
+}
+
+.recipeInput_ingredient .input + .input {
+  margin-top: 1em;
 }
 
 .recipeInput_ingredient {
-  display: inline-block;
   background: #f9f9f9;
   border-radius: 1em;
   padding: 2em 2em 1em;
+  width: 100%;
 }
 
 .recipeInput_ingredient input {
@@ -450,17 +458,16 @@ body {
 }
 
 .recipeDetail_ingredients {
-  -moz-column-count: 3;
-       column-count: 3;
-  -moz-column-gap: 1em;
-       column-gap: 1em;
-  margin-top: 1.5em;
+  text-align: left;
+  margin-top: 1em;
 }
 
-.recipeDetail_ingredients p {
-  -moz-column-break-inside: avoid;
-       break-inside: avoid;
-  text-align: left;
+.recipeDetail_ingredients p + p {
+  margin-top: 0.5em;
+}
+
+.recipeInput_ingredient .input + .input {
+  margin-top: 1em;
 }
 
 /* --------------------------------------------------- Chat */
