@@ -203,14 +203,11 @@ body {
   height: 7em;
 }
 
-.recipeInput_contents {
-  display: flex;
-  flex-direction: row;
-  gap: 1em;
+.recipeInput_detailContents {
+  width: 100%;
 }
 
 .recipeInput_img {
-  width: 50%;
   aspect-ratio: 3/2;
   border: 4px dashed #ccc;
   display: flex;
@@ -222,15 +219,35 @@ body {
   position: relative;
   border-radius: 0.5em;
   margin: 0 auto;
-}
-.recipeInput_img.is-display {
   border: 0.2em solid #333;
+  width: 70%;
 }
 
-.recipeInput_contents.is-flow .recipeInput_img {
-  width: 30%;
+.recipeInput_item.is-flow {
+  align-items: start;
+  background: #f9f9f9;
+  padding: 2em 2em 1em;
+}
+.recipeInput_item.is-flow .recipeInput_img {
+  width: 100%;
   aspect-ratio: 1/1;
   margin: 0;
+  outline: none;
+}
+.recipeInput_item.is-flow .textarea {
+  height: 100%;
+  padding: 1em;
+  font-size: 18px;
+}
+
+.recipeInput_imgAndText {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 1.5em;
+}
+
+.recipeInput_imgAndText + .recipeInput_imgAndText {
+  margin-top: 1em;
 }
 
 .removeButton {

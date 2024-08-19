@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 
 const RecipeInputForm = ({
+  tempImageUrl,
   newRecipeName,
   setNewRecipeName,
   newDetail,
@@ -25,112 +26,119 @@ const RecipeInputForm = ({
   return (
     <div className="recipeInput_container">
       <form className='recipeInput_form' onSubmit={handleSubmit}>
-        <div>
+        <div className='recipeInput_item'>
           {loading ? (
             <p>Uploading...</p>
-          ) : isUploaded ? (
-            <div className='recipeInput_item'>
-              {editedRecipe.imageUrl ? (
-                <div className='recipeInput_img is-display'
-                  style={{
-                    backgroundImage: `url(${editedRecipe.imageUrl})`,
-                  }}
-                >
-                  <button type="button" className='removeButton' onClick={handleRemoveImage2}>✖️</button>
-                </div>
-              ) : (
-                <React.Fragment>
-                  <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
-                    <span>Upload</span>
-                  </div>
-                  <input
-                    ref={imgInputRef}
-                    style={{ display: 'none' }}
-                    type='file'
-                    accept='.png, .jpg, .jpeg'
-                    onChange={handleFileUploadToFirebase}
-                  />
-                </React.Fragment>
-              )}
-            </div>
           ) : (
-            <div className='recipeInput_item'>
-              <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
-                <span>Upload</span>
+            editedRecipe.imageUrl ? (
+              <div
+                className='recipeInput_img is-display'
+                style={{
+                  backgroundImage: `url(${editedRecipe.imageUrl})`,
+                }}                
+              >
+                <button type="button" className='removeButton' onClick={handleRemoveImage2}>✖️</button>
               </div>
-              <input
-                ref={imgInputRef}
-                style={{ display: 'none' }}
-                type='file'
-                accept='.png, .jpg, .jpeg'
-                onChange={handleFileUploadToFirebase}
-              />
-            </div>
-          )}
-          <div className='recipeInput_item'>
-            <div className="recipeInput_title">レシピの名前</div>
-            <input className='input' type="text" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
-          </div>
-          <div className="recipeInput_item recipeInput_ingredient">
-            <div className="recipeInput_ingredientContainer">
-              <div className="recipeInput_title">材料</div>
-              <div className="recipeInput_ingredientInput">
-                {newIngredients.map((ingredient, index) => (
-                  <input
-                    className='input'
-                    key={index}
-                    type="text"
-                    value={ingredient}
-                    onChange={(event) => handleAdditionalInfoChange(index, event)}
-                  />
-                ))}
-              </div>
-            </div>
-            <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
-              追加する
-            </button>
-          </div>
-          <div className="smallItem">
-            <div className="recipeInput_wrap">
-              <div className="recipeInput_head">
-                <div className="add">add</div>
-              </div>
-
-              <div className="recipeInput_contents is-flow">
-                {editedRecipe.images_detailUrl.map((item, index) => (
-                  <div className="recipeInput_img is-display" key={index} style={{
-                    backgroundImage: `url(${item.images_detailUrl})`,
-                  }}>
-                    <button type="button" className='removeButton' onClick={() => handleRemoveImage(index)}>✖️</button>
-                    <p>{item.text}</p>
-                  </div>
-                ))}
-                <button className='button_additionBtn' type="button" onClick={handleAddDetailUrlAndText}>
-                  追加する
-                </button>
-                <div className="recipeInput_img" onClick={() => detailImgInputRef.current.click()}>
+            ) : (
+              <React.Fragment>
+                <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
                   <span>Upload</span>
                 </div>
                 <input
-                  ref={detailImgInputRef}
+                  ref={imgInputRef}
                   style={{ display: 'none' }}
                   type='file'
-                  multiple
-                  accept='.png, .jpg, .jpeg, .webp'
-                  onChange={handleFileSelection}
+                  accept='.png, .jpg, .jpeg'
+                  onChange={handleFileUploadToFirebase}
                 />
-                <input className='input' type="text" onChange={(e) => setNewDetail(e.target.value)} value={newDetail} />
-              </div>
-
-              {loadingDetailImgs ? (
-                <p>詳細画像をアップロード中...</p>
-              ) : (
-                <p>画像をアップロード</p>
-              )}
+              </React.Fragment>
+            )
+          )}
+        </div>
+        <div className='recipeInput_item'>
+          <div className="recipeInput_title">レシピの名前</div>
+          <input className='input' type="text" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
+        </div>
+        <div className="recipeInput_item recipeInput_ingredient">
+          <div className="recipeInput_ingredientContainer">
+            <div className="recipeInput_title">材料</div>
+            <div className="recipeInput_ingredientInput">
+              {newIngredients.map((ingredient, index) => (
+                <input
+                  className='input'
+                  key={index}
+                  type="text"
+                  value={ingredient}
+                  onChange={(event) => handleAdditionalInfoChange(index, event)}
+                />
+              ))}
             </div>
           </div>
-          <div className="recipeInput_item">
-            <h3 className="recipeInput_title">作り方</h3>
+          <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
+            追加する
+          </button>
+        </div>
+        <div className="recipeInput_item is-flow">
+          <h3 className="recipeInput_title">作り方</h3>
+          <div className="recipeInput_detailContents">
+            {editedRecipe.images_detailUrl.map((detailUrlAndText, index) => (
+              <div className="recipeInput_imgAndText" key={index}>
+                <div
+                  className="recipeInput_img"
+                  onClick={() => detailImgInputRef.current.click()}
+                  style={{
+                    backgroundImage: `url(${detailUrlAndText.images_detailUrl})`,
+                  }}
+                ></div>
+                <button
+                  type="button"
+                  className='removeButton'
+                  onClick={() => handleRemoveImage(index)}
+                >
+                  ✖️
+                </button>
+                <textarea
+                  className='textarea'
+                  type="text"
+                  onChange={(e) => handleAddDetailUrlAndText(index, e)}
+                  value={detailUrlAndText.text}
+                ></textarea>
+              </div>
+            ))}
+            <div className="recipeInput_imgAndText">
+              {loadingDetailImgs ? (
+                <div className='recipeInput_img is-input'>
+                  <p>Uploading...</p>
+                </div>
+              ) : (
+                <div
+                  className='recipeInput_img is-input'
+                  onClick={() => detailImgInputRef.current.click()}
+                  style={{
+                    backgroundImage: tempImageUrl ? `url(${tempImageUrl})` : 'none',
+                  }}
+                >
+                  {!tempImageUrl && <span>Upload</span>}
+                </div>
+              )}
+              <input
+                style={{ display: 'none' }}
+                ref={detailImgInputRef}
+                type='file'
+                multiple
+                accept='.png, .jpg, .jpeg, .webp'
+                onChange={handleFileSelection}
+              />
+              <textarea
+                className='textarea'
+                type="text"
+                onChange={(e) => setNewDetail(e.target.value)}
+                value={newDetail}
+              ></textarea>
+            </div>
+            <button className='button_additionBtn' type="button" onClick={handleAddDetailUrlAndText}>
+              追加する
+            </button>
           </div>
         </div>
         <button className='button_additionBtn' type="submit" disabled={!newRecipeName || !newDetail}>追加する</button>

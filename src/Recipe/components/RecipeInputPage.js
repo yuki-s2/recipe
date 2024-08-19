@@ -14,7 +14,7 @@ export const RecipeInputPage = ({ posts }) => {
   const [loadingDetailImgs, setLoadingDetailImgs] = useState(false);
   const [isUploaded, setUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
-  const [newDetailImgs, setNewDetailImgs] = useState([]);
+  const [tempImageUrl, setTempImageUrl] = useState('');
   const [editedRecipe, setEditedRecipe] = useState({
     imageUrl: '',
     images_detailUrl: []
@@ -36,6 +36,7 @@ export const RecipeInputPage = ({ posts }) => {
     }
   }, [recipe]);
 
+  //レシピ画像 firebase保存
   const handleFileUploadToFirebase = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
@@ -52,14 +53,23 @@ export const RecipeInputPage = ({ posts }) => {
           console.error("Error uploading file: ", error);
         },
         () => {
+          // Firebaseの画像URLをセット
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUrl(downloadURL);
-            setUploaded(true);
+            setImageUrl(downloadURL);  // imageUrlに設定
+            setEditedRecipe((prevState) => ({
+              ...prevState,
+              imageUrl: downloadURL,  // これでeditedRecipe.imageUrlにセット
+            }));
+            setLoading(false);
           });
         }
       );
     }
   };
+  //レシピ画像 firebase保存
+
+
+
 
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
@@ -71,20 +81,7 @@ export const RecipeInputPage = ({ posts }) => {
     setNewIngredients([...newIngredients, '']);
   };
 
-  const handleAddDetailUrlAndText = () => {
-    if (imageUrl && newDetail) {
-      setEditedRecipe(prevState => ({
-        ...prevState,
-        images_detailUrl: [...prevState.images_detailUrl, { images_detailUrl: imageUrl, text: newDetail }]
-      }));
-      setNewDetail(''); // テキストをクリア
-      setImageUrl('');  // 画像URLをクリア
-      setUploaded(false);  // アップロード状態をリセット
-    } else {
-      console.error("Image URL and text are required to add detail");
-    }
-  };
-
+  //作り方画像 firebase 保存
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
@@ -98,20 +95,44 @@ export const RecipeInputPage = ({ posts }) => {
     );
     return detailImgUrls;
   };
+  //作り方画像 firebase 保存
 
+  //作り方画像 firebase 保存
   const handleFileSelection = async (e) => {
+    //ローディング始
     setLoadingDetailImgs(true);
     const files = Array.from(e.target.files);
+
     try {
       const detailImgUrls = await uploadDetailImages(files);
-      setImageUrl(detailImgUrls[0]); // 1つの画像URLだけを保存
+      if (detailImgUrls.length > 0) {
+        setTempImageUrl(detailImgUrls[0]);  // 一時的なURLに保存
+      }
     } catch (error) {
       console.error("Error updating document: ", error);
     } finally {
+      //ローディング終
       setLoadingDetailImgs(false);
     }
   };
+  //作り方画像 firebase 保存
 
+  //作り方の画像とテキストをeditedRecipeへ
+  const handleAddDetailUrlAndText = () => {
+    if (tempImageUrl && newDetail) {
+      setEditedRecipe(prevState => ({
+        ...prevState,
+        images_detailUrl: [
+          ...prevState.images_detailUrl,
+          { images_detailUrl: tempImageUrl, text: newDetail }
+        ]
+      }));
+      setNewDetail('');  // テキストをクリア
+      setTempImageUrl('');  // 一時的な画像URLをクリア
+    } else {
+      console.error("Image URL and text are required to add detail");
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -192,12 +213,14 @@ export const RecipeInputPage = ({ posts }) => {
           </div>
           <div className="recipeInput_contents">
             <RecipeInputForm
+              tempImageUrl={tempImageUrl}
               newRecipeName={newRecipeName}
               setNewRecipeName={setNewRecipeName}
               newDetail={newDetail}
               setNewDetail={setNewDetail}
               newIngredients={newIngredients}
               handleAdditionalInfoChange={handleAdditionalInfoChange}
+              // handleDetailUrlAndTextAdd={handleDetailUrlAndTextAdd}
               handleAddIngredientField={handleAddIngredientField}
               handleAddDetailUrlAndText={handleAddDetailUrlAndText}
               handleSubmit={handleSubmit}
