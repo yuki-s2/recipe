@@ -58,7 +58,7 @@ export const RecipeInputPage = ({ posts }) => {
             setImageUrl(downloadURL);  // imageUrlに設定
             setEditedRecipe((prevState) => ({
               ...prevState,
-              imageUrl: downloadURL,  // これでeditedRecipe.imageUrlにセット
+              imageUrl: downloadURL,  // これでeditedRecipe.imageUrlにセット 重要！！！
             }));
             setLoading(false);
           });

@@ -31,7 +31,7 @@ export const RecipeDetailPage = ({ posts }) => {
       });
     }
   }, [recipe]);
-
+  console.log('recipe.images_detailUrl:', recipe.images_detailUrl);
   // もしrecipeがnullの場合は「レシピが見つかりません」のメッセージを表示
   if (!recipe) {
     return (
@@ -58,13 +58,13 @@ export const RecipeDetailPage = ({ posts }) => {
   const handleClickDelete = async () => {
     try {
       const storage = getStorage();
-  
+
       // メイン画像の削除
       if (recipe.imageUrl) {
         const imageRef = ref(storage, recipe.imageUrl);
         await deleteObject(imageRef);
       }
-  
+
       // 詳細画像の削除
       if (recipe.images_detailUrl && recipe.images_detailUrl.length > 0) {
         const deletePromises = recipe.images_detailUrl.map(async (url) => {
@@ -73,7 +73,7 @@ export const RecipeDetailPage = ({ posts }) => {
         });
         await Promise.all(deletePromises);
       }
-  
+
       // Firestore ドキュメントの削除
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
       alert('削除が完了しました');
@@ -81,7 +81,7 @@ export const RecipeDetailPage = ({ posts }) => {
       console.error("Error removing document: ", error);
     }
   };
-  
+
 
   // 全てを更新する
   const handleSaveChanges = async () => {
@@ -241,16 +241,15 @@ export const RecipeDetailPage = ({ posts }) => {
             <div className="recipeDetail_inputItem ingredient">
               <h3 className='recipeDetail_title'>材料</h3>
               <div className="recipeDetail_ingredients">
-              {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
-                <p key={index}>{ingredient}</p>
-              ))}
-            </div>
+                {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
+                  <p key={index}>{ingredient}</p>
+                ))}
+              </div>
             </div>
 
             <div className="recipeDetail_inputItem">
-              <h3 className='recipeDetail_title'>作り方</h3>
-              {recipe.images_detailUrl && (
-                <ProcessImg images={recipe.images_detailUrl} />
+              {recipe.images_detailUrl && recipe.images_detailUrl.length > 0 && (
+                <ProcessImg images={recipe.images_detailUrl.map(detail => detail.images_detailUrl)} />
               )}
               <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>

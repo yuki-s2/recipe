@@ -35,7 +35,7 @@ const RecipeInputForm = ({
                 className='recipeInput_img is-display'
                 style={{
                   backgroundImage: `url(${editedRecipe.imageUrl})`,
-                }}                
+                }}
               >
                 <button type="button" className='removeButton' onClick={handleRemoveImage2}>✖️</button>
               </div>
@@ -141,7 +141,9 @@ const RecipeInputForm = ({
             </button>
           </div>
         </div>
-        <button className='button_additionBtn' type="submit" disabled={!newRecipeName || !newDetail}>追加する</button>
+        <button className='button_additionBtn' type="submit">
+          追加する
+        </button>
       </form>
     </div>
   );
