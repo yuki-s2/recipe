@@ -12,7 +12,6 @@ const RecipeInputForm = ({
   handleAddDetailUrlAndText,
   handleSubmit,
   loading,
-  isUploaded,
   editedRecipe,
   handleRemoveImage,
   handleRemoveImage2,
@@ -81,13 +80,14 @@ const RecipeInputForm = ({
         <div className="recipeInput_item is-flow">
           <h3 className="recipeInput_title">作り方</h3>
           <div className="recipeInput_detailContents">
-            {editedRecipe.images_detailUrl.map((detailUrlAndText, index) => (
+            {editedRecipe.process && editedRecipe.process.map((detail, index) => (
               <div className="recipeInput_imgAndText" key={index}>
+                {/* 作り方画像表示 */}
                 <div
                   className="recipeInput_img"
                   onClick={() => detailImgInputRef.current.click()}
                   style={{
-                    backgroundImage: `url(${detailUrlAndText.images_detailUrl})`,
+                    backgroundImage: `url(${detail.process})`,
                   }}
                 ></div>
                 <button
@@ -97,11 +97,12 @@ const RecipeInputForm = ({
                 >
                   ✖️
                 </button>
+                {/* 作り方テキスト表示 */}
                 <textarea
                   className='textarea'
                   type="text"
                   onChange={(e) => handleAddDetailUrlAndText(index, e)}
-                  value={detailUrlAndText.text}
+                  value={detail.text}
                 ></textarea>
               </div>
             ))}
@@ -111,6 +112,7 @@ const RecipeInputForm = ({
                   <p>Uploading...</p>
                 </div>
               ) : (
+                // 作り方画像表示
                 <div
                   className='recipeInput_img is-input'
                   onClick={() => detailImgInputRef.current.click()}
@@ -121,6 +123,7 @@ const RecipeInputForm = ({
                   {!tempImageUrl && <span>Upload</span>}
                 </div>
               )}
+              {/* 作り方画像入力 */}
               <input
                 style={{ display: 'none' }}
                 ref={detailImgInputRef}
@@ -129,6 +132,7 @@ const RecipeInputForm = ({
                 accept='.png, .jpg, .jpeg, .webp'
                 onChange={handleFileSelection}
               />
+              {/* 作り方テキスト入力 */}
               <textarea
                 className='textarea'
                 type="text"

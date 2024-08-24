@@ -1,16 +1,18 @@
 import React from 'react';
+//作り方
 
-const ProcessImg = ({ images }) => {
+const Process = ({ steps }) => {
   return (
     <div className='processImg_items'>
-      {images && images.map((images_detailUrl, index) => (
+      {steps && steps.map((step, index) => (
         <div className="processImg_item" key={index}>
           <div className="processImg_itemNumber">{index + 1}.</div>
-          <img src={images_detailUrl} alt="Recipe Detail" style={{ width: '150px', height: '150px' }} />
+          <img src={step.process} alt="Recipe Detail" style={{ width: '150px', height: '150px' }} />
+          <p>{step.text}</p>
         </div>
       ))}
     </div>
   );
 };
 
-export default ProcessImg;
+export default Process;

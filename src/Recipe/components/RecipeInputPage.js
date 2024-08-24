@@ -12,12 +12,11 @@ export const RecipeInputPage = ({ posts }) => {
   const [newIngredients, setNewIngredients] = useState(['']);
   const [loading, setLoading] = useState(false);
   const [loadingDetailImgs, setLoadingDetailImgs] = useState(false);
-  const [isUploaded, setUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [tempImageUrl, setTempImageUrl] = useState('');
   const [editedRecipe, setEditedRecipe] = useState({
     imageUrl: '',
-    images_detailUrl: []
+    processImg: []
   });
 
   const { postId } = useParams();
@@ -31,7 +30,7 @@ export const RecipeInputPage = ({ posts }) => {
       setImageUrl(recipe.imageUrl);
       setEditedRecipe({
         imageUrl: recipe.imageUrl,
-        images_detailUrl: recipe?.images_detailUrl || []
+        process: recipe?.process || []
       });
     }
   }, [recipe]);
@@ -88,7 +87,7 @@ export const RecipeInputPage = ({ posts }) => {
     const detailImgUrls = await Promise.all(
       files.map(async (file) => {
         const storage = getStorage();
-        const storageRef = ref(storage, "images_detailUrl/" + file.name);
+        const storageRef = ref(storage, "images_processUrl/" + file.name);
         await uploadBytesResumable(storageRef, file);
         return await getDownloadURL(storageRef);
       })
@@ -122,9 +121,9 @@ export const RecipeInputPage = ({ posts }) => {
     if (tempImageUrl && newDetail) {
       setEditedRecipe(prevState => ({
         ...prevState,
-        images_detailUrl: [
-          ...prevState.images_detailUrl,
-          { images_detailUrl: tempImageUrl, text: newDetail }
+        process: [
+          ...(prevState.process || []),  // デフォルト値として空の配列を設定
+          { process: tempImageUrl, text: newDetail }
         ]
       }));
       setNewDetail('');  // テキストをクリア
@@ -132,7 +131,8 @@ export const RecipeInputPage = ({ posts }) => {
     } else {
       console.error("Image URL and text are required to add detail");
     }
-  };
+};
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -143,7 +143,7 @@ export const RecipeInputPage = ({ posts }) => {
         text: newDetail,
         ingredient: newIngredients,
         imageUrl: imageUrl,
-        images_detailUrl: editedRecipe.images_detailUrl,
+        process: editedRecipe.process,
       };
 
       if (recipe) {
@@ -156,8 +156,7 @@ export const RecipeInputPage = ({ posts }) => {
       setNewDetail('');
       setNewIngredients(['']);
       setImageUrl('');
-      setEditedRecipe({ imageUrl: '', images_detailUrl: [] });
-      setUploaded(false);
+      setEditedRecipe({ imageUrl: '', process: [] });
     } catch (error) {
       console.error("Error saving document: ", error);
     } finally {
@@ -168,15 +167,15 @@ export const RecipeInputPage = ({ posts }) => {
   const handleRemoveImage = async (index) => {
     try {
       const storage = getStorage();
-      const imageRef = ref(storage, editedRecipe.images_detailUrl[index].images_detailUrl);
+      const imageRef = ref(storage, editedRecipe.process[index].processImg);
       await deleteObject(imageRef);
 
-      const updatedDetailImgs = editedRecipe.images_detailUrl.filter((_, i) => i !== index);
-      setEditedRecipe({ ...editedRecipe, images_detailUrl: updatedDetailImgs });
+      const updatedDetailImgs = editedRecipe.process.filter((_, i) => i !== index);
+      setEditedRecipe({ ...editedRecipe, process: updatedDetailImgs });
 
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), {
-          images_detailUrl: updatedDetailImgs
+          process: updatedDetailImgs
         });
       }
     } catch (error) {
@@ -220,12 +219,11 @@ export const RecipeInputPage = ({ posts }) => {
               setNewDetail={setNewDetail}
               newIngredients={newIngredients}
               handleAdditionalInfoChange={handleAdditionalInfoChange}
-              // handleDetailUrlAndTextAdd={handleDetailUrlAndTextAdd}
               handleAddIngredientField={handleAddIngredientField}
               handleAddDetailUrlAndText={handleAddDetailUrlAndText}
               handleSubmit={handleSubmit}
               loading={loading}
-              isUploaded={isUploaded}
+              // isUploaded={isUploaded}
               editedRecipe={editedRecipe}
               handleRemoveImage={handleRemoveImage}
               handleRemoveImage2={handleRemoveImage2}

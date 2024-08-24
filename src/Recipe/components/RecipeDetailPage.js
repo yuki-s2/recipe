@@ -3,10 +3,10 @@ import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import ProcessImg from './ProcessImg';
+import Process from './Process';
 
 export const RecipeDetailPage = ({ posts }) => {
-  const { postId } = useParams(); // URLパラメータからpostIdを取得
+  const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -15,7 +15,7 @@ export const RecipeDetailPage = ({ posts }) => {
     ingredient: [],
     text: '',
     imageUrl: '',
-    images_detailUrl: []
+    process: []
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -27,12 +27,11 @@ export const RecipeDetailPage = ({ posts }) => {
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
         text: recipe.text,
         imageUrl: recipe.imageUrl,
-        images_detailUrl: recipe.images_detailUrl || []
+        process: recipe.process || []
       });
     }
   }, [recipe]);
-  console.log('recipe.images_detailUrl:', recipe.images_detailUrl);
-  // もしrecipeがnullの場合は「レシピが見つかりません」のメッセージを表示
+
   if (!recipe) {
     return (
       <div>
@@ -54,27 +53,23 @@ export const RecipeDetailPage = ({ posts }) => {
     );
   }
 
-  // 以下、レシピが存在する場合の処理
   const handleClickDelete = async () => {
     try {
       const storage = getStorage();
 
-      // メイン画像の削除
       if (recipe.imageUrl) {
         const imageRef = ref(storage, recipe.imageUrl);
         await deleteObject(imageRef);
       }
 
-      // 詳細画像の削除
-      if (recipe.images_detailUrl && recipe.images_detailUrl.length > 0) {
-        const deletePromises = recipe.images_detailUrl.map(async (url) => {
-          const detailImageRef = ref(storage, url);
+      if (recipe.process && recipe.process.length > 0) {
+        const deletePromises = recipe.process.map(async (detail) => {
+          const detailImageRef = ref(storage, detail.process);
           await deleteObject(detailImageRef);
         });
         await Promise.all(deletePromises);
       }
 
-      // Firestore ドキュメントの削除
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
       alert('削除が完了しました');
     } catch (error) {
@@ -82,8 +77,6 @@ export const RecipeDetailPage = ({ posts }) => {
     }
   };
 
-
-  // 全てを更新する
   const handleSaveChanges = async () => {
     setLoading(true);
     try {
@@ -105,36 +98,30 @@ export const RecipeDetailPage = ({ posts }) => {
     }
   };
 
-  // 材料入力
   const handleIngredientChange = (index, value) => {
     const newIngredients = [...editedRecipe.ingredient];
     newIngredients[index] = value;
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
-  // 材料追加
   const addIngredientField = () => {
     setEditedRecipe({ ...editedRecipe, ingredient: [...editedRecipe.ingredient, ''] });
   };
 
-  // 材料削除
   const removeIngredientField = (index) => {
     const newIngredients = editedRecipe.ingredient.filter((_, i) => i !== index);
     setEditedRecipe({ ...editedRecipe, ingredient: newIngredients });
   };
 
-  // 画像を更新する
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setNewImage(e.target.files[0]);
     }
   };
 
-  // 画像を削除する
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
-  // console.log(editedRecipe.imageUrl + "画像");
 
   return (
     <div className='recipeDetail_body'>
@@ -148,76 +135,11 @@ export const RecipeDetailPage = ({ posts }) => {
             <button className='button_additionBtn' onClick={handleClickDelete}>削除</button>
           </li>
         </ul>
-        {/* 編集画面 */}
         {isEditing ? (
           <div className="recipeInput_body">
-            <div className='inner'>
-              <div className="recipeInput_wrap">
-                <div className="recipeInput_head">
-                  <div className="">編集</div>
-                </div>
-                <div className="recipeInput_contents">
-                  <div className="recipeInput_container">
-                    <h2 className='page_ttl'>レシピを編集する</h2>
-                    {loading ? (
-                      <p>アップロード中...</p>
-                    ) : (
-                      <div>
-                        <input
-                          type='file'
-                          accept='.png, .jpg, .jpeg, .webp'
-                          onChange={handleImageChange}
-                        />
-                        {editedRecipe.imageUrl && (
-                          <div>
-                            <img src={editedRecipe.imageUrl} alt="Current" style={{ width: '100px', height: '100px' }} />
-                            <button onClick={handleRemoveImage}>画像を削除</button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {/* レシピ名編集 */}
-                    <div className='recipeInput_item'>
-                      <div className="recipeInput_title">レシピの名前</div>
-                      <input
-                        className='input'
-                        type="text"
-                        value={editedRecipe.title}
-                        onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
-                      />
-                    </div>
-                    {/* 材料編集 */}
-                    <div className="recipeInput_item recipeInput_ingredient">
-                      <div className="recipeInput_title">材料</div>
-                      {editedRecipe.ingredient.map((ingredient, index) => (
-                        <div key={index}>
-                          <input
-                            className='input'
-                            type="text"
-                            value={ingredient}
-                            onChange={(e) => handleIngredientChange(index, e.target.value)}
-                          />
-                          <button onClick={() => removeIngredientField(index)}>削除</button>
-                        </div>
-                      ))}
-                      <button className='button_additionBtn' onClick={addIngredientField}>材料を追加</button>
-                    </div>
-                    <div className="recipeInput_item">
-                      <h3 className="recipeInput_title">作り方</h3>
-                      <textarea
-                        className='input'
-                        value={editedRecipe.text}
-                        onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
-                      />
-                    </div>
-                    <button className='button_additionBtn' onClick={handleSaveChanges}>保存</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* 編集画面 */}
           </div>
         ) : (
-          // 編集画面ではない場合こちらを表示
           <div>
             <div className="svgContent_main">
               <svg>
@@ -248,10 +170,9 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
 
             <div className="recipeDetail_inputItem">
-              {recipe.images_detailUrl && recipe.images_detailUrl.length > 0 && (
-                <ProcessImg images={recipe.images_detailUrl.map(detail => detail.images_detailUrl)} />
+              {recipe.process && recipe.process.length > 0 && (
+                <Process steps={recipe.process} />
               )}
-              <p className='recipeDetail_detailsText'>{recipe.text}</p>
             </div>
           </div>
         )}
@@ -272,3 +193,5 @@ export const RecipeDetailPage = ({ posts }) => {
     </div>
   );
 };
+
+export default RecipeDetailPage;
