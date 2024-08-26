@@ -5,13 +5,14 @@ import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import SignOut from './SignOut';
 import RecipeInputForm from './RecipeInputForm';
+import RecipeDetailPage from './RecipeDetailPage';
 
 export const RecipeInputPage = ({ posts }) => {
   const [newRecipeName, setNewRecipeName] = useState('');
-  const [newDetail, setNewDetail] = useState('');
+  const [newProcess, setNewProcess] = useState('');
   const [newIngredients, setNewIngredients] = useState(['']);
   const [loading, setLoading] = useState(false);
-  const [loadingDetailImgs, setLoadingDetailImgs] = useState(false);
+  const [loadingProcessImgs, setLoadingProcessImgs] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [tempImageUrl, setTempImageUrl] = useState('');
   const [editedRecipe, setEditedRecipe] = useState({
@@ -25,7 +26,7 @@ export const RecipeInputPage = ({ posts }) => {
   useEffect(() => {
     if (recipe) {
       setNewRecipeName(recipe.title);
-      setNewDetail('');
+      setNewProcess('');
       setNewIngredients(recipe.ingredient);
       setImageUrl(recipe.imageUrl);
       setEditedRecipe({
@@ -64,6 +65,12 @@ export const RecipeInputPage = ({ posts }) => {
         }
       );
     }
+    //後で整理
+    return (
+      <RecipeDetailPage
+        handleFileUploadToFirebase={handleFileUploadToFirebase}
+      />
+    );
   };
   //レシピ画像 firebase保存
 
@@ -84,7 +91,7 @@ export const RecipeInputPage = ({ posts }) => {
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
-    const detailImgUrls = await Promise.all(
+    const stepImgUrls = await Promise.all(
       files.map(async (file) => {
         const storage = getStorage();
         const storageRef = ref(storage, "images_processUrl/" + file.name);
@@ -92,46 +99,46 @@ export const RecipeInputPage = ({ posts }) => {
         return await getDownloadURL(storageRef);
       })
     );
-    return detailImgUrls;
+    return stepImgUrls;
   };
   //作り方画像 firebase 保存
 
   //作り方画像 firebase 保存
   const handleFileSelection = async (e) => {
     //ローディング始
-    setLoadingDetailImgs(true);
+    setLoadingProcessImgs(true);
     const files = Array.from(e.target.files);
 
     try {
-      const detailImgUrls = await uploadDetailImages(files);
-      if (detailImgUrls.length > 0) {
-        setTempImageUrl(detailImgUrls[0]);  // 一時的なURLに保存
+      const stepImgUrls = await uploadDetailImages(files);
+      if (stepImgUrls.length > 0) {
+        setTempImageUrl(stepImgUrls[0]);  // 一時的なURLに保存
       }
     } catch (error) {
       console.error("Error updating document: ", error);
     } finally {
       //ローディング終
-      setLoadingDetailImgs(false);
+      setLoadingProcessImgs(false);
     }
   };
   //作り方画像 firebase 保存
 
   //作り方の画像とテキストをeditedRecipeへ
-  const handleAddDetailUrlAndText = () => {
-    if (tempImageUrl && newDetail) {
+  const handleAddProcessUrlAndText = () => {
+    if (tempImageUrl && newProcess) {
       setEditedRecipe(prevState => ({
         ...prevState,
         process: [
           ...(prevState.process || []),  // デフォルト値として空の配列を設定
-          { process: tempImageUrl, text: newDetail }
+          { process: tempImageUrl, text: newProcess }
         ]
       }));
-      setNewDetail('');  // テキストをクリア
+      setNewProcess('');  // テキストをクリア
       setTempImageUrl('');  // 一時的な画像URLをクリア
     } else {
-      console.error("Image URL and text are required to add detail");
+      console.error("Image URL and text are required to add step");
     }
-};
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -140,7 +147,7 @@ export const RecipeInputPage = ({ posts }) => {
       setLoading(true);
       const newRecipeData = {
         title: newRecipeName,
-        text: newDetail,
+        text: newProcess,
         ingredient: newIngredients,
         imageUrl: imageUrl,
         process: editedRecipe.process,
@@ -153,7 +160,7 @@ export const RecipeInputPage = ({ posts }) => {
       }
 
       setNewRecipeName('');
-      setNewDetail('');
+      setNewProcess('');
       setNewIngredients(['']);
       setImageUrl('');
       setEditedRecipe({ imageUrl: '', process: [] });
@@ -197,6 +204,12 @@ export const RecipeInputPage = ({ posts }) => {
     } catch (error) {
       console.error("Error removing image: ", error);
     }
+    //後で整理
+    return (
+      <RecipeDetailPage
+        handleRemoveImage2={handleRemoveImage2}
+      />
+    );
   };
 
   return (
@@ -215,22 +228,21 @@ export const RecipeInputPage = ({ posts }) => {
               tempImageUrl={tempImageUrl}
               newRecipeName={newRecipeName}
               setNewRecipeName={setNewRecipeName}
-              newDetail={newDetail}
-              setNewDetail={setNewDetail}
+              newProcess={newProcess}
+              setNewProcess={setNewProcess}
               newIngredients={newIngredients}
               handleAdditionalInfoChange={handleAdditionalInfoChange}
               handleAddIngredientField={handleAddIngredientField}
-              handleAddDetailUrlAndText={handleAddDetailUrlAndText}
+              handleAddProcessUrlAndText={handleAddProcessUrlAndText}
               handleSubmit={handleSubmit}
               loading={loading}
-              // isUploaded={isUploaded}
               editedRecipe={editedRecipe}
               handleRemoveImage={handleRemoveImage}
               handleRemoveImage2={handleRemoveImage2}
               uploadDetailImages={uploadDetailImages}
               handleFileUploadToFirebase={handleFileUploadToFirebase}
               handleFileSelection={handleFileSelection}
-              loadingDetailImgs={loadingDetailImgs}
+              loadingProcessImgs={loadingProcessImgs}
             />
           </div>
         </div>

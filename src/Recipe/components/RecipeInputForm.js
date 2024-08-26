@@ -4,12 +4,12 @@ const RecipeInputForm = ({
   tempImageUrl,
   newRecipeName,
   setNewRecipeName,
-  newDetail,
-  setNewDetail,
+  newProcess,
+  setNewProcess,
   newIngredients,
   handleAdditionalInfoChange,
   handleAddIngredientField,
-  handleAddDetailUrlAndText,
+  handleAddProcessUrlAndText,
   handleSubmit,
   loading,
   editedRecipe,
@@ -17,10 +17,10 @@ const RecipeInputForm = ({
   handleRemoveImage2,
   handleFileUploadToFirebase,
   handleFileSelection,
-  loadingDetailImgs
+  loadingProcessImgs
 }) => {
   const imgInputRef = useRef(null);
-  const detailImgInputRef = useRef(null);
+  const stepImgInputRef = useRef(null);
 
   return (
     <div className="recipeInput_container">
@@ -47,7 +47,7 @@ const RecipeInputForm = ({
                   ref={imgInputRef}
                   style={{ display: 'none' }}
                   type='file'
-                  accept='.png, .jpg, .jpeg'
+                  accept='.png, .jpg, .jpeg, .webp'
                   onChange={handleFileUploadToFirebase}
                 />
               </React.Fragment>
@@ -79,17 +79,18 @@ const RecipeInputForm = ({
         </div>
         <div className="recipeInput_item is-flow">
           <h3 className="recipeInput_title">作り方</h3>
-          <div className="recipeInput_detailContents">
-            {editedRecipe.process && editedRecipe.process.map((detail, index) => (
+          <div className="recipeInput_processContents">
+            {editedRecipe.process && editedRecipe.process.map((step, index) => (
               <div className="recipeInput_imgAndText" key={index}>
                 {/* 作り方画像表示 */}
                 <div
                   className="recipeInput_img"
-                  onClick={() => detailImgInputRef.current.click()}
+                  onClick={() => stepImgInputRef.current.click()}
                   style={{
-                    backgroundImage: `url(${detail.process})`,
+                    backgroundImage: `url(${step.process})`,
                   }}
                 ></div>
+                {/* 画像削除ボタン */}
                 <button
                   type="button"
                   className='removeButton'
@@ -101,13 +102,13 @@ const RecipeInputForm = ({
                 <textarea
                   className='textarea'
                   type="text"
-                  onChange={(e) => handleAddDetailUrlAndText(index, e)}
-                  value={detail.text}
+                  onChange={(e) => handleAddProcessUrlAndText(index, e)}
+                  value={step.text}
                 ></textarea>
               </div>
             ))}
             <div className="recipeInput_imgAndText">
-              {loadingDetailImgs ? (
+              {loadingProcessImgs ? (
                 <div className='recipeInput_img is-input'>
                   <p>Uploading...</p>
                 </div>
@@ -115,7 +116,7 @@ const RecipeInputForm = ({
                 // 作り方画像表示
                 <div
                   className='recipeInput_img is-input'
-                  onClick={() => detailImgInputRef.current.click()}
+                  onClick={() => stepImgInputRef.current.click()}
                   style={{
                     backgroundImage: tempImageUrl ? `url(${tempImageUrl})` : 'none',
                   }}
@@ -126,7 +127,7 @@ const RecipeInputForm = ({
               {/* 作り方画像入力 */}
               <input
                 style={{ display: 'none' }}
-                ref={detailImgInputRef}
+                ref={stepImgInputRef}
                 type='file'
                 multiple
                 accept='.png, .jpg, .jpeg, .webp'
@@ -136,11 +137,11 @@ const RecipeInputForm = ({
               <textarea
                 className='textarea'
                 type="text"
-                onChange={(e) => setNewDetail(e.target.value)}
-                value={newDetail}
+                onChange={(e) => setNewProcess(e.target.value)}
+                value={newProcess}
               ></textarea>
             </div>
-            <button className='button_additionBtn' type="button" onClick={handleAddDetailUrlAndText}>
+            <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText}>
               追加する
             </button>
           </div>

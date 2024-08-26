@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import Process from './Process';
 
-export const RecipeDetailPage = ({ posts }) => {
+export const RecipeDetailPage = ({ 
+  handleRemoveImage2,
+  handleFileUploadToFirebase,
+  posts 
+}) => {
   const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
@@ -19,6 +23,7 @@ export const RecipeDetailPage = ({ posts }) => {
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const imgInputRef = useRef(null);
 
   useEffect(() => {
     if (recipe) {
@@ -64,8 +69,8 @@ export const RecipeDetailPage = ({ posts }) => {
 
       if (recipe.process && recipe.process.length > 0) {
         const deletePromises = recipe.process.map(async (detail) => {
-          const detailImageRef = ref(storage, detail.process);
-          await deleteObject(detailImageRef);
+          const stepImageRef = ref(storage, detail.process);
+          await deleteObject(stepImageRef);
         });
         await Promise.all(deletePromises);
       }
@@ -136,8 +141,82 @@ export const RecipeDetailPage = ({ posts }) => {
           </li>
         </ul>
         {isEditing ? (
+          //編集画面
           <div className="recipeInput_body">
-            {/* 編集画面 */}
+            <div className='inner'>
+              <div className="recipeInput_wrap">
+                <div className="recipeInput_head">
+                  <div className="">編集</div>
+                </div>
+                <div className="recipeInput_contents">
+                  <div className="recipeInput_container">
+                    <h2 className='page_ttl'>レシピを編集する</h2>
+                    {loading ? (
+                      <p>Uploading...</p>
+                    ) : (
+                      editedRecipe.imageUrl ? (
+                        <div
+                          className='recipeInput_img is-display'
+                          style={{
+                            backgroundImage: `url(${editedRecipe.imageUrl})`,
+                          }}
+                        >
+                          <button type="button" className='removeButton' onClick={handleRemoveImage2}>✖️</button>
+                        </div>
+                      ) : (
+                        <React.Fragment>
+                          <div className='recipeInput_img' onClick={() => imgInputRef.current.click()}>
+                            <span>Upload</span>
+                          </div>
+                          <input
+                            ref={imgInputRef}
+                            style={{ display: 'none' }}
+                            type='file'
+                            accept='.png, .jpg, .jpeg, .webp'
+                            onChange={handleFileUploadToFirebase}
+                          />
+                        </React.Fragment>
+                      )
+                    )}
+                    {/* レシピ名編集 */}
+                    <div className='recipeInput_item'>
+                      <div className="recipeInput_title">レシピの名前</div>
+                      <input
+                        className='input'
+                        type="text"
+                        value={editedRecipe.title}
+                        onChange={(e) => setEditedRecipe({ ...editedRecipe, title: e.target.value })}
+                      />
+                    </div>
+                    {/* 材料編集 */}
+                    <div className="recipeInput_item recipeInput_ingredient">
+                      <div className="recipeInput_title">材料</div>
+                      {editedRecipe.ingredient.map((ingredient, index) => (
+                        <div key={index}>
+                          <input
+                            className='input'
+                            type="text"
+                            value={ingredient}
+                            onChange={(e) => handleIngredientChange(index, e.target.value)}
+                          />
+                          <button onClick={() => removeIngredientField(index)}>削除</button>
+                        </div>
+                      ))}
+                      <button className='button_additionBtn' onClick={addIngredientField}>材料を追加</button>
+                    </div>
+                    <div className="recipeInput_item">
+                      <h3 className="recipeInput_title">作り方</h3>
+                      <textarea
+                        className='input'
+                        value={editedRecipe.text}
+                        onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
+                      />
+                    </div>
+                    <button className='button_additionBtn' onClick={handleSaveChanges}>保存</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div>
