@@ -36,7 +36,7 @@ export const RecipeInputPage = ({ posts }) => {
     }
   }, [recipe]);
 
-  //レシピ画像 firebase保存
+  // レシピ画像をFirebaseに保存
   const handleFileUploadToFirebase = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
@@ -58,24 +58,14 @@ export const RecipeInputPage = ({ posts }) => {
             setImageUrl(downloadURL);  // imageUrlに設定
             setEditedRecipe((prevState) => ({
               ...prevState,
-              imageUrl: downloadURL,  // これでeditedRecipe.imageUrlにセット 重要！！！
+              imageUrl: downloadURL,  // editedRecipe.imageUrlにセット
             }));
             setLoading(false);
           });
         }
       );
     }
-    //後で整理
-    return (
-      <RecipeDetailPage
-        handleFileUploadToFirebase={handleFileUploadToFirebase}
-      />
-    );
   };
-  //レシピ画像 firebase保存
-
-
-
 
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
@@ -87,7 +77,7 @@ export const RecipeInputPage = ({ posts }) => {
     setNewIngredients([...newIngredients, '']);
   };
 
-  //作り方画像 firebase 保存
+  // 作り方画像をFirebaseに保存
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
@@ -101,11 +91,8 @@ export const RecipeInputPage = ({ posts }) => {
     );
     return stepImgUrls;
   };
-  //作り方画像 firebase 保存
 
-  //作り方画像 firebase 保存
   const handleFileSelection = async (e) => {
-    //ローディング始
     setLoadingProcessImgs(true);
     const files = Array.from(e.target.files);
 
@@ -117,13 +104,10 @@ export const RecipeInputPage = ({ posts }) => {
     } catch (error) {
       console.error("Error updating document: ", error);
     } finally {
-      //ローディング終
       setLoadingProcessImgs(false);
     }
   };
-  //作り方画像 firebase 保存
 
-  //作り方の画像とテキストをeditedRecipeへ
   const handleAddProcessUrlAndText = () => {
     if (tempImageUrl && newProcess) {
       setEditedRecipe(prevState => ({
@@ -195,65 +179,67 @@ export const RecipeInputPage = ({ posts }) => {
       const storage = getStorage();
       const imageRef = ref(storage, editedRecipe.imageUrl);
       await deleteObject(imageRef);
-
+  
       setEditedRecipe(prevState => ({ ...prevState, imageUrl: '' }));
-
+  
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), { imageUrl: '' });
       }
     } catch (error) {
       console.error("Error removing image: ", error);
     }
-    //後で整理
-    return (
-      <RecipeDetailPage
-        handleRemoveImage2={handleRemoveImage2}
-      />
-    );
   };
 
   return (
-    <div className="recipeInput_body">
-      <div className='inner'>
-        <div className="recipeInput_wrap">
-          <div className="recipeInput_head">
-            <div className="add">add new recipe</div>
-            <div className="recipeInput_menu">
-              <button><img className="recipeInput_edit" src="" alt="編集" /></button>
-              <button><img className="recipeInput_delete" src="" alt="削除" /></button>
+    <React.Fragment>
+      <RecipeDetailPage
+        handleRemoveImage2={handleRemoveImage2}
+        handleFileUploadToFirebase={handleFileUploadToFirebase}
+        posts={posts}
+      />
+
+      <div className="recipeInput_body">
+        <div className='inner'>
+          <div className="recipeInput_wrap">
+            <div className="recipeInput_head">
+              <div className="add">add new recipe</div>
+              <div className="recipeInput_menu">
+                <button><img className="recipeInput_edit" src="" alt="編集" /></button>
+                <button><img className="recipeInput_delete" src="" alt="削除" /></button>
+              </div>
+            </div>
+            <div className="recipeInput_contents">
+              <RecipeInputForm
+                tempImageUrl={tempImageUrl}
+                newRecipeName={newRecipeName}
+                setNewRecipeName={setNewRecipeName}
+                newProcess={newProcess}
+                setNewProcess={setNewProcess}
+                newIngredients={newIngredients}
+                handleAdditionalInfoChange={handleAdditionalInfoChange}
+                handleAddIngredientField={handleAddIngredientField}
+                handleAddProcessUrlAndText={handleAddProcessUrlAndText}
+                handleSubmit={handleSubmit}
+                loading={loading}
+                editedRecipe={editedRecipe}
+                handleRemoveImage={handleRemoveImage}
+                handleRemoveImage2={handleRemoveImage2}
+                uploadDetailImages={uploadDetailImages}
+                handleFileUploadToFirebase={handleFileUploadToFirebase}
+                handleFileSelection={handleFileSelection}
+                loadingProcessImgs={loadingProcessImgs}
+              />
             </div>
           </div>
-          <div className="recipeInput_contents">
-            <RecipeInputForm
-              tempImageUrl={tempImageUrl}
-              newRecipeName={newRecipeName}
-              setNewRecipeName={setNewRecipeName}
-              newProcess={newProcess}
-              setNewProcess={setNewProcess}
-              newIngredients={newIngredients}
-              handleAdditionalInfoChange={handleAdditionalInfoChange}
-              handleAddIngredientField={handleAddIngredientField}
-              handleAddProcessUrlAndText={handleAddProcessUrlAndText}
-              handleSubmit={handleSubmit}
-              loading={loading}
-              editedRecipe={editedRecipe}
-              handleRemoveImage={handleRemoveImage}
-              handleRemoveImage2={handleRemoveImage2}
-              uploadDetailImages={uploadDetailImages}
-              handleFileUploadToFirebase={handleFileUploadToFirebase}
-              handleFileSelection={handleFileSelection}
-              loadingProcessImgs={loadingProcessImgs}
-            />
+          <div className="btn_container">
+            <Link to="/RecipeListPage">
+              <div className='btn_link'>追加されたレシピ一覧へ</div>
+            </Link>
           </div>
+          <SignOut />
         </div>
-        <div className="btn_container">
-          <Link to="/RecipeListPage">
-            <div className='btn_link'>追加されたレシピ一覧へ</div>
-          </Link>
-        </div>
-        <SignOut />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

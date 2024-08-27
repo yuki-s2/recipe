@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
+//▼活用する
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import Process from './Process';
 
 export const RecipeDetailPage = ({ 
-  handleRemoveImage2,
-  handleFileUploadToFirebase,
+  // handleRemoveImage2,
+  // handleFileUploadToFirebase,
   posts 
 }) => {
   const { postId } = useParams();
@@ -81,6 +82,22 @@ export const RecipeDetailPage = ({
       console.error("Error removing document: ", error);
     }
   };
+
+  const handleRemoveImage2 = async () => {
+    try {
+      const storage = getStorage();
+
+      if (recipe.imageUrl) {
+        const imageRef = ref(storage, recipe.imageUrl);
+        await deleteObject(imageRef);
+      }
+      
+      await deleteDoc(doc(collection(db, "posts"), recipe.id));
+      alert('削除が完了しました');
+    } catch (error) {
+      console.error("Error removing document: ", error);
+    }
+  }
 
   const handleSaveChanges = async () => {
     setLoading(true);
@@ -173,7 +190,7 @@ export const RecipeDetailPage = ({
                             style={{ display: 'none' }}
                             type='file'
                             accept='.png, .jpg, .jpeg, .webp'
-                            onChange={handleFileUploadToFirebase}
+                            // onChange={handleFileUploadToFirebase}
                           />
                         </React.Fragment>
                       )
