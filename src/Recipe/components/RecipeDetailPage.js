@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 //▼活用する
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import Process from './Process';
 
 export const RecipeDetailPage = ({ 
@@ -13,7 +13,7 @@ export const RecipeDetailPage = ({
 }) => {
   const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
-
+  const [imageUrl, setImageUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editedRecipe, setEditedRecipe] = useState({
     title: '',
@@ -28,6 +28,7 @@ export const RecipeDetailPage = ({
 
   useEffect(() => {
     if (recipe) {
+      setImageUrl(recipe.imageUrl);
       setEditedRecipe({
         title: recipe.title,
         ingredient: Array.isArray(recipe.ingredient) ? recipe.ingredient : [],
@@ -84,20 +85,53 @@ export const RecipeDetailPage = ({
   };
 
   const handleRemoveImage2 = async () => {
-    try {
-      const storage = getStorage();
+    if (!editedRecipe.imageUrl) return;
 
-      if (recipe.imageUrl) {
-        const imageRef = ref(storage, recipe.imageUrl);
-        await deleteObject(imageRef);
-      }
-      
-      await deleteDoc(doc(collection(db, "posts"), recipe.id));
-      alert('削除が完了しました');
+    const storage = getStorage();
+    const imageRef = ref(storage, editedRecipe.imageUrl);
+
+    try {
+      await deleteObject(imageRef);
+      setEditedRecipe({ ...editedRecipe, imageUrl: null });
+      alert('画像が削除されました');
     } catch (error) {
-      console.error("Error removing document: ", error);
+      console.error('画像の削除中にエラーが発生しました: ', error);
     }
-  }
+  };
+
+  const handleFileUploadToFirebase = (e) => {
+    const file = e.target.files[0];
+  
+    if (file) {
+      console.log('Selected file:', file); // ファイルが選択されているか確認
+      const storage = getStorage();
+      const storageRef = ref(storage, "images/" + file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          setLoading(true);
+          console.log('Uploading...'); // アップロード中
+        },
+        (error) => {
+          console.error("Error uploading file: ", error); // エラーハンドリング
+        },
+        () => {
+          // アップロード完了時
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('Download URL:', downloadURL); // URLが取得できたか確認
+            setImageUrl(downloadURL);
+            setEditedRecipe((prevState) => ({
+              ...prevState,
+              imageUrl: downloadURL,
+            }));
+            setLoading(false);
+          });
+        }
+      );
+    }
+  };
 
   const handleSaveChanges = async () => {
     setLoading(true);
@@ -190,7 +224,7 @@ export const RecipeDetailPage = ({
                             style={{ display: 'none' }}
                             type='file'
                             accept='.png, .jpg, .jpeg, .webp'
-                            // onChange={handleFileUploadToFirebase}
+                            onChange={handleFileUploadToFirebase}
                           />
                         </React.Fragment>
                       )

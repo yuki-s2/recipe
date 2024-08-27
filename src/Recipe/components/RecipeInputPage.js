@@ -179,9 +179,9 @@ export const RecipeInputPage = ({ posts }) => {
       const storage = getStorage();
       const imageRef = ref(storage, editedRecipe.imageUrl);
       await deleteObject(imageRef);
-  
+
       setEditedRecipe(prevState => ({ ...prevState, imageUrl: '' }));
-  
+
       if (recipe) {
         await updateDoc(doc(db, "posts", recipe.id), { imageUrl: '' });
       }
@@ -191,55 +191,47 @@ export const RecipeInputPage = ({ posts }) => {
   };
 
   return (
-    <React.Fragment>
-      <RecipeDetailPage
-        handleRemoveImage2={handleRemoveImage2}
-        handleFileUploadToFirebase={handleFileUploadToFirebase}
-        posts={posts}
-      />
-
-      <div className="recipeInput_body">
-        <div className='inner'>
-          <div className="recipeInput_wrap">
-            <div className="recipeInput_head">
-              <div className="add">add new recipe</div>
-              <div className="recipeInput_menu">
-                <button><img className="recipeInput_edit" src="" alt="編集" /></button>
-                <button><img className="recipeInput_delete" src="" alt="削除" /></button>
-              </div>
-            </div>
-            <div className="recipeInput_contents">
-              <RecipeInputForm
-                tempImageUrl={tempImageUrl}
-                newRecipeName={newRecipeName}
-                setNewRecipeName={setNewRecipeName}
-                newProcess={newProcess}
-                setNewProcess={setNewProcess}
-                newIngredients={newIngredients}
-                handleAdditionalInfoChange={handleAdditionalInfoChange}
-                handleAddIngredientField={handleAddIngredientField}
-                handleAddProcessUrlAndText={handleAddProcessUrlAndText}
-                handleSubmit={handleSubmit}
-                loading={loading}
-                editedRecipe={editedRecipe}
-                handleRemoveImage={handleRemoveImage}
-                handleRemoveImage2={handleRemoveImage2}
-                uploadDetailImages={uploadDetailImages}
-                handleFileUploadToFirebase={handleFileUploadToFirebase}
-                handleFileSelection={handleFileSelection}
-                loadingProcessImgs={loadingProcessImgs}
-              />
+    <div className="recipeInput_body">
+      <div className='inner'>
+        <div className="recipeInput_wrap">
+          <div className="recipeInput_head">
+            <div className="add">add new recipe</div>
+            <div className="recipeInput_menu">
+              <button><img className="recipeInput_edit" src="" alt="編集" /></button>
+              <button><img className="recipeInput_delete" src="" alt="削除" /></button>
             </div>
           </div>
-          <div className="btn_container">
-            <Link to="/RecipeListPage">
-              <div className='btn_link'>追加されたレシピ一覧へ</div>
-            </Link>
+          <div className="recipeInput_contents">
+            <RecipeInputForm
+              tempImageUrl={tempImageUrl}
+              newRecipeName={newRecipeName}
+              setNewRecipeName={setNewRecipeName}
+              newProcess={newProcess}
+              setNewProcess={setNewProcess}
+              newIngredients={newIngredients}
+              handleAdditionalInfoChange={handleAdditionalInfoChange}
+              handleAddIngredientField={handleAddIngredientField}
+              handleAddProcessUrlAndText={handleAddProcessUrlAndText}
+              handleSubmit={handleSubmit}
+              loading={loading}
+              editedRecipe={editedRecipe}
+              handleRemoveImage={handleRemoveImage}
+              handleRemoveImage2={handleRemoveImage2}
+              uploadDetailImages={uploadDetailImages}
+              handleFileUploadToFirebase={handleFileUploadToFirebase}
+              handleFileSelection={handleFileSelection}
+              loadingProcessImgs={loadingProcessImgs}
+            />
           </div>
-          <SignOut />
         </div>
+        <div className="btn_container">
+          <Link to="/RecipeListPage">
+            <div className='btn_link'>追加されたレシピ一覧へ</div>
+          </Link>
+        </div>
+        <SignOut />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
