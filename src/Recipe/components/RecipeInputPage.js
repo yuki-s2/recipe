@@ -5,7 +5,6 @@ import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import SignOut from './SignOut';
 import RecipeInputForm from './RecipeInputForm';
-import RecipeDetailPage from './RecipeDetailPage';
 
 export const RecipeInputPage = ({ posts }) => {
   const [newRecipeName, setNewRecipeName] = useState('');

@@ -6,10 +6,10 @@ import { collection, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import Process from './Process';
 
-export const RecipeDetailPage = ({ 
+export const RecipeDetailPage = ({
   // handleRemoveImage2,
   // handleFileUploadToFirebase,
-  posts 
+  posts
 }) => {
   const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
@@ -24,7 +24,11 @@ export const RecipeDetailPage = ({
   });
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [tempImageUrl, setTempImageUrl] = useState('');
+  const [newProcess, setNewProcess] = useState('');
+  const [loadingProcessImgs, setLoadingProcessImgs] = useState(false);
   const imgInputRef = useRef(null);
+  const stepImgInputRef = useRef(null);
 
   useEffect(() => {
     if (recipe) {
@@ -93,7 +97,7 @@ export const RecipeDetailPage = ({
     try {
       await deleteObject(imageRef);
       setEditedRecipe({ ...editedRecipe, imageUrl: null });
-      alert('画像が削除されました');
+      // alert('画像が削除されました');
     } catch (error) {
       console.error('画像の削除中にエラーが発生しました: ', error);
     }
@@ -101,13 +105,13 @@ export const RecipeDetailPage = ({
 
   const handleFileUploadToFirebase = (e) => {
     const file = e.target.files[0];
-  
+
     if (file) {
       console.log('Selected file:', file); // ファイルが選択されているか確認
       const storage = getStorage();
       const storageRef = ref(storage, "images/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -145,7 +149,7 @@ export const RecipeDetailPage = ({
       }
 
       await updateDoc(doc(collection(db, "posts"), recipe.id), { ...editedRecipe, imageUrl });
-      alert('更新が完了しました');
+      // alert('更新が完了しました');
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -178,7 +182,55 @@ export const RecipeDetailPage = ({
   const handleRemoveImage = () => {
     setEditedRecipe({ ...editedRecipe, imageUrl: '' });
   };
+//RecipeInputPageと共通にできる？
+  const handleAddProcessUrlAndText = () => {
+    if (tempImageUrl && newProcess) {
+      setEditedRecipe(prevState => ({
+        ...prevState,
+        process: [
+          ...(prevState.process || []),  // デフォルト値として空の配列を設定
+          { process: tempImageUrl, text: newProcess }
+        ]
+      }));
+      setNewProcess('');  // テキストをクリア
+      setTempImageUrl('');  // 一時的な画像URLをクリア
+    } else {
+      console.error("Image URL and text are required to add step");
+    }
+  };
 
+    // 作り方画像をFirebaseに保存
+    const uploadDetailImages = async (files) => {
+      files = Array.from(files);
+  
+      const stepImgUrls = await Promise.all(
+        files.map(async (file) => {
+          const storage = getStorage();
+          const storageRef = ref(storage, "images_processUrl/" + file.name);
+          await uploadBytesResumable(storageRef, file);
+          return await getDownloadURL(storageRef);
+        })
+      );
+      return stepImgUrls;
+    };
+  
+  const handleFileSelection = async (e) => {
+    setLoadingProcessImgs(true);
+    const files = Array.from(e.target.files);
+
+    try {
+      const stepImgUrls = await uploadDetailImages(files);
+      if (stepImgUrls.length > 0) {
+        setTempImageUrl(stepImgUrls[0]);  // 一時的なURLに保存
+      }
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    } finally {
+      setLoadingProcessImgs(false);
+    }
+  };
+
+  //RecipeInputPageと共通にできる？
   return (
     <div className='recipeDetail_body'>
       <div className="inner">
@@ -263,6 +315,83 @@ export const RecipeDetailPage = ({
                         onChange={(e) => setEditedRecipe({ ...editedRecipe, text: e.target.value })}
                       />
                     </div>
+
+
+
+                    <div className="recipeInput_item is-flow">
+                      <h3 className="recipeInput_title">作り方</h3>
+                      <div className="recipeInput_processContents">
+                        {editedRecipe.process && editedRecipe.process.map((step, index) => (
+                          <div className="recipeInput_imgAndText" key={index}>
+                            {/* 作り方画像表示 */}
+                            <div
+                              className="recipeInput_img"
+                              onClick={() => stepImgInputRef.current.click()}
+                              style={{
+                                backgroundImage: `url(${step.process})`,
+                              }}
+                            ></div>
+                            {/* 画像削除ボタン */}
+                            <button
+                              type="button"
+                              className='removeButton'
+                              onClick={() => handleRemoveImage(index)}
+                            >
+                              ✖️
+                            </button>
+                            {/* 作り方テキスト表示 */}
+                            <textarea
+                              className='textarea'
+                              type="text"
+                              onChange={(e) => handleAddProcessUrlAndText(index, e)}
+                              value={step.text}
+                            ></textarea>
+                          </div>
+                        ))}
+                        <div className="recipeInput_imgAndText">
+                          {loadingProcessImgs ? (
+                            <div className='recipeInput_img is-input'>
+                              <p>Uploading...</p>
+                            </div>
+                          ) : (
+                            // 作り方画像表示
+                            <div
+                              className='recipeInput_img is-input'
+                              onClick={() => stepImgInputRef.current.click()}
+                              style={{
+                                backgroundImage: tempImageUrl ? `url(${tempImageUrl})` : 'none',
+                              }}
+                            >
+                              {!tempImageUrl && <span>Upload</span>}
+                            </div>
+                          )}
+                          {/* 作り方画像入力 */}
+                          <input
+                            style={{ display: 'none' }}
+                            ref={stepImgInputRef}
+                            type='file'
+                            multiple
+                            accept='.png, .jpg, .jpeg, .webp'
+                            onChange={handleFileSelection}
+                          />
+                          {/* 作り方テキスト入力 */}
+                          <textarea
+                            className='textarea'
+                            type="text"
+                            onChange={(e) => setNewProcess(e.target.value)}
+                            value={newProcess}
+                          ></textarea>
+                        </div>
+                        <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText}>
+                          追加する
+                        </button>
+                      </div>
+                    </div>
+
+
+
+
+
                     <button className='button_additionBtn' onClick={handleSaveChanges}>保存</button>
                   </div>
                 </div>
