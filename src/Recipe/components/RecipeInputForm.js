@@ -13,8 +13,8 @@ const RecipeInputForm = ({
   handleSubmit,
   loading,
   editedRecipe,
+  handleRemoveImgAndText,
   handleRemoveImage,
-  handleRemoveImage2,
   handleFileUploadToFirebase,
   handleFileSelection,
   loadingProcessImgs
@@ -23,7 +23,6 @@ const RecipeInputForm = ({
   const stepImgInputRef = useRef(null);
 
   return (
-    <div className="recipeInput_container">
       <form className='recipeInput_form' onSubmit={handleSubmit}>
         <div className='recipeInput_item'>
           {loading ? (
@@ -31,12 +30,12 @@ const RecipeInputForm = ({
           ) : (
             editedRecipe.imageUrl ? (
               <div
-                className='recipeInput_img is-display'
+                className='recipeInput_img'
                 style={{
                   backgroundImage: `url(${editedRecipe.imageUrl})`,
                 }}
               >
-                <button type="button" className='removeButton' onClick={handleRemoveImage2}>✖️</button>
+                <button type="button" className='removeButton' onClick={handleRemoveImage}>✖️</button>
               </div>
             ) : (
               <React.Fragment>
@@ -89,15 +88,8 @@ const RecipeInputForm = ({
                   style={{
                     backgroundImage: `url(${step.process})`,
                   }}
-                ></div>
-                {/* 画像削除ボタン */}
-                <button
-                  type="button"
-                  className='removeButton'
-                  onClick={() => handleRemoveImage(index)}
                 >
-                  ✖️
-                </button>
+                </div>
                 {/* 作り方テキスト表示 */}
                 <textarea
                   className='textarea'
@@ -105,6 +97,8 @@ const RecipeInputForm = ({
                   onChange={(e) => handleAddProcessUrlAndText(index, e)}
                   value={step.text}
                 ></textarea>
+                {/* 画像とテキスト削除ボタン */}
+                <button type="button" className='removeButton' onClick={() => handleRemoveImgAndText(index)}>✖️</button>
               </div>
             ))}
             <div className="recipeInput_imgAndText">
@@ -150,7 +144,6 @@ const RecipeInputForm = ({
           追加する
         </button>
       </form>
-    </div>
   );
 };
 
