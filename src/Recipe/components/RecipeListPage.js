@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from '../../Firebase';
+import { ButtonInputPage, ButtonSelectedRecipePage } from './Button';
 
 //親コンポーネントからpropsを受け取る
 export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPosts }) => {
@@ -69,15 +70,8 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                     </ul>
                 )}
             </div>
-
-            <div className="btn_container">
-                <Link to="/SelectedRecipes">
-                    <div className='btn_link'>選択されたレシピ一覧へ</div>
-                </Link>
-                <Link to="/">
-                    <div className='btn_link'>リストに戻る</div>
-                </Link>
-            </div>
+            <ButtonSelectedRecipePage />
+            <ButtonInputPage />
         </div>
     );
 };

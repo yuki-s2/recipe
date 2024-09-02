@@ -1,5 +1,5 @@
+//作り方 パーツ ※一カ所でしか使ってない
 import React from 'react';
-//作り方
 
 const Process = ({ steps }) => {
   return (

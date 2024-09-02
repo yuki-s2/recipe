@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { db } from '../../Firebase';
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
-import SignOut from './SignOut';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import RecipeInputForm from './RecipeInputForm';
 import { useRecipeForm } from './useRecipeForm';
+import { ButtonListPage, SignOut } from './Button';
 
 export const RecipeInputPage = ({ posts }) => {
   const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
-  // // 作り方画像をFirebaseに保存
+// 作り方画像をFirebaseに保存 
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
@@ -25,7 +23,7 @@ export const RecipeInputPage = ({ posts }) => {
     );
     return stepImgUrls;
   };
-  
+
     const {
     newRecipeName,
     setNewRecipeName,
@@ -83,11 +81,7 @@ export const RecipeInputPage = ({ posts }) => {
                 </div>
           </div>
         </div>
-        <div className="btn_container">
-          <Link to="/RecipeListPage">
-            <div className='btn_link'>追加されたレシピ一覧へ</div>
-          </Link>
-        </div>
+        <ButtonListPage />
         <SignOut />
       </div>
     </div>

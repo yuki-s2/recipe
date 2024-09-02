@@ -1,4 +1,4 @@
-
+//レシピの詳細画面
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
@@ -8,6 +8,7 @@ import { getStorage, ref, deleteObject } from 'firebase/storage';
 import Process from './Process';
 import RecipeInputForm from './RecipeInputForm';
 import { useRecipeForm } from './useRecipeForm';
+import { ButtonInputPage, ButtonSelectedRecipePage, ButtonListPage } from './Button';
 
 export const RecipeDetailPage = ({ posts }) => {
   const { postId } = useParams();
@@ -133,19 +134,9 @@ export const RecipeDetailPage = ({ posts }) => {
             </div>
           </div>
         )}
-        <div className="btn_container">
-          <Link to="/SelectedRecipes">
-            <div className='btn_link'>選択されたレシピ一覧へ</div>
-          </Link>
-          <Link to="/RecipeListPage">
-            <div className='btn_link'>追加されたレシピ一覧へ</div>
-          </Link>
-        </div>
-        <div className="btn_container">
-          <Link to="/">
-            <div className='btn_link'>リストに戻る</div>
-          </Link>
-        </div>
+        <ButtonListPage />
+        <ButtonSelectedRecipePage />
+        <ButtonInputPage />
       </div>
     </div>
   );

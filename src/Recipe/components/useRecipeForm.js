@@ -15,10 +15,8 @@ export const useRecipeForm = (initialRecipe = null) => {
   const [editedRecipe, setEditedRecipe] = useState({
     imageUrl: initialRecipe?.imageUrl || '',
     process: initialRecipe?.process || []
-  });
+  })
 
-
-  
   const handleAdditionalInfoChange = (index, event) => {
     const values = [...newIngredients];
     values[index] = event.target.value;
@@ -30,6 +28,7 @@ export const useRecipeForm = (initialRecipe = null) => {
     setNewIngredients([...newIngredients, '']);
   };
 
+  //不要？
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
@@ -166,7 +165,6 @@ export const useRecipeForm = (initialRecipe = null) => {
       setLoading(false);
     }
   };
-
   
   return {
     newRecipeName,
@@ -181,6 +179,7 @@ export const useRecipeForm = (initialRecipe = null) => {
     tempImageUrl,
     editedRecipe,
     setEditedRecipe, 
+    uploadDetailImages,
     handleAdditionalInfoChange,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
