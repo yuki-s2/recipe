@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import RecipeInputForm from './RecipeInputForm';
 import { useRecipeForm } from './useRecipeForm';
-import { ButtonListPage, SignOut } from './Button';
+import { ButtonListPage, SignOut, ButtonSelectedRecipePage } from './Button';
 
 export const RecipeInputPage = ({ posts }) => {
   const { postId } = useParams();
@@ -32,7 +32,6 @@ export const RecipeInputPage = ({ posts }) => {
     newIngredients,
     loading,
     loadingProcessImgs,
-    imageUrl,
     tempImageUrl,
     editedRecipe,
     handleAdditionalInfoChange,
@@ -51,10 +50,10 @@ export const RecipeInputPage = ({ posts }) => {
         <div className="recipeInput_wrap">
           <div className="recipeInput_head">
             <div className="add">add new recipe</div>
-            <div className="recipeInput_menu">
+            {/* <div className="recipeInput_menu">
               <button><img className="recipeInput_edit" src="" alt="編集" /></button>
               <button><img className="recipeInput_delete" src="" alt="削除" /></button>
-            </div>
+            </div> */}
           </div>
           <div className="recipeInput_contents">
           <div className="recipeInput_container">
@@ -82,6 +81,7 @@ export const RecipeInputPage = ({ posts }) => {
           </div>
         </div>
         <ButtonListPage />
+        <ButtonSelectedRecipePage />
         <SignOut />
       </div>
     </div>

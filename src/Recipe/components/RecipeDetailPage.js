@@ -1,6 +1,6 @@
 //レシピの詳細画面
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc } from "firebase/firestore";
 //▼活用する
@@ -62,8 +62,19 @@ export const RecipeDetailPage = ({ posts }) => {
   if (!recipe) {
     return <div>レシピが見つかりません。</div>;
   }
-  //RecipeInputPageと共通にできる？
+
+  const handleFormSubmit = (event) => {
+    handleSubmit(event);
+    setIsEditing(false); // 編集モードを終了
+  };
+
   return (
+    <div className="recipeDetails_wrap">
+
+
+      <div className="recipeDetails_tab">tab1</div>
+
+      
     <div className='recipeDetail_body'>
       <div className="inner">
         <h3 className='recipeDetail_name'>{recipe.title}</h3>
@@ -88,7 +99,7 @@ export const RecipeDetailPage = ({ posts }) => {
             handleAdditionalInfoChange={handleAdditionalInfoChange}
             handleAddIngredientField={handleAddIngredientField}
             handleAddProcessUrlAndText={handleAddProcessUrlAndText}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
             loading={loading}
             editedRecipe={editedRecipe}
             handleRemoveImgAndText={handleRemoveImgAndText}
@@ -138,6 +149,7 @@ export const RecipeDetailPage = ({ posts }) => {
         <ButtonSelectedRecipePage />
         <ButtonInputPage />
       </div>
+    </div>
     </div>
   );
 };
