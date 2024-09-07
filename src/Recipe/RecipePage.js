@@ -9,13 +9,14 @@ const RecipePage = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   //選択されたレシピリストページへ渡す
   const [posts, setPosts] = useState([]);
-
+  
   return (
     <Router>
       <Routes>
         <Route
-          path="/"
-          element={<RecipeInputPage selectedPosts={selectedPosts} />}
+          path="/"//URL
+          element={<RecipeInputPage />}
+          // element={<RecipeInputPage selectedPosts={selectedPosts} />}
         />
         <Route
           path="/RecipeListPage"
@@ -25,8 +26,14 @@ const RecipePage = () => {
           path="/SelectedRecipes"
           element={<SelectedRecipes selectedPosts={selectedPosts} posts={posts}  />}
         />
-        <Route path="/recipes/:postId" element={<RecipeDetailPage posts={posts}  />} />
-        <Route element={<RecipeListPage />} />
+        <Route
+          path="/RecipeDetailPage"
+          element={<RecipeDetailPage selectedPosts={selectedPosts} posts={posts}  />}
+        />
+        <Route path="/recipes/:postId"//recipes/に続く部分が動的に変わるURLに対応(パラメータを取得)
+         element={<RecipeDetailPage selectedPosts={selectedPosts} posts={posts}  />} />
+        {/* 不要？ */}
+        {/* <Route element={<RecipeListPage />} /> */}
         <Route element={<Chat selectedPosts={selectedPosts} selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>

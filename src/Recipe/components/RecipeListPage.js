@@ -6,6 +6,7 @@ import { ButtonInputPage, ButtonSelectedRecipePage } from './Button';
 
 //親コンポーネントからpropsを受け取る
 export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPosts }) => {
+    // console.log("選択した",selectedPosts);
 
     const handleCheckboxChange = (postId, svgId) => {
         const updatedSelectedPosts = selectedPosts.includes(postId)
