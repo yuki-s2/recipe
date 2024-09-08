@@ -40,4 +40,3 @@ export const SelectedRecipes = ({ selectedPosts, posts }) => {
         </div>
     );
 };
-

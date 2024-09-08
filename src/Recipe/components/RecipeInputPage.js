@@ -9,7 +9,7 @@ export const RecipeInputPage = ({ posts }) => {
   const { postId } = useParams();
   const recipe = posts ? posts.find(post => post.id === postId) : null;
 
-// 作り方画像をFirebaseに保存 
+  // 作り方画像をFirebaseに保存 
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
 
@@ -24,7 +24,7 @@ export const RecipeInputPage = ({ posts }) => {
     return stepImgUrls;
   };
 
-    const {
+  const {
     newRecipeName,
     setNewRecipeName,
     newProcess,
@@ -45,18 +45,18 @@ export const RecipeInputPage = ({ posts }) => {
   } = useRecipeForm(recipe);
 
   return (
-    <div className="recipeInput_body">
-      <div className='inner'>
-        <div className="recipeInput_wrap">
-          <div className="recipeInput_head">
-            <div className="add">add new recipe</div>
+    <div className="recipeInput_main">
+    <div className='inner'>
+        <div className="recipe_wrap">
+          <div className="recipe_head">
+            <h2>add new recipe</h2>
             {/* <div className="recipeInput_menu">
               <button><img className="recipeInput_edit" src="" alt="編集" /></button>
               <button><img className="recipeInput_delete" src="" alt="削除" /></button>
             </div> */}
           </div>
-          <div className="recipeInput_contents">
-          <div className="recipeInput_container">
+          <div className="recipe_body">
+            {/* <div className="recipeInput_container"> */}
             <RecipeInputForm
               tempImageUrl={tempImageUrl}
               newRecipeName={newRecipeName}
@@ -77,13 +77,15 @@ export const RecipeInputPage = ({ posts }) => {
               handleFileSelection={handleFileSelection}
               loadingProcessImgs={loadingProcessImgs}
             />
-                </div>
+            {/* </div> */}
           </div>
         </div>
+        <div className="btn_container">
         <ButtonListPage />
         <ButtonSelectedRecipePage />
+        </div>
         <SignOut />
-      </div>
+    </div>
     </div>
   );
 };

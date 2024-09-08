@@ -3,27 +3,28 @@ body {
   font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   text-align: center;
   font-size: 20px;
-}
-
-.page_ttl {
-  font-size: 1em;
-  font-weight: bold;
-  color: #777676;
+  box-sizing: border-box;
 }
 
 .inner {
-  padding: 0.5em;
+  padding: 0 0.5em;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+.page_ttl {
+  font-size: 30px;
+  letter-spacing: 0.1em;
+  color: #806b70;
+}
+
 /* utility --------------------------------------------------- */
-/* リンクボタン */
+/* ボタン */
 .btn_link {
   position: relative;
   top: 0;
   color: #333;
-  font-size: 1em;
+  font-size: 0.7em;
   text-decoration: none;
   border: 0.2em solid #333;
   border-radius: 2em;
@@ -42,32 +43,10 @@ body {
 
 .btn_container {
   margin-top: 4em;
+  padding: 0 3em;
   display: flex;
   justify-content: center;
   gap: 2em;
-}
-
-.btn_container + .btn_container {
-  margin-top: 2em;
-}
-
-.button_additionBtn {
-  display: inline-block;
-  border: 1px solid #9a9898;
-  border-radius: 0.1em;
-  box-shadow: -1px -1px #d5d4d4, inset -2px -2px #d5d4d4;
-  background: #fff;
-  font-size: 0.5em;
-  letter-spacing: 0.2em;
-  padding: 0.5em 1.5em;
-  text-shadow: 1px 1px 0.5px #eeeded;
-  color: #434242;
-  transition: 0.2s;
-  margin-top: 2em;
-}
-
-.button_additionBtn:hover {
-  box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
 }
 
 .input_imgBtn {
@@ -85,6 +64,20 @@ body {
   color: #8492be;
   font-size: 0.7em;
   padding: 1em;
+}
+
+.button_edit {
+  padding: 0.5em;
+}
+.button_edit div {
+  transform: rotate(90deg);
+  letter-spacing: 0.2em;
+  font-weight: bold;
+}
+
+.button_deleteBtn {
+  font-size: 1.7em;
+  padding: 0.05em 0.4em;
 }
 
 /* 入力フォーム */
@@ -108,12 +101,17 @@ body {
 }
 
 /* RecipeInputPage--------------------------------------------------- */
-.recipeInput_body {
+.recipeInput_main {
+  font-size: 20px;
   width: 100%;
   background: #fff0ef;
   background-image: linear-gradient(#e5e4e4 1px, transparent 0), linear-gradient(90deg, #e5e4e4 1px, transparent 0);
   background-size: 40px 40px;
   padding: 5em 0;
+}
+.recipeInput_main h2 {
+  font-size: 1.3em;
+  text-align: left;
 }
 
 .recipeInput_wrap {
@@ -130,6 +128,9 @@ body {
 
 .recipeInput_form {
   margin-top: 2em;
+}
+.recipeInput_form .button_additionBtn {
+  margin-top: 1em;
 }
 
 .recipeInput_item + .recipeInput_item {
@@ -155,34 +156,36 @@ body {
   width: 100%;
 }
 
-.recipeInput_item.recipeInput_ingredient {
-  display: block;
+.recipeInput_item.is-oneRow {
+  display: inline-block;
+  box-sizing: border-box;
   width: 100%;
-}
-
-.recipeInput_ingredientContainer {
-  display: flex;
-}
-
-.recipeInput_ingredient .input + .input {
-  margin-top: 1em;
-}
-
-.recipeInput_ingredient {
   background: #f9f9f9;
   border-radius: 1em;
   padding: 2em 2em 1em;
+}
+
+.recipeInput_itemGrid {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
   width: 100%;
 }
 
-.recipeInput_ingredient input {
-  border: 1px solid #9a9898;
-  width: 12em;
-  margin: 0.3em auto 0;
-  background: #ebeaea;
+.is-oneRow input {
+  border: 0.1em solid #806b70;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 0.3em;
+  padding: 1em;
+  box-sizing: border-box;
 }
 
-.recipeInput_ingredient input + input {
+.is-oneRow .input + .input {
+  margin-top: 1em;
+}
+
+.is-oneRow input + input {
   margin-top: 0.5em;
 }
 
@@ -197,6 +200,9 @@ body {
   text-align: left;
   white-space: nowrap;
   margin-right: 2em;
+  color: #806b70;
+  margin-top: 0;
+  font-weight: normal;
 }
 
 .recipeInput_howTo input {
@@ -209,7 +215,6 @@ body {
 
 .recipeInput_img {
   aspect-ratio: 3/2;
-  border: 4px dashed #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,14 +224,17 @@ body {
   position: relative;
   border-radius: 0.5em;
   margin: 0 auto;
-  border: 0.2em solid #333;
+  border: 0.1em solid #806b70;
   width: 70%;
+  background: #e8dddc;
+  color: #806b70;
 }
 
 .recipeInput_item.is-flow {
   align-items: start;
   background: #f9f9f9;
   padding: 2em 2em 1em;
+  border-radius: 1em;
 }
 .recipeInput_item.is-flow .recipeInput_img {
   width: 100%;
@@ -235,11 +243,10 @@ body {
   outline: none;
 }
 .recipeInput_item.is-flow .textarea {
-  height: 100%;
   padding: 1em;
   font-size: 18px;
   box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
-  border: 4px solid #9a9898;
+  border: 0.1em solid #806b70;
   border-radius: 0.3em;
 }
 
@@ -269,15 +276,16 @@ body {
 }
 
 /* RecipeListPage--------------------------------------------------- */
-.recipeList_body {
+.recipeList_main {
   font-size: 20px;
   width: 100%;
-  padding: 5em 0;
+  height: 100%;
+  padding: 4em 0;
   background: #e4eafc;
 }
 
 .recipeList_contentsWrap {
-  margin-top: 60px;
+  margin: 4em 1em;
 }
 
 .recipeList_items {
@@ -296,20 +304,34 @@ body {
 .recipeList_itemTop {
   width: 40%;
   height: 10%;
+  background: #806b70;
+  border-left: 0.15em solid #806b70;
+  border-right: 0.15em solid #806b70;
+  position: relative;
+  bottom: -0.15em;
+  -webkit-clip-path: polygon(20% 0%, 80% 0%, 95% 100%, 5% 100%);
+          clip-path: polygon(20% 0%, 80% 0%, 95% 100%, 5% 100%);
+}
+
+.recipeList_itemTop::before {
+  position: absolute;
+  content: "";
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
   background: #f2a3bd;
-  border-radius: 20px 20px 0 0;
-  margin-left: 5%;
-  border-top: 0.15em solid #8b8294;
-  border-left: 0.15em solid #8b8294;
-  border-right: 0.15em solid #8b8294;
+  -webkit-clip-path: polygon(20% 0%, 80% 0%, 95% 100%, 5% 100%);
+          clip-path: polygon(20% 0%, 80% 0%, 95% 100%, 5% 100%);
 }
 
 .recipeList_itemImg {
   background: #f2a3bd;
   width: 100%;
   aspect-ratio: 3/2;
-  border-radius: 10px;
-  border: 0.15em solid #8b8294;
+  border-radius: 0.2em;
+  border: 0.15em solid #806b70;
   padding: 1em 0.5em;
   display: inline-block;
 }
@@ -317,15 +339,15 @@ body {
 .recipeList_itemImg img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 0.2em;
   -o-object-fit: cover;
      object-fit: cover;
-  border: 0.1em solid #8b8294;
+  border: 0.1em solid #806b70;
 }
 
 .recipeList_itemTtl {
   position: relative;
-  color: #777676;
+  color: #806b70;
   font-size: 0.8em;
   display: flex;
   align-items: center;
@@ -355,10 +377,64 @@ body {
 }
 
 /* RecipeDetailPage--------------------------------------------------- */
-.recipeDetail_body {
+.recipeDetail {
+  font-size: 20px;
+  padding: 2em 0;
+}
+
+/* RecipeDetail タブ */
+.recipeDetail_tabs {
+  position: relative;
+  bottom: -0.1em;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 0.5em;
+}
+
+.recipeDetail_tab {
+  padding: 0.5em 1.5em;
+  font-size: 0.6em;
+  border: 2px solid #806b70;
+  border-bottom: none;
+  border-radius: 0.4em 0.4em 0 0;
+  background: #f9e6df;
+  transform: skewX(-10deg);
+  color: #806b70;
+}
+.recipeDetail_tab + .recipeDetail_tab {
+  margin-left: 0.2em;
+}
+.recipeDetail_tab p {
+  transform: skewX(10deg);
+}
+
+/* recipeDetail_body */
+.recipeDetail_main {
+  border-top: 2px solid #806b70;
   background-size: auto auto;
-  background-color: rgb(255, 255, 255);
-  background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgb(255, 255, 255) 10px, rgb(255, 255, 255) 20px), repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(255, 248, 1, 0.22) 10px, rgba(255, 248, 1, 0.22) 20px);
+  background-color: #f9e6df;
+  padding: 4em 0;
+}
+.recipeDetail_main h2 {
+  font-size: 1.3em;
+  text-align: left;
+}
+
+.recipe_wrap {
+  border: 0.1em solid #806b70;
+  border-radius: 1em;
+  background: #fff;
+}
+
+.recipe_head {
+  padding: 1em 1.5em;
+  background: #B78791;
+  border-radius: 1em 1em 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.1em solid #806b70;
+  color: #fff;
 }
 
 .recipeDetail_edit {
@@ -368,23 +444,15 @@ body {
   font-size: 0.6em;
 }
 
-.recipeDetail_name {
-  font-size: 2em;
-  padding: 1em 0;
+.recipe_body {
+  margin: 1em;
+  padding: 4em 1em;
+  background: #f4eeed;
+  border: 0.1em solid #806b70;
+  border-radius: 1em;
 }
 
-.recipeDetail_detailsContainer {
-  display: flex;
-  gap: 1em;
-}
-
-.recipeDetail_ingredientsContainer {
-  display: flex;
-  gap: 1em;
-  align-items: center;
-}
-
-.recipeDetail_inputItem {
+.recipeDetail_inputItem + .recipeDetail_inputItem {
   margin-top: 4em;
 }
 
@@ -401,71 +469,17 @@ body {
   margin-top: 2em;
 }
 
-.svgContent_mainImg {
-  margin: 2em auto 0;
+.recipeDetail_mainImg {
   max-width: 700px;
-  aspect-ratio: 2/1;
-  padding: 0.2em;
-  position: relative; /* これが重要 */
-  overflow: hidden; /* 子要素が親要素を超えないようにする */
+  width: 90%;
+  margin: 0 auto;
 }
-
-.svgContent_mainImg::before {
-  display: block;
-  content: "";
-  position: absolute;
-  background: #8b8294;
-  top: 0;
-  left: 0;
+.recipeDetail_mainImg img {
   width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  pointer-events: none; /* 擬似要素がクリックイベントを受け取らないようにする */
-}
-
-.recipeDetail_img svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.recipeInput_ingredientContainer {
-  width: 100%;
-  max-height: 7em;
-}
-
-.svgContent_main svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.processImg_items {
-  display: flex;
-  flex-direction: row;
-  row-gap: 1.5em;
-  flex-wrap: wrap;
-  margin-top: 3em;
-}
-
-.processImg_item {
-  position: relative;
-}
-
-.processImg_itemNumber {
-  position: absolute;
-  top: -1em;
-  left: 1em;
-  color: #333;
-}
-
-.processImg_item img {
+  aspect-ratio: 1/1;
   -o-object-fit: cover;
      object-fit: cover;
-  width: 20%;
-  aspect-ratio: 5/4;
-  -webkit-clip-path: inset(10px 10px 10px 10px round 40px);
-          clip-path: inset(10px 10px 10px 10px round 40px);
+  border-radius: 0.2em;
 }
 
 .recipeDetail_detailsText {
@@ -489,6 +503,55 @@ body {
 
 .recipeInput_ingredient .input + .input {
   margin-top: 1em;
+}
+
+/* process */
+.process_items {
+  display: flex;
+  flex-direction: row;
+  row-gap: 1.5em;
+  -moz-column-gap: 1em;
+       column-gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 3em;
+}
+
+.process_item {
+  position: relative;
+  border: 0.1em solid #806b70;
+  border-radius: 1em;
+  padding: 0.5em;
+  background: #fff;
+  min-width: 12em;
+  width: 25%;
+}
+.process_item p {
+  text-align: left;
+  font-size: 0.7em;
+  padding: 1.5em 0 1em;
+}
+
+.process_itemNumber {
+  position: absolute;
+  top: -1.5em;
+  left: 0;
+  color: #333;
+}
+
+.process_itemImg {
+  padding-bottom: 0.5em;
+  border-bottom: 0.05em solid #d1d1d1;
+  width: 100%;
+}
+
+.process_item img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1em;
+  object-fit: cover;
 }
 
 /* --------------------------------------------------- Chat */

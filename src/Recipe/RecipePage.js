@@ -5,6 +5,7 @@ import { RecipeDetailPage, RecipeInputPage, RecipeListPage, SelectedRecipes } fr
 import Chat from '../Chat';
 
 const RecipePage = () => {
+  //Chatで使用
   const [selectedRecipes, setSelectedRecipes] = useState([]);
   const [selectedPosts, setSelectedPosts] = useState([]);
   //選択されたレシピリストページへ渡す

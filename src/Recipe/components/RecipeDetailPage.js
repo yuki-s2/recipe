@@ -1,5 +1,5 @@
 //レシピの詳細画面
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../../Firebase';
 import { collection, doc, deleteDoc } from "firebase/firestore";
@@ -71,103 +71,102 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     setIsEditing(false); // 編集モードを終了
   };
 
-  console.log("あああRecipePage selectedPosts:", selectedPosts);
-  console.log("RecipePage posts:", posts);
-
   return (
-    <div className="recipeDetails_wrap">
-      <div className='recipeDetail_body'>
-        <div className="inner">
-          <h3 className='recipeDetail_name'>{recipe.title}</h3>
-          <ul className="recipeDetail_edit">
-            <li className='recipeDetail_editItem'>
-              <button className='button_additionBtn' onClick={() => setIsEditing(true)}>編集</button>
-            </li>
-            <li className='recipeDetail_editItem'>
-              <button className='button_additionBtn' onClick={handleClickDelete}>削除</button>
-            </li>
-          </ul>
-          {isEditing ? (
-            //編集画面
-            <RecipeInputForm
-              imageUrl={imageUrl}
-              tempImageUrl={tempImageUrl}
-              newRecipeName={newRecipeName}
-              setNewRecipeName={setNewRecipeName}
-              newProcess={newProcess}
-              setNewProcess={setNewProcess}
-              newIngredients={newIngredients}
-              handleAdditionalInfoChange={handleAdditionalInfoChange}
-              handleAddIngredientField={handleAddIngredientField}
-              handleAddProcessUrlAndText={handleAddProcessUrlAndText}
-              handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
-              loading={loading}
-              editedRecipe={editedRecipe}
-              handleRemoveImgAndText={handleRemoveImgAndText}
-              handleRemoveImage={handleRemoveImage}
-              handleFileUploadToFirebase={handleFileUploadToFirebase}
-              handleFileSelection={handleFileSelection}
-              loadingProcessImgs={loadingProcessImgs}
-            />
-          ) : (
-            <div>
-              <div className="svgContent_main">
-                {selectedPostsInfo.length === 0 ? (
-                  <p>選択されたレシピはありません</p>
-                ) : (
-                  <ul className='recipeList_items'>
-                    {selectedPostsInfo && selectedPostsInfo.map(post => (
-                      <li className="recipeList_item" key={post.id}>
-                        <div className='recipeList_itemTtl'>
-                          <p>{post.title}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* デバッグ用にログを出力 */}
-                {/* {console.log("selectedPostsInfoい:", selectedPostsInfo)}
-                {console.log("posts:", posts)}
-                {console.log("selectedPosts:", selectedPosts)} */}
-
-                <svg>
-                  <defs>
-                    <clipPath id="clip01" clipPathUnits="objectBoundingBox">
-                      <path d="M0.1,0 L0.9,0 Q1,0 1,0.1 L1,0.9 Q1,1 0.9,1 L0.1,1 Q0,1 0,0.9 L0,0.1 Q0,0 0.1,0 Z" />
-                    </clipPath>
-                  </defs>
-                </svg>
-              </div>
-              <div className="recipeDetail_inputItem">
-                <div className="svgContent_mainImg">
-                  {recipe.imageUrl && (
-                    <svg width="100%" height="100%" style={{ clipPath: "url(#clip01)" }}>
-                      <image href={recipe.imageUrl} x="0" y="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
-                    </svg>
-                  )}
-                </div>
-              </div>
-
-              <div className="recipeDetail_inputItem ingredient">
-                <h3 className='recipeDetail_title'>材料</h3>
-                <div className="recipeDetail_ingredients">
-                  {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
-                    <p key={index}>{ingredient}</p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="recipeDetail_inputItem">
-                {recipe.process && recipe.process.length > 0 && (
-                  <Process steps={recipe.process} />
-                )}
-              </div>
+    <div className="recipeDetail">
+      <h1 className='page_ttl'>Today's menu</h1>
+      {selectedPostsInfo.length === 0 ? (
+        <div className='recipeDetail_tabs'>
+          <div className="recipeDetail_tab">
+            <div className='recipeDetail_tabTtl'>
+              <p>{recipe.title}</p>
             </div>
-          )}
+          </div>
+        </div>
+      ) : (
+        <ul className='recipeDetail_tabs'>
+          {selectedPostsInfo && selectedPostsInfo.map(post => (
+            <li className="recipeDetail_tab" key={post.id}>
+              <div className='recipeDetail_tabTtl'>
+                <p>{post.title}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className='recipeDetail_main'>
+        <div className="inner">
+          <div className="recipe_wrap">
+
+            <div className="recipe_head">
+              <h2>{recipe.title}</h2>
+              <ul className="recipeDetail_edit">
+                <li>
+                  <button className='button_edit' onClick={() => setIsEditing(true)}>
+                    <div>|||</div>
+                  </button>
+                </li>
+                <li className='recipeDetail_editItem'>
+                  <button className='button_deleteBtn' onClick={handleClickDelete}>×</button>
+                </li>
+              </ul>
+            </div>
+
+            {isEditing ? (
+              //編集画面
+              <RecipeInputForm
+                imageUrl={imageUrl}
+                tempImageUrl={tempImageUrl}
+                newRecipeName={newRecipeName}
+                setNewRecipeName={setNewRecipeName}
+                newProcess={newProcess}
+                setNewProcess={setNewProcess}
+                newIngredients={newIngredients}
+                handleAdditionalInfoChange={handleAdditionalInfoChange}
+                handleAddIngredientField={handleAddIngredientField}
+                handleAddProcessUrlAndText={handleAddProcessUrlAndText}
+                handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
+                loading={loading}
+                editedRecipe={editedRecipe}
+                handleRemoveImgAndText={handleRemoveImgAndText}
+                handleRemoveImage={handleRemoveImage}
+                handleFileUploadToFirebase={handleFileUploadToFirebase}
+                handleFileSelection={handleFileSelection}
+                loadingProcessImgs={loadingProcessImgs}
+              />
+            ) : (
+              <Fragment>
+                <div className="recipe_body">
+                  <div className="recipeDetail_inputItem">
+                    <div className="recipeDetail_mainImg">
+                      {recipe.imageUrl && (
+                        <img src={recipe.imageUrl} alt="" />
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="recipeDetail_inputItem ingredient">
+                    <h3 className='recipeDetail_title'>材料</h3>
+                    <div className="recipeDetail_ingredients">
+                      {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
+                        <p key={index}>{ingredient}</p>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="recipeDetail_inputItem">
+                    {recipe.process && recipe.process.length > 0 && (
+                      <Process steps={recipe.process} />
+                    )}
+                  </div>
+                </div>
+              </Fragment>
+            )}
+          </div>
+          <div className="btn_container">
           <ButtonListPage />
           <ButtonSelectedRecipePage />
           <ButtonInputPage />
+          </div>
         </div>
       </div>
     </div>
