@@ -36,7 +36,7 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
 
 
     return (
-        <div className="recipeList_main">
+        <div className="recipeList_main is-chek">
             <h1 className='page_ttl'>Recipe List</h1>
             <div className="recipeList_contentsWrap">
                 {posts && posts.length === 0 ? (

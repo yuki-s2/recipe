@@ -87,11 +87,14 @@ div{
   transform: rotate(90deg);
   letter-spacing: .2em;
   font-weight: bold;
+  color: #806b70;
+  font-weight: 700;
 }
 }
 .button_deleteBtn {
   font-size: 1.7em;
   padding: .05em .4em;
+  color: #806b70;
 }
 /* 入力フォーム */
 .recipeInput_head {
@@ -117,30 +120,21 @@ div{
 .recipeInput_main {
   font-size: 20px;
   width: 100%;
-  background: #fff0ef;
-  background-image: linear-gradient(#e5e4e4 1px, transparent 0),
-    linear-gradient(90deg, #e5e4e4 1px, transparent 0);
-  background-size: 40px 40px;
+  background: #f9e6df;
   padding: 5em 0;
+
+    background-image: repeating-linear-gradient(transparent, transparent 50px, #B78791 50px, #B78791 53px, transparent 53px, transparent 63px, #B78791 63px, #B78791 66px, transparent 66px, transparent 116px, #0.1em solid #806b70 116px, #0.1em solid #806b70 166px, #e8dddc 166px, #e8dddc 169px, #0.1em solid #806b70 169px, #e8dddc 179px, #0.1em solid #806b70 179px, #0.1em solid #806b70 182px, #0.1em solid #806b70 182px, #0.1em solid #806b70 232px, transparent 232px),  
+      repeating-linear-gradient(270deg, transparent, transparent 50px, #B78791 50px, #B78791 53px, transparent 53px, transparent 63px, #B78791 63px, #B78791 66px, transparent 66px, transparent 116px, #0.1em solid #806b70 116px, #0.1em solid #806b70 166px, #e8dddc 166px, #e8dddc 169px, #0.1em solid #806b70 169px, #0.1em solid #806b70 179px, #e8dddc 179px, #e8dddc 182px, #0.1em solid #806b70 182px, #0.1em solid #806b70 232px, transparent 232px);
   h2 {
     font-size: 1.3em;
     text-align: left;
   }
 }
 
-.recipeInput_wrap {
-  border: 4px solid #9a9898;
-  border-radius: 1em;
-}
-
-.recipeInput_container {
-  // border: 1px solid #9a989a;
-  // border-radius: 0.5em;
-  padding: 2em 4em;
-  background: #ffffff;
-  overflow-y: scroll;
-  width: 100%;
-}
+// .recipeInput_wrap {
+//   border: 4px solid #9a9898;
+//   border-radius: 1em;
+// }
 
 .recipeInput_form {
   margin-top: 2em;
@@ -158,15 +152,6 @@ div{
   align-items: center;
 }
 
-.recipeInput_container .input {
-  border: 4px solid #9a9898;
-  display: block;
-  width: 100%;
-  padding: 1em;
-  border-radius: 0.3em;
-  background: #f4f3f3;
-  box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
-}
 .recipeInput_ingredientInput {
   width: 100%;
 }
@@ -217,11 +202,11 @@ div{
 .is-oneRow input + input {
   margin-top: .5em;
 }
-.recipeInput_text {
-  margin-bottom: .5em;
-  text-align: left;
-  color: #777676;
-}
+// .recipeInput_text {
+//   margin-bottom: .5em;
+//   text-align: left;
+//   color: #777676;
+// }
 .recipeInput_title {
   font-size: .7em;
   text-align: left;
@@ -231,9 +216,9 @@ div{
   margin-top: 0;
   font-weight: normal;
 }
-.recipeInput_howTo input {
-  height: 7em;
-}
+// .recipeInput_howTo input {
+//   height: 7em;
+// }
 .recipeInput_processContents {
   width: 100%;
 }
@@ -305,7 +290,16 @@ div{
   width: 100%;
   height: 100%;
   padding: 4em 0;
-  background: #e4eafc;
+  background: #f9e6df;
+  background-image: linear-gradient(#b787919d 1px, transparent 0),
+linear-gradient(90deg, #b787919d 1px, transparent 0);
+background-size: 40px 40px;
+&.is-dot {
+  background: #f9e6df;
+  background-image:
+    radial-gradient(#b787919d 10%, transparent 10%);
+    background-size: 20px 20px;
+}
 }
 
 .recipeList_contentsWrap {
@@ -473,7 +467,7 @@ div{
 // }
 .recipe_body {
   margin: 1em;
-  padding: 4em 1em;
+  padding: 4em 3em;
   background: #f4eeed;
   border: 0.1em solid #806b70;
   border-radius: 1em;
@@ -484,6 +478,7 @@ div{
 .recipeDetail_title {
   width: 7em;
   text-align: left;
+  color: #806b70;
 }
 .recipeDetail_detailsContainer {
   margin-top: 4em;
@@ -551,6 +546,10 @@ margin-top: 2em;
   .recipeDetail_ingredients {
     text-align: left;
     margin-top: 1em;
+    p {
+      color: #5f5866;
+      font-size: 1em;
+    }
   }
   .recipeDetail_ingredients p + p {
     margin-top: .5em;
@@ -575,12 +574,14 @@ margin-top: 2em;
     border-radius: 1em;
     padding: .5em;
     background: #fff;
-    min-width: 12em;
+    min-width: 17em;
     width: calc(100% / 4);
     p {
       text-align: left;
-      font-size: .7em;
+      font-size: .9em;
+      line-height: 1.5;
       padding: 1.5em 0 1em;
+      color: #806b70;
     }
   }
   
@@ -588,11 +589,11 @@ margin-top: 2em;
     position: absolute;
     top: -1.5em;
     left: 0;
-    color: #333;
+    color: #806b70;
     }
   .process_itemImg {
     padding-bottom: .5em;
-    border-bottom: .05em solid #d1d1d1;
+    border-bottom: .05em solid #c1abb0;
     width: 100%;
   }
   .process_item img {

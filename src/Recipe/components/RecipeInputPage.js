@@ -50,13 +50,8 @@ export const RecipeInputPage = ({ posts }) => {
         <div className="recipe_wrap">
           <div className="recipe_head">
             <h2>add new recipe</h2>
-            {/* <div className="recipeInput_menu">
-              <button><img className="recipeInput_edit" src="" alt="編集" /></button>
-              <button><img className="recipeInput_delete" src="" alt="削除" /></button>
-            </div> */}
           </div>
           <div className="recipe_body">
-            {/* <div className="recipeInput_container"> */}
             <RecipeInputForm
               tempImageUrl={tempImageUrl}
               newRecipeName={newRecipeName}
@@ -77,7 +72,6 @@ export const RecipeInputPage = ({ posts }) => {
               handleFileSelection={handleFileSelection}
               loadingProcessImgs={loadingProcessImgs}
             />
-            {/* </div> */}
           </div>
         </div>
         <div className="btn_container">

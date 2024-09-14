@@ -10,7 +10,7 @@ export const SelectedRecipes = ({ selectedPosts, posts }) => {
     const selectedPostsInfo = posts ? posts.filter(post => selectedPosts.includes(post.id)) : [];
 
     return (
-        <div className="recipeList_body">
+        <div className="recipeList_main is-dot">
             <h2 className='page_ttl'>今日の献立</h2>
             <div className="recipeList_contentsWrap">
                 {selectedPostsInfo.length === 0 ? (
@@ -35,8 +35,10 @@ export const SelectedRecipes = ({ selectedPosts, posts }) => {
                     </ul>
                 )}
             </div>
+            <div className="btn_container">
             <ButtonListPage />
             <ButtonInputPage />
+            </div>
         </div>
     );
 };
