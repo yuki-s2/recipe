@@ -122,9 +122,8 @@ div{
   width: 100%;
   background: #f9e6df;
   padding: 5em 0;
-
-    background-image: repeating-linear-gradient(transparent, transparent 50px, #B78791 50px, #B78791 53px, transparent 53px, transparent 63px, #B78791 63px, #B78791 66px, transparent 66px, transparent 116px, #0.1em solid #806b70 116px, #0.1em solid #806b70 166px, #e8dddc 166px, #e8dddc 169px, #0.1em solid #806b70 169px, #e8dddc 179px, #0.1em solid #806b70 179px, #0.1em solid #806b70 182px, #0.1em solid #806b70 182px, #0.1em solid #806b70 232px, transparent 232px),  
-      repeating-linear-gradient(270deg, transparent, transparent 50px, #B78791 50px, #B78791 53px, transparent 53px, transparent 63px, #B78791 63px, #B78791 66px, transparent 66px, transparent 116px, #0.1em solid #806b70 116px, #0.1em solid #806b70 166px, #e8dddc 166px, #e8dddc 169px, #0.1em solid #806b70 169px, #0.1em solid #806b70 179px, #e8dddc 179px, #e8dddc 182px, #0.1em solid #806b70 182px, #0.1em solid #806b70 232px, transparent 232px);
+  background-image: repeating-linear-gradient(transparent, transparent 50px, purple 50px, purple 53px, transparent 53px, transparent 63px, purple 63px, purple 66px, transparent 66px, transparent 116px, rgba(0,0,0,.3) 116px, rgba(0,0,0,.3) 166px, rgba(255,255,255,.1) 166px, rgba(255,255,255,.1) 169px, rgba(0,0,0,.3) 169px, rgba(0,0,0,.3) 179px, rgba(255,255,255,.1) 179px, rgba(255,255,255,.1) 182px, rgba(0,0,0,.3) 182px, rgba(0,0,0,.3) 232px, transparent 232px),  
+  repeating-linear-gradient(270deg, transparent, transparent 50px, purple 50px, purple 53px, transparent 53px, transparent 63px, purple 63px, purple 66px, transparent 66px, transparent 116px, rgba(0,0,0,.3) 116px, rgba(0,0,0,.3) 166px, rgba(255,255,255,.1) 166px, rgba(255,255,255,.1) 169px, rgba(0,0,0,.3) 169px, rgba(0,0,0,.3) 179px, rgba(255,255,255,.1) 179px, rgba(255,255,255,.1) 182px, rgba(0,0,0,.3) 182px, rgba(0,0,0,.3) 232px, transparent 232px);
   h2 {
     font-size: 1.3em;
     text-align: left;

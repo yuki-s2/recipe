@@ -138,12 +138,12 @@ const RecipeInputForm = ({
               value={newProcess}
             ></textarea>
           </div>
-          <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText}>
+          <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText}  disabled={!newProcess} >
             追加する
           </button>
         </div>
       </div>
-      <button className='button_additionBtn' type="submit">
+      <button className='button_additionBtn' type="submit"  disabled={!newRecipeName || editedRecipe.process.length === 0} >
         追加する
       </button>
     </form>

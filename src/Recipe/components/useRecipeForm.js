@@ -60,18 +60,18 @@ export const useRecipeForm = (initialRecipe = null) => {
   };
 
   const handleAddProcessUrlAndText = () => {
-    if (tempImageUrl && newProcess) {
+    if (newProcess) {
       setEditedRecipe(prevState => ({
         ...prevState,
         process: [
           ...(prevState.process || []),
-          { process: tempImageUrl, text: newProcess }
+          { process: tempImageUrl || '', text: newProcess }
         ]
       }));
       setNewProcess('');
       setTempImageUrl('');
     } else {
-      console.error("Image URL and text are required to add step");
+      console.error("Text is required to add step");
     }
   };
 

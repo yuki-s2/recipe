@@ -5,20 +5,22 @@ import { db } from '../../Firebase';
 import { ButtonInputPage, ButtonSelectedRecipePage } from './Button';
 
 //親コンポーネントからpropsを受け取る
-export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPosts }) => {
+export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPosts, postId, svgId }) => {
     // console.log("選択した",selectedPosts);
 
-    const handleCheckboxChange = (postId, svgId) => {
+    const handleCheckboxChange = (postId) => {
         const updatedSelectedPosts = selectedPosts.includes(postId)
-            ? selectedPosts.filter(id => id !== postId)
-            : [...selectedPosts, postId];
-
+            ? selectedPosts.filter(id => id !== postId) // チェック解除の場合、配列から削除
+            : [...selectedPosts, postId]; // チェックの場合、配列に追加
+    
         setSelectedPosts(updatedSelectedPosts);
-
-        const svg = document.getElementById(svgId);
+    
+        // チェックボックスの状態に応じて色を変更
+        const svg = document.getElementById(`heart-icon-${postId}`);
         if (svg) {
             const path = svg.querySelector('path');
             if (path) {
+                // チェックされているかどうかで色を変更
                 path.style.stroke = updatedSelectedPosts.includes(postId) ? '#f2a3bd' : '#8b8294';
             }
         }
@@ -30,10 +32,36 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
         onSnapshot(postData, (post) => {
             setPosts(post.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         });
-        console.log(posts);
         //setPostsが変更されたときにuseEffectが再実行されます。
     }, [setPosts]);
 
+    //useEffectは、特定の状態やプロパティが変更されたときに副作用（サイドエフェクト）を実行するためのフックです。
+    //ここでは、selectedPostsやpostsが変更されたときに実行
+    useEffect(() => {
+        selectedPosts.forEach(postId => {
+            const svg = document.getElementById(`heart-icon-${postId}`);
+            if (svg) {
+                const path = svg.querySelector('path');
+                if (path) {
+                    path.style.stroke = '#f2a3bd';  // 選択されたものはピンク色に
+                }
+            }
+        });
+    
+        // 選択されていないアイテムの色もリセット
+        posts.forEach(post => {
+            if (!selectedPosts.includes(post.id)) {
+                const svg = document.getElementById(`heart-icon-${post.id}`);
+                if (svg) {
+                    const path = svg.querySelector('path');
+                    if (path) {
+                        path.style.stroke = '#8b8294';  // 未選択の場合は元の色に戻す
+                    }
+                }
+            }
+        });
+    
+    }, [selectedPosts, posts]); // selectedPostsやpostsが変わった時に実行
 
     return (
         <div className="recipeList_main is-chek">
@@ -72,8 +100,8 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                 )}
             </div>
             <div className="btn_container">
-            <ButtonSelectedRecipePage />
-            <ButtonInputPage />
+                <ButtonSelectedRecipePage />
+                <ButtonInputPage />
             </div>
         </div>
     );
