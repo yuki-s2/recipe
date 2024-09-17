@@ -104,11 +104,13 @@ export const useRecipeForm = (initialRecipe = null) => {
     try {
       const storage = getStorage();
       const imageRef = ref(storage, editedRecipe.process[index].process);
-      await deleteObject(imageRef);
 
       const updatedProcess = editedRecipe.process.filter((_, i) => i !== index);
       setEditedRecipe({ ...editedRecipe, process: updatedProcess });
-
+      if (imageRef) {
+        await deleteObject(imageRef);
+        };
+      
       if (initialRecipe) {
         await updateDoc(doc(db, "posts", initialRecipe.id), {
           process: updatedProcess

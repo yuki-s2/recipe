@@ -90,6 +90,8 @@ const RecipeInputForm = ({
                 onClick={() => stepImgInputRef.current.click()}
                 style={{
                   backgroundImage: `url(${step.process})`,
+                  // border: !tempImageUrl && 'none',
+                  // background: !tempImageUrl && 'none',
                 }}
               >
               </div>
