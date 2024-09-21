@@ -23,15 +23,15 @@ export const useRecipeForm = (initialRecipe = null) => {
     setNewIngredients(values);
   };
   
-
+//材料追加
   const handleAddIngredientField = () => {
     setNewIngredients([...newIngredients, '']);
   };
 
-  //不要？
+  //handleFileSelection で使用
   const uploadDetailImages = async (files) => {
     files = Array.from(files);
-
+//作り方画像をfirebaseに保存
     const stepImgUrls = await Promise.all(
       files.map(async (file) => {
         const storage = getStorage();
@@ -43,21 +43,36 @@ export const useRecipeForm = (initialRecipe = null) => {
     return stepImgUrls;
   };
 
-  const handleFileSelection = async (e) => {
-    setLoadingProcessImgs(true);
-    const files = Array.from(e.target.files);
+  //作り方画像をアップロード
+const handleFileSelection = async (e, index) => {
+  setLoadingProcessImgs(true);
+  const files = Array.from(e.target.files);
 
-    try {
-      const stepImgUrls = await uploadDetailImages(files);
-      if (stepImgUrls.length > 0) {
-        setTempImageUrl(stepImgUrls[0]);  // 一時的なURLに保存
-      }
-    } catch (error) {
-      console.error("Error uploading process image: ", error);
-    } finally {
-      setLoadingProcessImgs(false);
+  try {
+    const stepImgUrls = await uploadDetailImages(files);
+    if (stepImgUrls.length > 0) {
+      setTempImageUrl(stepImgUrls[0]); // アップロードされた画像[0]を一時的に表示
+
+      setEditedRecipe(prevState => {
+        const updatedProcess = [...prevState.process];
+        
+        // indexに対応するステップが存在しない場合、新しいオブジェクトを作成
+        if (!updatedProcess[index]) {
+          updatedProcess[index] = { process: '', text: '' };
+        }
+
+        updatedProcess[index].process = stepImgUrls[0];  // インデックスに対応するステップの画像を更新
+        return { ...prevState, process: updatedProcess };
+      });
     }
-  };
+  } catch (error) {
+    console.error("Error uploading process image: ", error);
+  } finally {
+    setLoadingProcessImgs(false);
+  }
+};
+
+
 
   const handleAddProcessUrlAndText = () => {
     if (newProcess) {

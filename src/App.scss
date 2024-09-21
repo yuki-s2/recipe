@@ -129,12 +129,6 @@ div{
     text-align: left;
   }
 }
-
-// .recipeInput_wrap {
-//   border: 4px solid #9a9898;
-//   border-radius: 1em;
-// }
-
 .recipeInput_form {
   margin-top: 2em;
   .button_additionBtn {
@@ -154,19 +148,6 @@ div{
 .recipeInput_ingredientInput {
   width: 100%;
 }
-// .recipeInput_ingredientInput {
-//   column-count: 3;
-//   column-gap: 1em;
-//   max-height: 40em;
-//   margin-top: 1em;
-// }
-// .recipeInput_ingredient .input {
-//   margin-top: 0;
-//   width: 100%;
-//   display: block;
-//   break-inside: avoid;
-//   padding: .5em;
-// }
 .recipeInput_item.is-oneRow {
   display: inline-block;
   box-sizing: border-box;
@@ -180,12 +161,7 @@ div{
   display: grid;
   grid-template-columns: 1fr 7fr;
   width: 100%;
-  // max-height: 7em;
 }
-
-// ::placeholder {
-//   color: #fff;
-// }
 .is-oneRow input {
   border: .1em solid #806b70;
   width: 100%;
@@ -201,11 +177,6 @@ div{
 .is-oneRow input + input {
   margin-top: .5em;
 }
-// .recipeInput_text {
-//   margin-bottom: .5em;
-//   text-align: left;
-//   color: #777676;
-// }
 .recipeInput_title {
   font-size: .7em;
   text-align: left;
@@ -215,9 +186,6 @@ div{
   margin-top: 0;
   font-weight: normal;
 }
-// .recipeInput_howTo input {
-//   height: 7em;
-// }
 .recipeInput_processContents {
   width: 100%;
 }
@@ -232,10 +200,13 @@ div{
   position: relative;
   border-radius: .5em;
   margin: 0 auto;
-  border: .1em solid #806b70;
   width: 70%;
-  background: #e8dddc;
   color: #806b70;
+  border: .1em solid #806b70;
+}
+.recipeInput_img.is-input {
+  background: #e8dddc;
+  border: .1em solid #806b70;
 }
 .recipeInput_item.is-flow {
   align-items: start;
@@ -249,7 +220,6 @@ div{
     outline: none;
   }
   .textarea {
-    // height: 100%;
     padding: 1em;
     font-size: 18px;
     box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
@@ -279,10 +249,11 @@ div{
   color: #333;
   text-align: center;
 }
-// .recipeInput_ingredientContainer {
-//   width: 100%;
-//   max-height: 7em;
-// }
+.recipeInput_itemNumber {
+  position: absolute;
+  top: 0;
+  left: -20px;
+}
 /* RecipeListPage--------------------------------------------------- */
 .recipeList_main {
   font-size: 20px;

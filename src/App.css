@@ -194,10 +194,14 @@ body {
   position: relative;
   border-radius: 0.5em;
   margin: 0 auto;
-  border: 0.1em solid #806b70;
   width: 70%;
-  background: #e8dddc;
   color: #806b70;
+  border: 0.1em solid #806b70;
+}
+
+.recipeInput_img.is-input {
+  background: #e8dddc;
+  border: 0.1em solid #806b70;
 }
 
 .recipeInput_item.is-flow {
@@ -243,6 +247,12 @@ body {
   font-size: 1em;
   color: #333;
   text-align: center;
+}
+
+.recipeInput_itemNumber {
+  position: absolute;
+  top: 0;
+  left: -20px;
 }
 
 /* RecipeListPage--------------------------------------------------- */

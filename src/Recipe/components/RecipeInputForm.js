@@ -1,5 +1,4 @@
-//レシピを追加するフォームのUI
-import React, { useRef } from 'react';
+import React, { Fragment, useRef } from 'react';
 
 const RecipeInputForm = ({
   tempImageUrl,
@@ -21,11 +20,19 @@ const RecipeInputForm = ({
   loadingProcessImgs
 }) => {
   const imgInputRef = useRef(null);
-  const stepImgInputRef = useRef(null);
+  const stepImgInputRef = useRef([]); // 修正点: 空の配列として初期化
+  const stepImgsInputRef = useRef([]); // 複数画像用のref
+
+  const handleStepImageClick = (index) => {
+    if (stepImgsInputRef.current && stepImgsInputRef.current[index]) {
+      stepImgsInputRef.current[index].click(); // refが存在するか確認してからclick()
+    }
+  };
 
   return (
     <form className='recipeInput_form' onSubmit={handleSubmit}>
       <div className='recipeInput_item'>
+
         {loading ? (
           <p>Uploading...</p>
         ) : (
@@ -53,17 +60,24 @@ const RecipeInputForm = ({
             </React.Fragment>
           )
         )}
+
       </div>
       <div className='recipeInput_item is-oneRow'>
         <div className="recipeInput_itemGrid">
           <h3 className="recipeInput_title">レシピの名前</h3>
-          <input className='input' type="text" onChange={(e) => setNewRecipeName(e.target.value)} value={newRecipeName} />
+          <input
+            className='input'
+            type="text"
+            onChange={(e) => setNewRecipeName(e.target.value)}
+            value={newRecipeName}
+          />
         </div>
       </div>
       <div className="recipeInput_item is-oneRow">
         <div className="recipeInput_itemGrid">
           <h3 className="recipeInput_title">材料</h3>
           <div className="recipeInput_ingredientInput">
+
             {newIngredients.map((ingredient, index) => (
               <input
                 className='input'
@@ -73,6 +87,7 @@ const RecipeInputForm = ({
                 onChange={(event) => handleAdditionalInfoChange(index, event)}
               />
             ))}
+
           </div>
         </div>
         <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
@@ -82,56 +97,73 @@ const RecipeInputForm = ({
       <div className="recipeInput_item is-flow">
         <h3 className="recipeInput_title">作り方</h3>
         <div className="recipeInput_processContents">
+
           {editedRecipe.process && editedRecipe.process.map((step, index) => (
             <div className="recipeInput_imgAndText" key={index}>
-              {/* 作り方画像表示 */}
+              <div className="recipeInput_itemNumber">{index + 1}.</div>
+              {/* map 作り方画像表示 */}
               <div
                 className="recipeInput_img"
-                onClick={() => stepImgInputRef.current.click()}
+                onClick={() => handleStepImageClick(index)} // クリックしたときに画像アップロード
                 style={{
                   backgroundImage: `url(${step.process})`,
-                  // border: !tempImageUrl && 'none',
-                  // background: !tempImageUrl && 'none',
                 }}
               >
+                {!step.process && <span>Upload</span>}
               </div>
+              {/* ファイル選択インプット */}
+              <input
+                style={{ display: 'none' }}
+                ref={(el) => {
+                  if (!stepImgsInputRef.current) {
+                    stepImgsInputRef.current = [];
+                  }
+                  stepImgsInputRef.current[index] = el; // indexごとに対応
+                }}
+                type='file'
+                accept='.png, .jpg, .jpeg, .webp'
+                onChange={(e) => handleFileSelection(e, index)}
+              />
               {/* 作り方テキスト表示 */}
               <textarea
                 className='textarea'
                 type="text"
                 onChange={(e) => handleAddProcessUrlAndText(index, e)}
-                value={step.text}
-              ></textarea>
+                value={step.text}>
+              </textarea>
               {/* 画像とテキスト削除ボタン */}
               <button type="button" className='removeButton' onClick={() => handleRemoveImgAndText(index)}>✖️</button>
             </div>
           ))}
+
           <div className="recipeInput_imgAndText">
             {loadingProcessImgs ? (
               <div className='recipeInput_img is-input'>
                 <p>Uploading...</p>
               </div>
             ) : (
-              // 作り方画像表示
-              <div
-                className='recipeInput_img is-input'
-                onClick={() => stepImgInputRef.current.click()}
-                style={{
-                  backgroundImage: tempImageUrl ? `url(${tempImageUrl})` : 'none',
-                }}
-              >
-                {!tempImageUrl && <span>Upload</span>}
-              </div>
+              <Fragment>
+                {/* 作り方画像 一時的に表示 */}
+                <div
+                  className='recipeInput_img is-input'
+                  onClick={() => stepImgInputRef.current && stepImgInputRef.current.click()} // 修正点
+                  style={{
+                    backgroundImage: `url(${tempImageUrl})`,
+                  }}>
+                  {!tempImageUrl && <span>Upload</span>}
+                </div>
+                <input
+                  style={{ display: 'none' }}
+                  ref={stepImgInputRef}
+                  type='file'
+                  multiple
+                  accept='.png, .jpg, .jpeg, .webp'
+                  onChange={handleFileSelection}
+                />
+              </Fragment>
+
+
             )}
-            {/* 作り方画像入力 */}
-            <input
-              style={{ display: 'none' }}
-              ref={stepImgInputRef}
-              type='file'
-              multiple
-              accept='.png, .jpg, .jpeg, .webp'
-              onChange={handleFileSelection}
-            />
             {/* 作り方テキスト入力 */}
             <textarea
               className='textarea'
@@ -140,12 +172,12 @@ const RecipeInputForm = ({
               value={newProcess}
             ></textarea>
           </div>
-          <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText}  disabled={!newProcess} >
+          <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText} disabled={!newProcess}>
             追加する
           </button>
         </div>
       </div>
-      <button className='button_additionBtn' type="submit"  disabled={!newRecipeName || editedRecipe.process.length === 0} >
+      <button className='button_additionBtn' type="submit" disabled={!newRecipeName || editedRecipe.process.length === 0}>
         追加する
       </button>
     </form>
