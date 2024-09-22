@@ -90,6 +90,7 @@ const handleFileEdited = async (e, index) => {
         }
 
         updatedProcess[index].process = stepImgUrls[0];
+
         return { ...prevState, process: updatedProcess };
       });
     }
@@ -100,8 +101,24 @@ const handleFileEdited = async (e, index) => {
   }
 };
 
+const handleTextEdited = (index, event) => {
+  const updatedText = event.target.value;
+  
+  setEditedRecipe(prevState => {
+    const updatedProcess = [...prevState.process];
 
+    // 更新対象のステップが存在しない場合、空のオブジェクトを作って初期化
+    if (!updatedProcess[index]) {
+      updatedProcess[index] = { process: '', text: '' };
+    }
 
+    updatedProcess[index].text = updatedText;  // 該当のインデックスのテキストを更新
+
+    return { ...prevState, process: updatedProcess };
+  });
+};
+
+//作り方画像とテキストを追加する
   const handleAddProcessUrlAndText = () => {
     if (newProcess) {
       setEditedRecipe(prevState => ({
@@ -228,6 +245,7 @@ const handleFileEdited = async (e, index) => {
     handleAdditionalInfoChange,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
+    handleTextEdited,
     handleSubmit,
     handleRemoveImgAndText,
     handleRemoveImage,

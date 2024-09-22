@@ -9,6 +9,7 @@ const RecipeInputForm = ({
   newIngredients,
   handleAdditionalInfoChange,
   handleAddIngredientField,
+  handleTextEdited,
   handleAddProcessUrlAndText,
   handleSubmit,
   loading,
@@ -126,8 +127,8 @@ const RecipeInputForm = ({
               <textarea
                 className='textarea'
                 type="text"
-                onChange={(e) => handleAddProcessUrlAndText(index, e)}
-                value={step.text}
+                onChange={(e) => handleTextEdited(index, e)} // index と event を渡す
+                value={editedRecipe.process[index].text || ''}
               />
               {/* 画像とテキスト削除ボタン */}
               <button type="button" className='removeButton' onClick={() => handleRemoveImgAndText(index)}>✖️</button>
@@ -174,7 +175,7 @@ const RecipeInputForm = ({
         </div>
       </div>
 
-      {/* 追加ボタン */}
+      {/* 追加ボタン onSubmit={handleSubmit} */}
       <button className='button_additionBtn' type="submit" disabled={!newRecipeName || editedRecipe.process.length === 0}>
         追加する
       </button>

@@ -36,6 +36,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     handleFileUploadToFirebase,
     handleFileSelection,
     handleFileEdited,
+    handleTextEdited,
   } = useRecipeForm(recipe);// recipe を直接渡す
 
   const [isEditing, setIsEditing] = useState(false);
@@ -136,6 +137,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                 newIngredients={newIngredients}
                 handleAdditionalInfoChange={handleAdditionalInfoChange}
                 handleAddIngredientField={handleAddIngredientField}
+                handleTextEdited={handleTextEdited}
                 handleAddProcessUrlAndText={handleAddProcessUrlAndText}
                 handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
                 loading={loading}

@@ -37,6 +37,7 @@ export const RecipeInputPage = ({ posts }) => {
     handleAdditionalInfoChange,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
+    handleTextEdited,
     handleSubmit,
     handleRemoveImgAndText,
     handleRemoveImage,
@@ -64,6 +65,7 @@ export const RecipeInputPage = ({ posts }) => {
               handleAdditionalInfoChange={handleAdditionalInfoChange}
               handleAddIngredientField={handleAddIngredientField}
               handleAddProcessUrlAndText={handleAddProcessUrlAndText}
+              handleTextEdited={handleTextEdited}
               handleSubmit={handleSubmit}
               loading={loading}
               editedRecipe={editedRecipe}
