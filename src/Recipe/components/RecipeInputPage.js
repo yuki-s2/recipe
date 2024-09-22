@@ -42,6 +42,7 @@ export const RecipeInputPage = ({ posts }) => {
     handleRemoveImage,
     handleFileUploadToFirebase,
     handleFileSelection,
+    handleFileEdited,
   } = useRecipeForm(recipe);
 
   return (
@@ -50,6 +51,7 @@ export const RecipeInputPage = ({ posts }) => {
         <div className="recipe_wrap">
           <div className="recipe_head">
             <h2>add new recipe</h2>
+
           </div>
           <div className="recipe_body">
             <RecipeInputForm
@@ -70,6 +72,7 @@ export const RecipeInputPage = ({ posts }) => {
               uploadDetailImages={uploadDetailImages}
               handleFileUploadToFirebase={handleFileUploadToFirebase}
               handleFileSelection={handleFileSelection}
+              handleFileEdited={handleFileEdited}
               loadingProcessImgs={loadingProcessImgs}
             />
           </div>

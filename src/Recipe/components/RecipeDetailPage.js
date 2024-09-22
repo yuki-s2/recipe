@@ -35,6 +35,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     handleRemoveImage,
     handleFileUploadToFirebase,
     handleFileSelection,
+    handleFileEdited,
   } = useRecipeForm(recipe);// recipe を直接渡す
 
   const [isEditing, setIsEditing] = useState(false);
@@ -144,6 +145,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                 handleFileUploadToFirebase={handleFileUploadToFirebase}
                 handleFileSelection={handleFileSelection}
                 loadingProcessImgs={loadingProcessImgs}
+                handleFileEdited={handleFileEdited}
               />
             ) : (
               <Fragment>

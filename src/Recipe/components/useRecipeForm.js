@@ -43,7 +43,11 @@ export const useRecipeForm = (initialRecipe = null) => {
     return stepImgUrls;
   };
 
-  //作り方画像をアップロード
+
+
+
+
+  //作り方画像 一時的 をアップロード 
 const handleFileSelection = async (e, index) => {
   setLoadingProcessImgs(true);
   const files = Array.from(e.target.files);
@@ -62,6 +66,30 @@ const handleFileSelection = async (e, index) => {
         }
 
         updatedProcess[index].process = stepImgUrls[0];  // インデックスに対応するステップの画像を更新
+        return { ...prevState, process: updatedProcess };
+      });
+    }
+  } catch (error) {
+    console.error("Error uploading process image: ", error);
+  } finally {
+    setLoadingProcessImgs(false);
+  }
+};
+
+  //作り方画像をアップロード 
+const handleFileEdited = async (e, index) => {
+  const files = Array.from(e.target.files);
+  try {
+    const stepImgUrls = await uploadDetailImages(files);
+    if (stepImgUrls.length > 0) {
+      setEditedRecipe(prevState => {
+        const updatedProcess = [...prevState.process];
+
+        if (!updatedProcess[index]) {
+          updatedProcess[index] = { process: '', text: '' };
+        }
+
+        updatedProcess[index].process = stepImgUrls[0];
         return { ...prevState, process: updatedProcess };
       });
     }
@@ -205,5 +233,6 @@ const handleFileSelection = async (e, index) => {
     handleRemoveImage,
     handleFileUploadToFirebase,
     handleFileSelection,
+    handleFileEdited,
   };
 };
