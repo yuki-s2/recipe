@@ -97,6 +97,7 @@ const handleFileEdited = async (e, index) => {
   } catch (error) {
     console.error("Error uploading process image: ", error);
   } finally {
+    //不要？
     setLoadingProcessImgs(false);
   }
 };

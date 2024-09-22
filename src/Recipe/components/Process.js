@@ -7,9 +7,11 @@ const Process = ({ steps }) => {
       {steps && steps.map((step, index) => (
         <div className="process_item" key={index}>
           <div className="process_itemNumber">{index + 1}.</div>
-          <div className="process_itemImg">
-          <img src={step.process} alt="Recipe Detail" style={{ width: '150px', height: '150px' }} />
-          </div>
+          {step.process && (
+            <div className="process_itemImg">
+              <img src={step.process} alt="Recipe Detail" style={{ width: '150px', height: '150px' }} />
+            </div>
+          )}
           <p>{step.text}</p>
         </div>
       ))}
