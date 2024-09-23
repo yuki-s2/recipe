@@ -49,16 +49,16 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
         await deleteObject(imageRef);
       }
 
-    // 作り方画像の削除処理
-    if (recipe.process && recipe.process.length > 0) {
-      const deletePromises = recipe.process.map(async (detail) => {
-        if (detail.process) { // process が存在する場合のみ削除
-          const stepImageRef = ref(storage, detail.process);
-          await deleteObject(stepImageRef);
-        }
-      });
-      await Promise.all(deletePromises);
-    }
+      // 作り方画像の削除処理
+      if (recipe.process && recipe.process.length > 0) {
+        const deletePromises = recipe.process.map(async (detail) => {
+          if (detail.process) { // process が存在する場合のみ削除
+            const stepImageRef = ref(storage, detail.process);
+            await deleteObject(stepImageRef);
+          }
+        });
+        await Promise.all(deletePromises);
+      }
 
       await deleteDoc(doc(collection(db, "posts"), recipe.id));
       alert('削除が完了しました');
@@ -69,14 +69,14 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
 
   if (!recipe) {
     return (
-    <div className="recipeDetail">
-      <div>レシピが見つかりません。</div>
-      <div className="btn_container">
-        <ButtonListPage />
-        <ButtonSelectedRecipePage />
-        <ButtonInputPage />
+      <div className="recipeDetail">
+        <div>レシピが見つかりません。</div>
+        <div className="btn_container">
+          <ButtonListPage />
+          <ButtonSelectedRecipePage />
+          <ButtonInputPage />
+        </div>
       </div>
-    </div>
     );
   };
 
@@ -152,23 +152,23 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
             ) : (
               <Fragment>
                 <div className="recipe_body">
-                  <div className="recipeDetail_inputItem">
-                    <div className="recipeDetail_mainImg">
-                      {recipe.imageUrl && (
+                  {recipe.imageUrl && (
+                    <div className="recipeDetail_inputItem">
+                      <div className="recipeDetail_mainImg">
                         <img src={recipe.imageUrl} alt="" />
-                      )}
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="recipeDetail_inputItem ingredient">
-                    <h3 className='recipeDetail_title'>材料</h3>
-                    <div className="recipeDetail_ingredients">
-                      {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
-                        <p key={index}>{ingredient}</p>
-                      ))}
+                  )}
+                  {recipe.ingredient && recipe.ingredient.length > 0 && (
+                    <div className="recipeDetail_inputItem ingredient">
+                      <h3 className='recipeDetail_title'>材料</h3>
+                      <div className="recipeDetail_ingredients">
+                        {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
+                          <p key={index}>{ingredient}</p>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
+                  )}
                   <div className="recipeDetail_inputItem">
                     {recipe.process && recipe.process.length > 0 && (
                       <Process steps={recipe.process} />

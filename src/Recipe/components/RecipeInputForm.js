@@ -91,7 +91,7 @@ const RecipeInputForm = ({
             ))}
           </div>
         </div>
-        <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}>
+        <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}  disabled={newIngredients[newIngredients.length - 1].trim() === ""}>
           追加する
         </button>
       </div>

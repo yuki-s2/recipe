@@ -43,10 +43,6 @@ export const useRecipeForm = (initialRecipe = null) => {
     return stepImgUrls;
   };
 
-
-
-
-
   //作り方画像 一時的 をアップロード 
 const handleFileSelection = async (e, index) => {
   setLoadingProcessImgs(true);
@@ -200,13 +196,13 @@ const handleTextEdited = (index, event) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const filteredIngredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
     try {
       setLoading(true);
       const newRecipeData = {
         title: newRecipeName,
         text: newProcess,
-        ingredient: newIngredients,
+        ingredient: filteredIngredients,
         imageUrl: imageUrl,
         process: editedRecipe.process,
       };
