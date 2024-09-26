@@ -7,7 +7,7 @@ import { db } from '../../Firebase';
 export const useRecipeForm = (initialRecipe = null) => {
   const [newRecipeName, setNewRecipeName] = useState(initialRecipe?.title || '');
   const [newProcess, setNewProcess] = useState('');
-  const [newIngredients, setNewIngredients] = useState(initialRecipe?.ingredient || ['']);
+  const [newIngredients, setNewIngredients] = useState(initialRecipe && initialRecipe.ingredient ? initialRecipe.ingredient : [""]);
   const [loading, setLoading] = useState(false);
   const [loadingProcessImgs, setLoadingProcessImgs] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialRecipe?.imageUrl || '');
@@ -26,6 +26,25 @@ export const useRecipeForm = (initialRecipe = null) => {
 //材料追加
   const handleAddIngredientField = () => {
     setNewIngredients([...newIngredients, '']);
+  };
+
+  const handleRemoveIngredient = async (index) => {
+    try {
+      // 正しい配列操作
+      const updatedIngredients = newIngredients.filter((_, i) => i !== index);
+      
+      // newIngredientsを更新
+      setNewIngredients(updatedIngredients);
+      
+      // データベースの更新が必要な場合
+      if (initialRecipe) {
+        await updateDoc(doc(db, "posts", initialRecipe.id), {
+          ingredient: updatedIngredients
+        });
+      }
+    } catch (error) {
+      console.error("Error removing ingredient step: ", error);
+    }
   };
 
   //handleFileSelection で使用
@@ -196,7 +215,7 @@ const handleTextEdited = (index, event) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const filteredIngredients = newIngredients.filter(ingredient => ingredient.trim() !== '');
+    const filteredIngredients = newIngredients.filter(ingredient => ingredient && ingredient.trim() !== '');
     try {
       setLoading(true);
       const newRecipeData = {
@@ -238,6 +257,8 @@ const handleTextEdited = (index, event) => {
     tempImageUrl,
     editedRecipe,
     setEditedRecipe, 
+    setNewIngredients,
+    handleRemoveIngredient,
     uploadDetailImages,
     handleAdditionalInfoChange,
     handleAddIngredientField,

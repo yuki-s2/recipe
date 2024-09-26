@@ -39,6 +39,7 @@ export const RecipeInputPage = ({ posts }) => {
     handleAddProcessUrlAndText,
     handleTextEdited,
     handleSubmit,
+    handleRemoveIngredient,
     handleRemoveImgAndText,
     handleRemoveImage,
     handleFileUploadToFirebase,
@@ -69,6 +70,7 @@ export const RecipeInputPage = ({ posts }) => {
               handleSubmit={handleSubmit}
               loading={loading}
               editedRecipe={editedRecipe}
+              handleRemoveIngredient={handleRemoveIngredient}
               handleRemoveImgAndText={handleRemoveImgAndText}
               handleRemoveImage={handleRemoveImage}
               uploadDetailImages={uploadDetailImages}

@@ -136,6 +136,15 @@ body {
   width: 100%;
 }
 
+.recipeInput_ingredientItem {
+  position: relative;
+}
+.recipeInput_ingredientItem .removeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .recipeInput_item.is-oneRow {
   display: inline-block;
   box-sizing: border-box;

@@ -31,6 +31,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     handleAddIngredientField,
     handleAddProcessUrlAndText,
     handleSubmit,
+    handleRemoveIngredient,
     handleRemoveImgAndText,
     handleRemoveImage,
     handleFileUploadToFirebase,
@@ -80,8 +81,8 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     );
   };
 
-  const handleFormSubmit = (event) => {
-    handleSubmit(event);
+  const handleFormSubmit = (e) => {
+    handleSubmit(e);
     setIsEditing(false); // 編集モードを終了
   };
 
@@ -101,7 +102,9 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
           {selectedPostsInfo && selectedPostsInfo.map(post => (
             <li className="recipeDetail_tab" key={post.id}>
               <div className='recipeDetail_tabTtl'>
-                <p>{post.title}</p>
+                <Link to={`/recipes/${post.id}`}>
+                  <p>{post.title}</p>
+                </Link>
               </div>
             </li>
           ))}
@@ -124,31 +127,33 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                 </li>
               </ul>
             </div>
-
             {isEditing ? (
               //編集画面
-              <RecipeInputForm
-                imageUrl={imageUrl}
-                tempImageUrl={tempImageUrl}
-                newRecipeName={newRecipeName}
-                setNewRecipeName={setNewRecipeName}
-                newProcess={newProcess}
-                setNewProcess={setNewProcess}
-                newIngredients={newIngredients}
-                handleAdditionalInfoChange={handleAdditionalInfoChange}
-                handleAddIngredientField={handleAddIngredientField}
-                handleTextEdited={handleTextEdited}
-                handleAddProcessUrlAndText={handleAddProcessUrlAndText}
-                handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
-                loading={loading}
-                editedRecipe={editedRecipe}
-                handleRemoveImgAndText={handleRemoveImgAndText}
-                handleRemoveImage={handleRemoveImage}
-                handleFileUploadToFirebase={handleFileUploadToFirebase}
-                handleFileSelection={handleFileSelection}
-                loadingProcessImgs={loadingProcessImgs}
-                handleFileEdited={handleFileEdited}
-              />
+              <div className="recipe_body">
+                <RecipeInputForm
+                  imageUrl={imageUrl}
+                  tempImageUrl={tempImageUrl}
+                  newRecipeName={newRecipeName}
+                  setNewRecipeName={setNewRecipeName}
+                  newProcess={newProcess}
+                  setNewProcess={setNewProcess}
+                  newIngredients={newIngredients}
+                  handleAdditionalInfoChange={handleAdditionalInfoChange}
+                  handleAddIngredientField={handleAddIngredientField}
+                  handleTextEdited={handleTextEdited}
+                  handleAddProcessUrlAndText={handleAddProcessUrlAndText}
+                  handleSubmit={handleFormSubmit}//onSubmit={handleSubmit} RecipeInputFormの{ここに入れたいやつ渡す}
+                  loading={loading}
+                  editedRecipe={editedRecipe}
+                  handleRemoveIngredient={handleRemoveIngredient}
+                  handleRemoveImgAndText={handleRemoveImgAndText}
+                  handleRemoveImage={handleRemoveImage}
+                  handleFileUploadToFirebase={handleFileUploadToFirebase}
+                  handleFileSelection={handleFileSelection}
+                  loadingProcessImgs={loadingProcessImgs}
+                  handleFileEdited={handleFileEdited}
+                />
+              </div>
             ) : (
               <Fragment>
                 <div className="recipe_body">

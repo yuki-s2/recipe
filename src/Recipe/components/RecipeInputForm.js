@@ -14,6 +14,7 @@ const RecipeInputForm = ({
   handleSubmit,
   loading,
   editedRecipe,
+  handleRemoveIngredient,
   handleRemoveImgAndText,
   handleRemoveImage,
   handleFileUploadToFirebase,
@@ -81,17 +82,19 @@ const RecipeInputForm = ({
           <h3 className="recipeInput_title">材料</h3>
           <div className="recipeInput_ingredientInput">
             {newIngredients.map((ingredient, index) => (
-              <input
-                className='input'
-                key={index}
-                type="text"
-                value={ingredient}
-                onChange={(event) => handleAdditionalInfoChange(index, event)}
-              />
+              <div className='recipeInput_ingredientItem' key={index}>
+                <input
+                  className='input'
+                  type="text"
+                  value={ingredient}
+                  onChange={(event) => handleAdditionalInfoChange(index, event)}
+                />
+                <button type="button" className='removeButton' onClick={() => handleRemoveIngredient(index)}>✖️</button>
+              </div>
             ))}
           </div>
         </div>
-        <button className='button_additionBtn' type="button" onClick={handleAddIngredientField}  disabled={newIngredients[newIngredients.length - 1].trim() === ""}>
+        <button className='button_additionBtn' type="button" onClick={handleAddIngredientField} disabled={newIngredients[newIngredients.length - 1]?.trim() === ""}>
           追加する
         </button>
       </div>
