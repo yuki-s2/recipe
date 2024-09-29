@@ -8,6 +8,7 @@ export const useRecipeForm = (initialRecipe = null) => {
   const [newRecipeName, setNewRecipeName] = useState(initialRecipe?.title || '');
   const [newProcess, setNewProcess] = useState('');
   const [newIngredients, setNewIngredients] = useState(initialRecipe && initialRecipe.ingredient ? initialRecipe.ingredient : [""]);
+  const [newIngredientQty, setIngredientQty] = useState(initialRecipe && initialRecipe.ingredientQty ? initialRecipe.ingredientQty : [""]);  
   const [loading, setLoading] = useState(false);
   const [loadingProcessImgs, setLoadingProcessImgs] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialRecipe?.imageUrl || '');
@@ -17,11 +18,18 @@ export const useRecipeForm = (initialRecipe = null) => {
     process: initialRecipe?.process || []
   })
 
-  const handleAdditionalInfoChange = (index, event) => {
+  const handleAddIngredient = (index, event) => {
     const values = [...newIngredients];
     values[index] = event.target.value;
     setNewIngredients(values);
   };
+  
+  const handleAddIngredientQty = (index, event) => {
+    const values = [...newIngredientQty];
+    values[index] = event.target.value;
+    setIngredientQty(values);
+  };
+  
   
 //材料追加
   const handleAddIngredientField = () => {
@@ -216,12 +224,14 @@ const handleTextEdited = (index, event) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const filteredIngredients = newIngredients.filter(ingredient => ingredient && ingredient.trim() !== '');
+    const filteredIngredientQty = newIngredientQty.filter(ingredientQty => ingredientQty && ingredientQty.trim() !== '');
     try {
       setLoading(true);
       const newRecipeData = {
         title: newRecipeName,
         text: newProcess,
         ingredient: filteredIngredients,
+        ingredientQty: filteredIngredientQty,
         imageUrl: imageUrl,
         process: editedRecipe.process,
       };
@@ -250,6 +260,7 @@ const handleTextEdited = (index, event) => {
     newProcess,
     setNewProcess,
     newIngredients,
+    newIngredientQty,
     loading,
     loadingProcessImgs,
     imageUrl,
@@ -260,7 +271,8 @@ const handleTextEdited = (index, event) => {
     setNewIngredients,
     handleRemoveIngredient,
     uploadDetailImages,
-    handleAdditionalInfoChange,
+    handleAddIngredient,
+    handleAddIngredientQty,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
     handleTextEdited,

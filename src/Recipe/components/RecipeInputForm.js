@@ -7,7 +7,9 @@ const RecipeInputForm = ({
   newProcess,
   setNewProcess,
   newIngredients,
-  handleAdditionalInfoChange,
+  newIngredientQty,
+  handleAddIngredient,
+  handleAddIngredientQty,
   handleAddIngredientField,
   handleTextEdited,
   handleAddProcessUrlAndText,
@@ -87,7 +89,13 @@ const RecipeInputForm = ({
                   className='input'
                   type="text"
                   value={ingredient}
-                  onChange={(event) => handleAdditionalInfoChange(index, event)}
+                  onChange={(event) => handleAddIngredient(index, event)}
+                />
+                <input
+                  className='input'
+                  type="text"
+                  value={newIngredientQty[index]}
+                  onChange={(event) => handleAddIngredientQty(index, event)}
                 />
                 <button type="button" className='removeButton' onClick={() => handleRemoveIngredient(index)}>✖️</button>
               </div>

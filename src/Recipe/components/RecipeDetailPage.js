@@ -22,12 +22,14 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
     newProcess,
     setNewProcess,
     newIngredients,
+    newIngredientQty,
     loading,
     loadingProcessImgs,
     imageUrl,
     tempImageUrl,
     editedRecipe,
-    handleAdditionalInfoChange,
+    handleAddIngredient,
+    handleAddIngredientQty,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
     handleSubmit,
@@ -138,7 +140,9 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                   newProcess={newProcess}
                   setNewProcess={setNewProcess}
                   newIngredients={newIngredients}
-                  handleAdditionalInfoChange={handleAdditionalInfoChange}
+                  newIngredientQty={newIngredientQty}
+                  handleAddIngredient={handleAddIngredient}
+                  handleAddIngredientQty={handleAddIngredientQty}
                   handleAddIngredientField={handleAddIngredientField}
                   handleTextEdited={handleTextEdited}
                   handleAddProcessUrlAndText={handleAddProcessUrlAndText}
@@ -168,8 +172,10 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                     <div className="recipeDetail_inputItem ingredient">
                       <h3 className='recipeDetail_title'>材料</h3>
                       <div className="recipeDetail_ingredients">
-                        {recipe.ingredient && recipe.ingredient.map((ingredient, index) => (
-                          <p key={index}>{ingredient}</p>
+                        {recipe.ingredient.map((ingredient, index) => (
+                          <p key={index}>
+                            {ingredient} <span>{recipe.ingredientQty[index]}</span>
+                          </p>
                         ))}
                       </div>
                     </div>

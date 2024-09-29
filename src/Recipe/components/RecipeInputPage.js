@@ -30,11 +30,13 @@ export const RecipeInputPage = ({ posts }) => {
     newProcess,
     setNewProcess,
     newIngredients,
+    newIngredientQty,
     loading,
     loadingProcessImgs,
     tempImageUrl,
     editedRecipe,
-    handleAdditionalInfoChange,
+    handleAddIngredient,
+    handleAddIngredientQty,
     handleAddIngredientField,
     handleAddProcessUrlAndText,
     handleTextEdited,
@@ -63,7 +65,9 @@ export const RecipeInputPage = ({ posts }) => {
               newProcess={newProcess}
               setNewProcess={setNewProcess}
               newIngredients={newIngredients}
-              handleAdditionalInfoChange={handleAdditionalInfoChange}
+              newIngredientQty={newIngredientQty}
+              handleAddIngredient={handleAddIngredient}
+              handleAddIngredientQty={handleAddIngredientQty}
               handleAddIngredientField={handleAddIngredientField}
               handleAddProcessUrlAndText={handleAddProcessUrlAndText}
               handleTextEdited={handleTextEdited}
