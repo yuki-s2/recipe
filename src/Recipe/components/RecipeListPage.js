@@ -5,16 +5,23 @@ import { db } from '../../Firebase';
 import { ButtonInputPage, ButtonSelectedRecipePage } from './Button';
 
 //親コンポーネントからpropsを受け取る
-export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPosts, postId, svgId }) => {
+export const RecipeListPage = ({
+    selectedPosts,
+    setSelectedPosts,
+    posts,
+    setPosts,
+    postId,
+    svgId
+}) => {
     // console.log("選択した",selectedPosts);
 
     const handleCheckboxChange = (postId) => {
         const updatedSelectedPosts = selectedPosts.includes(postId)
             ? selectedPosts.filter(id => id !== postId) // チェック解除の場合、配列から削除
             : [...selectedPosts, postId]; // チェックの場合、配列に追加
-    
+
         setSelectedPosts(updatedSelectedPosts);
-    
+
         // チェックボックスの状態に応じて色を変更
         const svg = document.getElementById(`heart-icon-${postId}`);
         if (svg) {
@@ -47,7 +54,7 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                 }
             }
         });
-    
+
         // 選択されていないアイテムの色もリセット
         posts.forEach(post => {
             if (!selectedPosts.includes(post.id)) {
@@ -60,7 +67,7 @@ export const RecipeListPage = ({ selectedPosts, setSelectedPosts, posts, setPost
                 }
             }
         });
-    
+
     }, [selectedPosts, posts]); // selectedPostsやpostsが変わった時に実行
 
     return (

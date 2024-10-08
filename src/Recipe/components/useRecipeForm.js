@@ -1,8 +1,9 @@
 //レシピを追加・更新するのに使うHooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
-import { updateDoc, doc, collection, addDoc } from "firebase/firestore";
+import { updateDoc, doc, collection, addDoc, deleteDoc } from "firebase/firestore";
 import { db } from '../../Firebase';
+import { useParams } from 'react-router-dom';
 
 export const useRecipeForm = (initialRecipe = null) => {
   const [newRecipeName, setNewRecipeName] = useState(initialRecipe?.title || '');
@@ -23,7 +24,6 @@ export const useRecipeForm = (initialRecipe = null) => {
     values[index] = event.target.value;
     setNewIngredients(values);
   };
-  
   const handleAddIngredientQty = (index, event) => {
     const values = [...newIngredientQty];
     values[index] = event.target.value;
@@ -221,6 +221,59 @@ const handleTextEdited = (index, event) => {
     }
   };
 
+
+// 画像の削除関数
+// const handleRemoveImage = async (imageUrl) => {
+//   try {
+//     const storage = getStorage();
+//     const imageRef = ref(storage, imageUrl);
+//     await deleteObject(imageRef);
+//     console.log('Image deleted successfully');
+//   } catch (error) {
+//     console.error("Error deleting image: ", error);
+//   }
+// };
+
+const { recipeId } = useParams();
+
+// レシピデータの削除関数
+const handleRemoveRecipe = async (recipeId) => {
+  try {
+    await deleteDoc(doc(db, "posts", recipeId));
+    console.log('Recipe deleted successfully');
+  } catch (error) {
+    console.error("Error deleting recipe: ", error);
+  }
+};
+
+useEffect(() => {
+  const handleBeforeUnload = (event) => {
+    if (recipeId) {
+      handleRemoveRecipe(recipeId); // レシピの削除
+    }
+    event.returnValue = ''; // デフォルト動作を阻止する（ブラウザによっては確認ダイアログが表示される）
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  };
+}, [recipeId]);
+
+
+const handleCancel = async () => {
+  if (editedRecipe.imageUrl) {
+    await handleRemoveImage(editedRecipe.imageUrl);
+  }
+  if (recipeId) {
+    await handleRemoveRecipe(recipeId);
+  }
+};
+
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const filteredIngredients = newIngredients.filter(ingredient => ingredient && ingredient.trim() !== '');
@@ -246,6 +299,7 @@ const handleTextEdited = (index, event) => {
       setNewProcess('');
       setNewIngredients(['']);
       setImageUrl('');
+      setIngredientQty('');
       setEditedRecipe({ imageUrl: '', process: [] });
     } catch (error) {
       console.error("Error saving document: ", error);

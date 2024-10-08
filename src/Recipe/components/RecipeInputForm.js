@@ -92,7 +92,7 @@ const RecipeInputForm = ({
                   onChange={(event) => handleAddIngredient(index, event)}
                 />
                 <input
-                  className='input'
+                  className='input is-qty'
                   type="text"
                   value={newIngredientQty[index]}
                   onChange={(event) => handleAddIngredientQty(index, event)}

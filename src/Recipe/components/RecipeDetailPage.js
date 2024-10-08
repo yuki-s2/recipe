@@ -7,6 +7,7 @@ import { collection, doc, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import Process from './Process';
 import RecipeInputForm from './RecipeInputForm';
+import Chat from '../../Chat';
 import { useRecipeForm } from './useRecipeForm';
 import { ButtonInputPage, ButtonSelectedRecipePage, ButtonListPage } from './Button';
 
@@ -15,7 +16,6 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
   const { postId } = useParams();//postIdの値を動的に取得
   const recipe = posts ? posts.find(post => post.id === postId) : null;
   const selectedPostsInfo = posts ? posts.filter(post => selectedPosts?.includes(post.id)) : [];
-
   const {
     newRecipeName,
     setNewRecipeName,
@@ -178,7 +178,8 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                           </p>
                         ))}
                       </div>
-                    </div>
+                      <Chat ingredients={recipe.ingredient} ingredientQtys={recipe.ingredientQty} />
+                      </div>
                   )}
                   <div className="recipeDetail_inputItem">
                     {recipe.process && recipe.process.length > 0 && (
@@ -189,6 +190,42 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
               </Fragment>
             )}
           </div>
+
+
+      <div className="container-fluid">
+      <button className="btn btn-primary btn-space" onClick={e => frmLoginPopupRef.current.show(true)}>
+        ログイン
+      </button>
+      <wjInput.Popup isDraggable={true} initialized={initLoginForm}>
+        <form>
+          <div className="wj-dialog-header">
+            ログイン
+            <button type="button" tabIndex={-1} className="close wj-hide">&times;</button>
+          </div>
+          <div className="modal-body">
+            <label>
+              メール:
+              <input className="form-control" required type="email"/>
+            </label>
+            <br />
+            <label>
+              パスワード:
+              <input className="form-control" type="password" required pattern=".{4,}" title="Please enter 4 characters or more."/>
+            </label>
+            <br />
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-primary" type="submit">
+              ログイン
+            </button>
+          </div>
+        </form>
+      </wjInput.Popup>
+    </div>
+
+    
+
+
           <div className="btn_container">
             <ButtonListPage />
             <ButtonSelectedRecipePage />

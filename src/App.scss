@@ -147,17 +147,22 @@ div{
 
 .recipeInput_ingredientInput {
   width: 100%;
+  .input.is-qty {
+    width: 20%;
+  }
 }
 .recipeInput_ingredientItem {
-  display: grid;
-  gap: 1em;
-  grid-template-columns: 3fr 1fr;
-  position: relative;
-  .removeButton {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+  display: flex;
+  gap: .5em;
+  // display: grid;
+  // gap: 1em;
+  // grid-template-columns: 3fr 1fr;
+  // position: relative;
+  // .removeButton {
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  // }
 }
 .recipeInput_ingredientItem + .recipeInput_ingredientItem {
   margin-top: 1em;
@@ -251,9 +256,9 @@ div{
   margin-top: 1em;
 }
 .removeButton {
-  position: absolute;
-  top: .2em;
-  right: .2em;
+  // position: absolute;
+  // top: .2em;
+  // right: .2em;
   border: .2em solid #333;
   border-radius: .5em;
   background: #9a9898;
