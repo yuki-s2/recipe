@@ -53,7 +53,7 @@ export default function Chat({ ingredients, ingredientQtys }) {
         <>
             <form onSubmit={handleSubmit}>
                 <button className='button_additionBtn' type="submit">
-                    {isLoading ? <p>Getting advice ...</p> : <p>advice</p>}
+                    {isLoading ? <p>Getting advice...</p> : <p>advice</p>}
                 </button>
             </form>
             <div>
