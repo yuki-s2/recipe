@@ -10,9 +10,6 @@ import RecipeInputForm from './RecipeInputForm';
 import Chat from '../../Chat';
 import { useRecipeForm } from './useRecipeForm';
 import { ButtonInputPage, ButtonSelectedRecipePage, ButtonListPage } from './Button';
-import ChatModal from '../../ChatModal';
-import Modal from 'react-modal';
-
 
 export const RecipeDetailPage = ({ selectedPosts, posts }) => {
 
@@ -181,7 +178,7 @@ export const RecipeDetailPage = ({ selectedPosts, posts }) => {
                           </p>
                         ))}
                       </div>
-                      <ChatModal ingredients={recipe.ingredient} ingredientQtys={recipe.ingredientQty} />
+                      <Chat ingredients={recipe.ingredient} ingredientQtys={recipe.ingredientQty} />
                     </div>
                   )}
                   <div className="recipeDetail_inputItem">

@@ -1,14 +1,14 @@
 @charset "UTF-8";
 body {
-  font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   text-align: center;
   font-size: 20px;
   box-sizing: border-box;
+  font-family: Arial, "ヒラギノ角ゴ", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 }
 
 .inner {
   padding: 0 0.5em;
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
 }
 
@@ -34,6 +34,7 @@ body {
   letter-spacing: 0.2em;
   box-shadow: 0 5px 0 #333;
   transition: 0.3s;
+  font-family: "Kosugi Maru", sans-serif;
 }
 
 .btn_link:hover {
@@ -240,6 +241,9 @@ body {
 }
 
 .removeButton {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
   border: 0.2em solid #333;
   border-radius: 0.5em;
   background: #9a9898;
@@ -547,4 +551,8 @@ body {
      object-fit: cover;
   border-radius: 1em;
   object-fit: cover;
+}
+
+.modal {
+  border-radius: 1em;
 }/*# sourceMappingURL=App.css.map */

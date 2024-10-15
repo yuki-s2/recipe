@@ -32,7 +32,7 @@ export const ButtonListPage = () => {
 export function SignOut() {
   return (
     <div className="btn_container">
-        <button className='btn_link' onClick={() => auth.signOut()}>サインアウト</button>
+        <button className='btn_link' onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   )
 }
