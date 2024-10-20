@@ -50,6 +50,23 @@ body {
   gap: 2em;
 }
 
+.button_additionBtn {
+  font-family: "Kosugi Maru", sans-serif;
+  background: #B78791;
+  border: 0.1em solid #8A6C73;
+  color: #fff;
+  border-radius: 0.3em;
+  padding: 0.2em 2em;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.button_additionBtn:disabled {
+  opacity: 0.5;
+}
+
 .input_imgBtn {
   border: 0.2em solid #fff;
   box-shadow: 0 0 8px rgb(201, 201, 201);
@@ -69,19 +86,24 @@ body {
 
 .button_edit {
   padding: 0.5em;
+  background: #B78791;
+  border-color: #fff;
+  border-radius: 0.2em;
 }
 .button_edit div {
   transform: rotate(90deg);
   letter-spacing: 0.2em;
   font-weight: bold;
-  color: #806b70;
+  color: #fff;
   font-weight: 700;
 }
 
 .button_deleteBtn {
   font-size: 1.7em;
   padding: 0.05em 0.4em;
-  color: #806b70;
+  color: #fff;
+  background: #B78791;
+  border-color: #fff;
 }
 
 /* 入力フォーム */
@@ -165,7 +187,7 @@ body {
 }
 
 .is-oneRow input {
-  border: 0.1em solid #806b70;
+  border: 0.1em solid #f4eeed;
   width: 100%;
   margin: 0 auto;
   background: #fff;
@@ -201,12 +223,17 @@ body {
   margin: 0 auto;
   width: 70%;
   color: #806b70;
-  border: 0.1em solid #806b70;
+  border: 0.05em solid #8A6C73;
+}
+.recipeInput_img .removeButton {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
 }
 
 .recipeInput_img.is-input {
   background: #e8dddc;
-  border: 0.1em solid #806b70;
+  border: none;
 }
 
 .recipeInput_item.is-flow {
@@ -224,8 +251,7 @@ body {
 .recipeInput_item.is-flow .textarea {
   padding: 1em;
   font-size: 18px;
-  box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
-  border: 0.1em solid #806b70;
+  border: 0.1em solid #f4eeed;
   border-radius: 0.3em;
 }
 
@@ -241,16 +267,13 @@ body {
 }
 
 .removeButton {
-  position: absolute;
-  top: 0.2em;
-  right: 0.2em;
-  border: 0.2em solid #333;
-  border-radius: 0.5em;
-  background: #9a9898;
-  width: 2em;
-  height: 2em;
-  font-size: 1em;
-  color: #333;
+  border: none;
+  background: #fff;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1.5em;
+  color: #806b70;
   text-align: center;
 }
 
@@ -415,18 +438,19 @@ body {
 .recipe_wrap {
   border: 0.1em solid #806b70;
   border-radius: 1em;
-  background: #fff;
+  background: #f4eeed;
 }
 
 .recipe_head {
   padding: 1em 1.5em;
   background: #B78791;
-  border-radius: 1em 1em 0 0;
+  border-radius: 0.9em 0.9em 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 0.1em solid #806b70;
   color: #fff;
+  letter-spacing: 0.1em;
 }
 
 .recipeDetail_edit {
@@ -439,8 +463,7 @@ body {
 .recipe_body {
   margin: 1em;
   padding: 4em 3em;
-  background: #f4eeed;
-  border: 0.1em solid #806b70;
+  border: 0.1em solid #fff;
   border-radius: 1em;
 }
 
@@ -515,7 +538,7 @@ body {
 
 .process_item {
   position: relative;
-  border: 0.1em solid #806b70;
+  border: 0.1em solid #fff;
   border-radius: 1em;
   padding: 0.5em;
   background: #fff;

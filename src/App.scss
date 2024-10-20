@@ -64,6 +64,23 @@ body {
 // .button_additionBtn:hover {
 //   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
 // }
+
+.button_additionBtn {
+  font-family: "Kosugi Maru", sans-serif;
+  background: #B78791;
+  border: 0.1em solid #8A6C73;
+  color: #fff;
+  border-radius: .3em;
+  padding: .2em 2em;
+  font-size: .8em;
+  letter-spacing: 0.1em;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.button_additionBtn:disabled {
+  opacity: 0.5;
+}
 .input_imgBtn {
   border: .2em solid #fff;
   box-shadow: 0 0 8px rgb(201, 201, 201);
@@ -83,18 +100,23 @@ body {
 
 .button_edit{
   padding: .5em;
+  background: #B78791;
+  border-color: #fff;
+  border-radius: .2em;
 div{
   transform: rotate(90deg);
   letter-spacing: .2em;
   font-weight: bold;
-  color: #806b70;
+  color: #fff;
   font-weight: 700;
 }
 }
 .button_deleteBtn {
   font-size: 1.7em;
   padding: .05em .4em;
-  color: #806b70;
+  color: #fff;
+  background: #B78791;
+  border-color: #fff;
 }
 /* 入力フォーム */
 .recipeInput_head {
@@ -152,6 +174,7 @@ div{
   }
 }
 .recipeInput_ingredientItem {
+  // position: relative;
   display: flex;
   gap: .5em;
   // display: grid;
@@ -182,7 +205,7 @@ div{
   width: 100%;
 }
 .is-oneRow input {
-  border: .1em solid #806b70;
+  border: .1em solid #f4eeed;
   width: 100%;
   margin: 0 auto;
   background: #fff;
@@ -221,11 +244,16 @@ div{
   margin: 0 auto;
   width: 70%;
   color: #806b70;
-  border: .1em solid #806b70;
+  border: .05em solid #8A6C73;
+  .removeButton {
+    position: absolute;
+    top: .2em;
+    right: .2em;
+  }
 }
 .recipeInput_img.is-input {
   background: #e8dddc;
-  border: .1em solid #806b70;
+  border: none;
 }
 .recipeInput_item.is-flow {
   align-items: start;
@@ -241,8 +269,8 @@ div{
   .textarea {
     padding: 1em;
     font-size: 18px;
-    box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
-    border: .1em solid #806b70;
+    // box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
+    border: .1em solid #f4eeed;
     border-radius: 0.3em;
   }
 }
@@ -256,16 +284,15 @@ div{
   margin-top: 1em;
 }
 .removeButton {
-  position: absolute;
-  top: .2em;
-  right: .2em;
-  border: .2em solid #333;
-  border-radius: .5em;
-  background: #9a9898;
-  width: 2em;
-  height: 2em;
-  font-size: 1em;
-  color: #333;
+  // border: .2em solid #333;
+  border: none;
+  background: #fff;
+  border-radius: 50%;
+  // background: #9a9898;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1.5em;
+  color: #806b70;
   text-align: center;
 }
 .recipeInput_itemNumber {
@@ -427,17 +454,19 @@ background-size: 40px 40px;
 .recipe_wrap {
   border: .1em solid #806b70;
   border-radius: 1em;
-  background: #fff;
+  // background: #fff;
+  background: #f4eeed;
 }
 .recipe_head {
   padding: 1em 1.5em;
   background: #B78791;
-  border-radius: 1em 1em 0 0;
+  border-radius: .9em .9em 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: .1em solid #806b70;
   color: #fff;
+  letter-spacing: 0.1em;
 }
 .recipeDetail_edit {
   display: flex;
@@ -457,8 +486,8 @@ background-size: 40px 40px;
 .recipe_body {
   margin: 1em;
   padding: 4em 3em;
-  background: #f4eeed;
-  border: 0.1em solid #806b70;
+  // background: #f4eeed;
+  border: 0.1em solid #fff;
   border-radius: 1em;
 }
 .recipeDetail_inputItem + .recipeDetail_inputItem {
@@ -559,7 +588,8 @@ margin-top: 2em;
   
   .process_item {
     position: relative;
-    border: .1em solid #806b70;
+    // border: .1em solid #806b70;
+    border: .1em solid #fff;
     border-radius: 1em;
     padding: .5em;
     background: #fff;

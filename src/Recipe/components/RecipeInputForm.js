@@ -46,7 +46,7 @@ const RecipeInputForm = ({
               className='recipeInput_img'
               style={{ backgroundImage: `url(${editedRecipe.imageUrl})` }}
             >
-              <button type="button" className='removeButton' onClick={handleRemoveImage}>✖️</button>
+              <button type="button" className='removeButton' onClick={handleRemoveImage}>×</button>
             </div>
           ) : (
             <React.Fragment>
@@ -97,13 +97,13 @@ const RecipeInputForm = ({
                   value={newIngredientQty[index]}
                   onChange={(event) => handleAddIngredientQty(index, event)}
                 />
-                <button type="button" className='removeButton' onClick={() => handleRemoveIngredient(index)}>✖️</button>
+                <button type="button" className='removeButton' onClick={() => handleRemoveIngredient(index)}>×</button>
               </div>
             ))}
           </div>
         </div>
         <button className='button_additionBtn' type="button" onClick={handleAddIngredientField} disabled={newIngredients[newIngredients.length - 1]?.trim() === ""}>
-          追加する
+          add
         </button>
       </div>
 
@@ -142,7 +142,7 @@ const RecipeInputForm = ({
                 value={editedRecipe.process[index].text || ''}
               />
               {/* 画像とテキスト削除ボタン */}
-              <button type="button" className='removeButton' onClick={() => handleRemoveImgAndText(index)}>✖️</button>
+              <button type="button" className='removeButton' onClick={() => handleRemoveImgAndText(index)}>×</button>
             </div>
           ))}
 
@@ -181,14 +181,14 @@ const RecipeInputForm = ({
             />
           </div>
           <button className='button_additionBtn' type="button" onClick={handleAddProcessUrlAndText} disabled={!newProcess}>
-            追加する
+            add
           </button>
         </div>
       </div>
 
       {/* 追加ボタン onSubmit={handleSubmit} */}
       <button className='button_additionBtn' type="submit" disabled={!newRecipeName || editedRecipe.process.length === 0}>
-        追加する
+        add
       </button>
     </form>
   );
