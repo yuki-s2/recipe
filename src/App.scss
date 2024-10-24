@@ -7,7 +7,7 @@ body {
 }
 .inner {
   padding: 0 .5em;
-  max-width: 1250px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 .page_ttl {
@@ -452,7 +452,7 @@ background-size: 40px 40px;
   }
 }
 .recipe_wrap {
-  border: .1em solid #806b70;
+  border: .2em solid #806b70;
   border-radius: 1em;
   // background: #fff;
   background: #f4eeed;
@@ -584,6 +584,7 @@ margin-top: 2em;
     column-gap: 1em;
     flex-wrap: wrap;
     margin-top: 3em;
+    justify-content: center;
   }
   
   .process_item {

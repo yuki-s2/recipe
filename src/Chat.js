@@ -13,7 +13,7 @@ export default function Chat({ ingredients, ingredientQtys }) {
     //モーダル
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 100, y: 100 }); // 初期位置を調整
+    const [position, setPosition] = useState({ x: 700, y: 400 }); // 初期位置を調整
     const [offset, setOffset] = useState({ x: 0, y: 0 });
 
     const handleSubmit = async (e) => {
@@ -94,7 +94,6 @@ export default function Chat({ ingredients, ingredientQtys }) {
                     {isLoading ? <p>Getting advice...</p> : <p>advice</p>}
                 </button>
             </form>
-
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -127,7 +126,8 @@ export default function Chat({ ingredients, ingredientQtys }) {
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     style={{ height: '100%', width: '100%' }}>
-                    <div className='recipe_head' style={{padding: '.5em 1em',justifyContent: 'flex-end'}}>
+                    <div className='recipe_head' style={{padding: '.5em 1em'}}>
+                    <h2>advice</h2>
                         <button className='button_deleteBtn' style={{fontSize:'1em'}} onClick={closeModal}>×</button>
                     </div>
                     <div className='recipe_body' style={{padding: '1em .5em',fontSize: '.8em',letterSpacing: '2.5',lineHeight: '25px',textAlign:'left',minHeight: '10em'}}>

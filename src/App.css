@@ -8,7 +8,7 @@ body {
 
 .inner {
   padding: 0 0.5em;
-  max-width: 1250px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -436,7 +436,7 @@ body {
 }
 
 .recipe_wrap {
-  border: 0.1em solid #806b70;
+  border: 0.2em solid #806b70;
   border-radius: 1em;
   background: #f4eeed;
 }
@@ -534,6 +534,7 @@ body {
        column-gap: 1em;
   flex-wrap: wrap;
   margin-top: 3em;
+  justify-content: center;
 }
 
 .process_item {
