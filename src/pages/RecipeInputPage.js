@@ -1,9 +1,10 @@
 import React from 'react';
+import Layout from '../layout/layout';
 import { useParams } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import RecipeInputForm from './RecipeInputForm';
 import { useRecipeForm } from './useRecipeForm';
-import { ButtonListPage, SignOut, ButtonSelectedRecipePage } from './Button';
+import { ButtonListPage, SignOut, ButtonSelectedRecipePage } from '../components/Button';
 
 export const RecipeInputPage = ({ posts }) => {
   const { postId } = useParams();
@@ -50,8 +51,9 @@ export const RecipeInputPage = ({ posts }) => {
   } = useRecipeForm(recipe);
 
   return (
+    <Layout>
     <div className="recipeInput_main">
-    <div className='inner'>
+      <div className='inner'>
         <div className="recipe_wrap">
           <div className="recipe_head">
             <h2>add new recipe</h2>
@@ -86,12 +88,13 @@ export const RecipeInputPage = ({ posts }) => {
           </div>
         </div>
         <div className="btn_container">
-        <ButtonListPage />
-        <ButtonSelectedRecipePage />
+          <ButtonListPage />
+          <ButtonSelectedRecipePage />
         </div>
         <SignOut />
+      </div>
     </div>
-    </div>
+    </Layout>
   );
 };
 

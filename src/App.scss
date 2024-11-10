@@ -44,26 +44,6 @@ body {
   justify-content: center;
   gap: 2em;
 }
-// .btn_container + .btn_container {
-//   margin-top: 2em;
-// }
-// .button_additionBtn {
-//   display: inline-block;
-//   border: 1px solid #9a9898;
-//   border-radius: .1em;
-//   box-shadow: -1px -1px #d5d4d4, inset -2px -2px #d5d4d4;
-//   background: #fff;
-//   font-size: 0.5em;
-//   letter-spacing: 0.2em;
-//   padding: 0.5em 1.5em;
-//   text-shadow: 1px 1px 0.5px #eeeded;
-//   color: #434242;
-//   transition: .2s;
-//   margin-top: 2em;
-// }
-// .button_additionBtn:hover {
-//   box-shadow: 1px 1px #d5d4d4, inset 2px 2px #d5d4d4;
-// }
 
 .button_additionBtn {
   font-family: "Kosugi Maru", sans-serif;
@@ -213,12 +193,7 @@ div{
   padding: 1em;
   box-sizing: border-box;
 }
-// .is-oneRow .input + .input {
-//   margin-top: 1em;
-// }
-// .is-oneRow input + input {
-//   margin-top: .5em;
-// }
+
 .recipeInput_title {
   font-size: .7em;
   text-align: left;
@@ -269,7 +244,6 @@ div{
   .textarea {
     padding: 1em;
     font-size: 18px;
-    // box-shadow: -3px -3px #f3f1f1, inset 2px 2px #f3f1f1;
     border: .1em solid #f4eeed;
     border-radius: 0.3em;
   }
@@ -284,11 +258,9 @@ div{
   margin-top: 1em;
 }
 .removeButton {
-  // border: .2em solid #333;
   border: none;
   background: #fff;
   border-radius: 50%;
-  // background: #9a9898;
   width: 1.5em;
   height: 1.5em;
   font-size: 1.5em;
@@ -339,8 +311,6 @@ background-size: 40px 40px;
   width: 40%;
   height: 10%;
   background: #806b70;
-  // border-radius: 10px 10px 0 0;
-  // border-top: .15em solid #8b8294;
   border-left: .15em solid #806b70;
   border-right: .15em solid #806b70;
   position: relative;
@@ -445,7 +415,6 @@ background-size: 40px 40px;
   background-size: auto auto;
   background-color: #f9e6df;
   padding: 4em 0;
-  // background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255, 255, 255, 1) 10px, rgba(255, 255, 255, 1) 20px ),repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(255, 248, 1, 0.22) 10px, rgba(255, 248, 1, 0.22) 20px );
   h2 {
     font-size: 1.3em;
     text-align: left;
@@ -474,19 +443,9 @@ background-size: 40px 40px;
   justify-content: end;
   font-size: .6em;
 }
-// .recipeDetail_detailsContainer {
-//   display: flex;
-//   gap: 1em;
-// }
-// .recipeDetail_ingredientsContainer {
-//   display: flex;
-//   gap: 1em;
-//   align-items: center;
-// }
 .recipe_body {
   margin: 1em;
   padding: 4em 3em;
-  // background: #f4eeed;
   border: 0.1em solid #fff;
   border-radius: 1em;
 }
@@ -516,41 +475,6 @@ margin-top: 2em;
     border-radius: .2em;
   }
 }
-// .svgContent_mainImg {
-//   margin: 2em auto 0;
-//   max-width: 700px;
-//   aspect-ratio: 2 / 1;
-//   padding: .2em;
-//   // position: relative; /* これが重要 */
-//   // overflow: hidden; /* 子要素が親要素を超えないようにする */
-
-// }
-
-// .svgContent_mainImg::before {
-//   display: block;
-//   content: "";
-//   position: absolute;
-//   // background: #8b8294;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   border-radius: 30px;
-//   pointer-events: none; /* 擬似要素がクリックイベントを受け取らないようにする */
-// }
-
-// .recipeDetail_img svg {
-//   position: absolute;
-//    top: 0; 
-//   left: 0;
-// }
-
-// .svgContent_main svg {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-// }
-
   .recipeDetail_detailsText {
     font-size: .9em;
     width: 100%;
@@ -589,7 +513,6 @@ margin-top: 2em;
   
   .process_item {
     position: relative;
-    // border: .1em solid #806b70;
     border: .1em solid #fff;
     border-radius: 1em;
     padding: .5em;

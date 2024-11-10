@@ -1,8 +1,11 @@
 // RecipePage.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
-import { RecipeDetailPage, RecipeInputPage, RecipeListPage, SelectedRecipes } from './components';
 import Chat from '../Chat';
+import { RecipeListPage } from '../pages/RecipeListPage';
+import { SelectedRecipes } from '../pages/SelectedRecipes';
+import { RecipeInputPage } from '../pages/RecipeInputPage';
+import { RecipeDetailPage } from '../pages/RecipeDetailPage';
 
 const RecipePage = () => {
   //Chatで使用
@@ -17,7 +20,6 @@ const RecipePage = () => {
         <Route
           path="/"//URL
           element={<RecipeInputPage />}
-          // element={<RecipeInputPage selectedPosts={selectedPosts} />}
         />
         <Route
           path="/RecipeListPage"
@@ -33,8 +35,6 @@ const RecipePage = () => {
         />
         <Route path="/recipes/:postId"//recipes/に続く部分が動的に変わるURLに対応(パラメータを取得)
          element={<RecipeDetailPage selectedPosts={selectedPosts} posts={posts}  />} />
-        {/* 不要？ */}
-        {/* <Route element={<RecipeListPage />} /> */}
         <Route element={<Chat selectedPosts={selectedPosts} selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>

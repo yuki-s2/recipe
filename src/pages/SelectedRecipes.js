@@ -1,7 +1,7 @@
 // SelectedRecipes.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ButtonListPage, ButtonInputPage } from './Button';
+import { ButtonListPage, ButtonInputPage } from '../components/Button';
 
 
 export const SelectedRecipes = ({ selectedPosts, posts }) => {

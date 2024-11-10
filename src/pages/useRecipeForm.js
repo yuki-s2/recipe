@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable, deleteObject } from "firebase/storage";
 import { updateDoc, doc, collection, addDoc, deleteDoc } from "firebase/firestore";
-import { db } from '../../Firebase';
+import { db } from '../Firebase';
 import { useParams } from 'react-router-dom';
 
 export const useRecipeForm = (initialRecipe = null) => {

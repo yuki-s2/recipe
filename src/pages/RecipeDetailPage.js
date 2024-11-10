@@ -1,15 +1,15 @@
 //レシピの詳細画面
 import React, { Fragment, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { db } from '../../Firebase';
+import { db } from '../Firebase';
 import { collection, doc, deleteDoc } from "firebase/firestore";
 //▼活用する
 import { getStorage, ref, deleteObject } from 'firebase/storage';
-import Process from './Process';
+import Process from '../components/Process';
 import RecipeInputForm from './RecipeInputForm';
-import Chat from '../../Chat';
+import Chat from '../Chat';
 import { useRecipeForm } from './useRecipeForm';
-import { ButtonInputPage, ButtonSelectedRecipePage, ButtonListPage } from './Button';
+import { ButtonInputPage, ButtonSelectedRecipePage, ButtonListPage } from '../components/Button';
 
 export const RecipeDetailPage = ({ selectedPosts, posts }) => {
 

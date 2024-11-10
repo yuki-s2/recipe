@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from '../../Firebase';
-import { ButtonInputPage, ButtonSelectedRecipePage } from './Button';
+import { db } from '../Firebase';
+import { ButtonInputPage, ButtonSelectedRecipePage } from '../components/Button';
 
 //親コンポーネントからpropsを受け取る
 export const RecipeListPage = ({
@@ -10,8 +10,8 @@ export const RecipeListPage = ({
     setSelectedPosts,
     posts,
     setPosts,
-    postId,
-    svgId
+    // postId,
+    // svgId
 }) => {
     // console.log("選択した",selectedPosts);
 
