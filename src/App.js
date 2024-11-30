@@ -1,42 +1,19 @@
-// import { useState, useRef } from 'react';
-// import TodoList from './TodoList';
-// import { v4 as uuidv4 } from "uuid";
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './Firebase.js';
+import SignIn from './components/SignIn.js';
+import RecipePage from './Recipe/RecipePage.js';
 
-// function App() {
-//   const [todos, setTodos] = useState([]);
+function App() {
+  const [user] = useAuthState(auth);
+  
+  return (
+    <div className="App">
+      {user ? <RecipePage /> : <SignIn />}
+    </div>
+  );
+}
 
-//   const todoNameRef = useRef();
+export default App;
 
-//   const handleAddTodo = () => {
-//     const name = todoNameRef.current.value;
-//     if (name === "") return;
-//     setTodos((prevTodos) => {
-//       return [...prevTodos, { id: uuidv4(), name: name}];
-//     });
-//     todoNameRef.current.value = null;
-//   };
 
-//   const toggleTodo = () => {
-//     const newTodos = [...todos];
-//     const todo = newTodos.find((todo) => todo.id === id);
-//     todo.completed = !todo.completed;
-//     setTodos(newTodos);
-//   };
-
-//   const handleClear = () => {
-//     const newTodo = todos.filter((todo) => !todo.completed);
-//     setTodos(newTodo);
-//   };
-
-//   return (
-//     <>
-//       <TodoList todos={todos} toggleTodo={toggleTodo} />
-//       <input type="text" ref={todoNameRef} />
-//       <button onClick={handleAddTodo}>タスクを追加</button>
-//       <button onClick={handleClear}>完了したタスクの削除</button>
-//       <div>残りのタスク:{todos.filter((todo) => !todo.completed).length}</div>
-//     </>
-//   );
-// }
-
-// export default App;

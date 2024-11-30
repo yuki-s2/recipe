@@ -1,45 +1,44 @@
 // RecipePage.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import RecipeListPage from './RecipeListPage';
-import RecipeDetailPage from './RecipeDetailPage';
-import RecipeInputPage from './RecipeInputPage';
-import SelectedRecipes from './SelectedRecipes';
+import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
+import Chat from '../Chat';
+import { RecipeListPage } from '../pages/RecipeListPage';
+import { SelectedRecipes } from '../pages/SelectedRecipes';
+import { RecipeInputPage } from '../pages/RecipeInputPage';
+import { RecipeDetailPage } from '../pages/RecipeDetailPage';
 
 const RecipePage = () => {
-  const [recipes, setRecipes] = useState([]);
+  //Chatで使用
   const [selectedRecipes, setSelectedRecipes] = useState([]);
-
-  const addRecipe = (recipeName, detail, ingredient) => {
-    const newRecipe = {
-      id: recipes.length + 1,
-      name: recipeName,
-      details: detail,
-      ingredients: ingredient,
-    };
-    setRecipes([...recipes, newRecipe]);
-  };
-
+  const [selectedPosts, setSelectedPosts] = useState([]);
+  //選択されたレシピリストページへ渡す
+  const [posts, setPosts] = useState([]);
+  
   return (
     <Router>
       <Routes>
         <Route
-          path="/"
-          element={<RecipeListPage recipes={recipes} addRecipe={addRecipe} />}
+          path="/"//URL
+          element={<RecipeInputPage />}
         />
         <Route
-          path="/RecipeInputPage"
-          element={<RecipeInputPage recipes={recipes} selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />}
+          path="/RecipeListPage"
+          element={<RecipeListPage selectedPosts={selectedPosts} setSelectedPosts={setSelectedPosts} posts={posts} setPosts={setPosts} />}
         />
-        <Route 
-          path="/SelectedRecipes" 
-          element={<SelectedRecipes recipes={recipes} selectedRecipes={selectedRecipes} />} 
+        <Route
+          path="/SelectedRecipes"
+          element={<SelectedRecipes selectedPosts={selectedPosts} posts={posts}  />}
         />
-        <Route path="/recipes/:recipeId" element={<RecipeDetailPage recipes={recipes} />} />
-        <Route element={<RecipeInputPage />} />
+        <Route
+          path="/RecipeDetailPage"
+          element={<RecipeDetailPage selectedPosts={selectedPosts} posts={posts}  />}
+        />
+        <Route path="/recipes/:postId"//recipes/に続く部分が動的に変わるURLに対応(パラメータを取得)
+         element={<RecipeDetailPage selectedPosts={selectedPosts} posts={posts}  />} />
+        <Route element={<Chat selectedPosts={selectedPosts} selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>
   );
 };
 
-export default RecipePage;
+export default RecipePage; 
