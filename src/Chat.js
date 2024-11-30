@@ -1,143 +1,145 @@
-
 import React, { useState } from 'react';
+import Modal from 'react-modal';
 import OpenAI from 'openai';
 
-export default function Chat({ ingredients }) {
+const openai = new OpenAI({
+    dangerouslyAllowBrowser: true,
+    apiKey: process.env.REACT_APP_API_KEY,
+});
+
+export default function Chat({ ingredients, ingredientQtys }) {
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    const openai = new OpenAI({
-        dangerouslyAllowBrowser: true,
-        apiKey: process.env.REACT_APP_API_KEY,
-    });
-
-    const extractPFCFromIngredient = (ingredient) => {
-        // 材料の文字列を分割して各情報を取得する
-        const parts = ingredient.split(':');
-        if (parts.length !== 2) {
-            // パターンにマッチしない場合はnullを返す
-            return null;
-        }
-
-        // 各情報を取得
-        const [name, pfcInfo] = parts;
-        const [proteinStr, fatStr, carbohydrateStr] = pfcInfo.split(',');
-
-        // 数値に変換してPFCオブジェクトを返す
-        const protein = parseFloat(proteinStr.trim());
-        const fat = parseFloat(fatStr.trim());
-        const carbohydrate = parseFloat(carbohydrateStr.trim());
-
-        return { protein, fat, carbohydrate };
-    };
-
-
-    const calculatePFC = (ingredients) => {
-        let totalProtein = 0;
-        let totalFat = 0;
-        let totalCarbohydrate = 0;
-
-        //それぞれ追加していく？
-        ingredients.forEach((ingredient) => {
-            const pfc = extractPFCFromIngredient(ingredient);
-            if (pfc) {
-                totalProtein += pfc.protein;
-                totalFat += pfc.fat;
-                totalCarbohydrate += pfc.carbohydrate;
-            }
-        });
-
-
-        return { protein: totalProtein, fat: totalFat, carbohydrate: totalCarbohydrate };
-    };
-
+    //モーダル
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+    const [position, setPosition] = useState({ x: 700, y: 400 }); // 初期位置を調整
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessages([]);
         setIsLoading(true);
 
-        const userMessage = `Please tell me the amount of PFC in ${ingredients} . The value for the PFC must be float value and the unit of them is gram. This is the ideal structure. {"PFC": { "材料": {"protein": 10, "fat": 10, "carbohydrate": 5}}}`;
-
-        const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { "role": "system", "content": "You are an excellent assistant. Output the result in JSON format." },
-                { "role": "user", "content": userMessage }
-            ],
-        });
-
-
-        // 材料のPFCの合計を計算する
-        // const totalPFC = calculatePFC(ingredients);
-
-
-
-        // API レスポンスからメッセージを取得して JSON 形式に変換する
-        let pfcData;
-        try {
-            pfcData = JSON.parse(response?.choices[0]?.message?.content);
-        } catch (error) {
-            console.error("Error processing PFC data:", error);
+        if (!ingredients || ingredients.length === 0 || !ingredientQtys || ingredientQtys.length === 0) {
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                "材料とその量を入力してください。"
+            ]);
+            setIsLoading(false);
+            return;
         }
 
-        // 各材料のPFC値の合計を計算する
-        const totalPFC = { protein: 0, fat: 0, carbohydrate: 0 };
-        Object.keys(pfcData.PFC).forEach(function (key) {
-            totalPFC.protein += pfcData.PFC[key].protein;
-            totalPFC.fat += pfcData.PFC[key].fat;
-            totalPFC.carbohydrate += pfcData.PFC[key].carbohydrate;
-        });
+        const userMessage = `・食材${ingredientQtys}: 量${ingredients}`;
+        try {
+            const response = await openai.chat.completions.create({
+                model: "gpt-4o",
+                messages: [
+                    { "role": "system", "content": "You are an assistant who gives advice in 200 characters or less about the total nutritional balance based on the ingredients and portions given." },
+                    { "role": "user", "content": userMessage }
+                ],
+            });
 
-        // 新しいPFCオブジェクトを作成
-        const pfc = new PFC(totalPFC);
+            const content = response?.choices[0]?.message?.content;
+            console.log("API response:", content);
+            setMessages([content]);
 
-        // メッセージステートにデータを追加
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { sender: "ai", PFC: pfc } // メッセージにPFCプロパティを追加
-        ]);
-
-
-        console.log("pfcデータ");
-        console.log(pfcData);
-
-        console.log("responseデータ");
-        console.log(response);
-        console.log(ingredients);
-
-        setIsLoading(false);
+        } catch (error) {
+            console.error("API request failed:", error);
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                "APIリクエストに失敗しました。"
+            ]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
+    //モーダル
+    Modal.setAppElement('#root');
 
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setOffset({
+            x: e.clientX - position.x,
+            y: e.clientY - position.y,
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        if (isDragging) {
+            setPosition({
+                x: e.clientX - offset.x,
+                y: e.clientY - offset.y,
+            });
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
 
     return (
         <>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <button className='button_additionBtn' type="submit">
-                    {isLoading ? <p>送信中</p> : <p>栄養素を表示</p>}
+            <form onSubmit={handleSubmit}>
+                <button onClick={openModal} className='button_additionBtn' type="submit">
+                    {isLoading ? <p>Getting advice...</p> : <p>advice</p>}
                 </button>
             </form>
-            <div>
-                {messages.map((message, index) => (
-                    <div key={index}>
-                        {message.sender === "ai" && (
-                            <div className="chat_messages">
-                                <p>タンパク質 {message.PFC.protein} g</p>
-                                <p>脂質 {message.PFC.fat} g</p>
-                                <p>炭水化物 {message.PFC.carbohydrate} g</p>
-                            </div>
-                        )}
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={false}//モーダル外クリックで閉じない
+                style={{
+                    overlay: {
+                        backgroundColor: 'none',
+                        pointerEvents: 'none', // オーバーレイをクリック不可にする
+                    },
+                    content: {
+                        top: `${position.y}px`,
+                        left: `${position.x}px`,
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '20em',
+                        height: 'auto',
+                        cursor: isDragging ? 'grabbing' : 'grab',
+                        pointerEvents: 'auto',
+                        padding: 0,
+                        borderRadius: '1em',
+                        border: '0.1em solid #806b70'
+                    },
+                }}
+                contentLabel="Chat Modal"
+            >
+                <div className='modal'
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    style={{ height: '100%', width: '100%' }}>
+                    <div className='recipe_head' style={{padding: '.5em 1em'}}>
+                    <h2>advice</h2>
+                        <button className='button_deleteBtn' style={{fontSize:'1em'}} onClick={closeModal}>×</button>
                     </div>
-                ))}
-            </div>
-        </>
-    )
-}
+                    <div className='recipe_body' style={{padding: '1em .5em',fontSize: '.8em',letterSpacing: '2.5',lineHeight: '25px',textAlign:'left',minHeight: '10em'}}>
+                        {messages.map((message, index) => (
+                            <div key={index}>
+                                <p>{message}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
-class PFC {
-    constructor(pfcData) {
-        this.protein = pfcData.protein;
-        this.fat = pfcData.fat;
-        this.carbohydrate = pfcData.carbohydrate;
-    }
+            </Modal>
+        </>
+    );
 }
